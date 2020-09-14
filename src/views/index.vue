@@ -85,7 +85,7 @@ export default {
   font-size: 15px;
 }
 .node-plus{
-  background-color: antiquewhite;
+  background-color: #e6dcb1;
   height: 60px;
 }
 .row-bg {
