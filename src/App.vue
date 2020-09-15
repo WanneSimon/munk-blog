@@ -29,6 +29,7 @@ components: { DrawerNav },
   text-align: center;
   color: #2c3e50;
   background-color: #fbf5f5cc;
+  min-width: 720px;
   /* margin-top: 60px; */
 }
  
