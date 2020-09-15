@@ -5,8 +5,10 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <el-row>
-          <el-col class="comics-item" :span="24" v-for="(c, index) in comics.datas" :key="index">
+        <SimEditor></SimEditor>
+        <el-row :gutter="14">
+          <el-col class="comics-item" :span="12"
+            v-for="(c, index) in comics.datas" :key="index">
             <div>{{c.id}}.  &nbsp;<span v-html="c.content"></span></div>
           </el-col>
         </el-row>
@@ -19,8 +21,10 @@
 </template>
 
 <script>
+  import SimEditor from '../components/SimEditor.vue'
   export default {
     name: "comicWords",
+    components: { SimEditor },
     data() {
       return {
         comics: {
@@ -29,7 +33,7 @@
             { id: 2, content: '骗的就是你这种读书少的，读书多的不好骗' },
             { id: 3, content: '听我一句劝，打一架吧' },
             { id: 4, content: '睡觉吧狗命最重要' },
-            { id: 5, content: '睡觉吧狗命最重要' },
+            { id: 5, content: '睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要' },
             { id: 6, content: '睡觉吧狗命最重要' }
           ],
         }
@@ -46,10 +50,6 @@
 </script>
 
 <style>
-  .blank_L, .blank_R {
-    border-radius: 4px;
-    min-height: 20px;
-  }
 
   .comics {
     margin-top: 10px;
@@ -59,7 +59,8 @@
   }
 
   .center_content {
-    background-color: #d7dee6;
+/*    background-color: #d7dee6; */
+    background-color: #dde09d;
     padding: 10px;
   }
 
@@ -69,7 +70,8 @@
   }
   .comics-item>div{
     font-size: 18px;
-    background-color: #b9cbce;
+    /* background-color: #b9cbce; */
+    background-color: #fcfcfc;
     box-shadow: 0 0 1px 3px rgb(234, 236, 234);
     -webkit-box-shadow: 0 0 1px 3px rgb(234, 236, 234);
     min-height: 28px;
@@ -77,6 +79,7 @@
     padding-top: 0px;
     padding-bottom: 0px;
     padding: 4px 6px ;
+   border-radius: 6px;
   }
 
   .comics .comics-item:nth-child(n) {

@@ -50,6 +50,13 @@ export default new Router({
       components: {
         default: _import('comicWords.vue')
       }
+    },
+    {
+      path: '/dailyLog',
+      name: 'dailyLog',
+      components: {
+        default: _import('dailyLog.vue')
+      }
     }
 
   ]

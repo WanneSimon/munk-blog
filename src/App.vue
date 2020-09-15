@@ -31,4 +31,9 @@ components: { DrawerNav },
   background-color: #fbf5f5cc;
   /* margin-top: 60px; */
 }
+ 
+  .blank_L, .blank_R {
+    border-radius: 4px;
+    min-height: 20px;
+  }
 </style>

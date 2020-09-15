@@ -21,7 +21,7 @@
             <el-divider content-position="center">*****</el-divider>
 
             <div class="nav-item"><router-link :to="'/comicWords'">语录</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">动态</router-link></div>
+            <div class="nav-item"><router-link :to="'/dailyLog'">动态</router-link></div>
             <div class="nav-item"><router-link :to="'/tree'">博文</router-link></div>
             <div class="nav-item"><router-link :to="'/tree'">书签</router-link></div>
             <div class="nav-item"><router-link :to="'/tree'">发现</router-link></div>
@@ -44,6 +44,7 @@
 <script>
 
    export default {
+      name: 'DrawerNav',
       data() {
         return {
           drawer: false,
