@@ -1,7 +1,7 @@
 {
-  "name": "chipmunk-ui",
+  "name": "munk-blog",
   "version": "1.0.0",
-  "description": "chipmunk-ui -- simple program",
+  "description": "munk-blog -- simple program",
   "author": "wanne",
   "private": true,
   "scripts": {
