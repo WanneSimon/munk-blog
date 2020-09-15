@@ -1,5 +1,6 @@
 <template>
    <div>
+    <!-- 废弃 -->
     <el-menu :default-active="activeIndex"
       background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
       class="el-menu-demo" mode="horizontal" @select="handleSelect()">

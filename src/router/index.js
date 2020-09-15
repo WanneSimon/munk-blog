@@ -43,6 +43,13 @@ export default new Router({
       components: {
         default: _import('index.vue')
       }
+    },
+    {
+      path: '/comicWords',
+      name: 'comicWords',
+      components: {
+        default: _import('comicWords.vue')
+      }
     }
 
   ]

@@ -1,32 +1,21 @@
 <template>
     <div>
       <!-- <NaviMunk></NaviMunk> -->
-
+      <!-- 导航 -->
+      <!-- <DrawerNav></DrawerNav> -->
       <!-- 轮播 -->
       <CarouselIndex></CarouselIndex>
 
-      <!-- 最新博文推荐 -- >
-      <!-- <div class="blogs-nodes">
-        <div class="node">
-          <div class="node-head">
-            <div class="node-head-time"></div>
-            <div class="node-head-title"></div>
-          </div>
-
-          <div class="node-detail"></div>
-        </div>
-      </div> -->
       <div class="blogs-nodes">
-        <el-row class="node"
+        <el-row class="node" :gutter="20"
         v-for="item,key in blogs" :key="key">
-          <el-col class="node-img" :span="2" :offset="2">
+          <el-col class="node-item" :span="2" :offset="3">
             <el-image
-                  style="width: 100px; height: 100px"
-                  :src="item.url"
-                  :fit="fit">
+                  style="width: 100%; height: 100%"
+                  :src="item.url" >
              </el-image>
           </el-col>
-          <el-col class="" :span="15" :offset="2">
+          <el-col class="node-item" :span="16" >
             <el-row class="node-content" >
               <el-col class="node-head-time" :span="4">{{item.time}}</el-col>
               <el-col class="node-head-title" :span="16">{{item.title}}</el-col>
@@ -36,16 +25,18 @@
         </el-row>
       </div>
 
+      <!-- 傻吊语录 -->
     </div>
 </template>
 
 <script>
-import NaviMunk from '../components/NaviMunk.vue'
+// import NaviMunk from '../components/NaviMunk.vue'
 import CarouselIndex from '../components/CarouselIndex.vue'
+// import DrawerNav from '../components/DrawerNav.vue'
 
 export default {
   name: "index",
-  components: { NaviMunk, CarouselIndex },
+  components: { CarouselIndex },
   data() {
     return {
       blogs: [],
@@ -78,6 +69,11 @@ export default {
 .node{
   text-align: left;
   margin-top: 30px;
+  /* min-width: 620px; */
+}
+.node-item{
+  min-width: 140px;
+  min-height: 120px;
 }
 .node-blank{
   min-width: 10px;
@@ -86,5 +82,6 @@ export default {
 .node-title{
   margin: 0px 0px;
 }
+
 
 </style>
