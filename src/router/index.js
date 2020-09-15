@@ -57,6 +57,13 @@ export default new Router({
       components: {
         default: _import('dailyLog.vue')
       }
+    },
+    {
+      path: '/blog',
+      name: 'blog',
+      components: {
+        default: _import('blog.vue')
+      }
     }
 
   ]
