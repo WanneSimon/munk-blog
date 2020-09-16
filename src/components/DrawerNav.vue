@@ -72,9 +72,9 @@
   z-index: 100;
   width: 60px;
   height: 40px;
-  margin: auto;
+  margin: auto !important;
   top: 20px;
-  right: 2px;
+  /* right: 2px; */
   bottom: 2px;
   left: 2px;
 }
