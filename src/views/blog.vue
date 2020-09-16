@@ -154,7 +154,7 @@
 
 <style>
   .blank_L .el-calendar-day {
-    height: auto;
+    height: auto !important;
   }
 
   .blank_L .el-calendar {
