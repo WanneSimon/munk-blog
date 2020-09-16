@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-bottom: 20px;">
+    <div>
       <el-row class="blog">
         <el-col class="blank_L" :span="8" style="max-width:360px;">
          <el-calendar v-model="currentTime"></el-calendar>
@@ -16,8 +16,23 @@
         <el-col class="blog-content" :span="15">
           <!-- 具体文章 -->
           <div v-if="blogView" class="blog-container">
-            <div>{{currentBlog.title}}</div>
-            <div class="blog-text" v-html="currentBlog.content"></div>
+            <div class="blog-head float-block">
+              <div class="blog-title">{{currentBlog.title}}</div>
+              <el-row class="blog-meta">
+                <el-col :span="16" style="text-align: left;">
+                  <!-- {{currentBlog.tags}} -->
+                  <span class="blog-tag" v-for='tag,key in currentBlog.tags.split(",")' :key='key'>{{tag}}</span>
+                </el-col>
+                <el-col :span="8" class="blog-time">{{currentBlog.createTime}}</el-col>
+              </el-row>
+            </div>
+            <div class="blog-text float-block" v-html="currentBlog.content"></div>
+            <div class="blog-refrence float-block" v-if="currentBlog.reference && currentBlog.reference.length>0">
+              <h4>参阅：</h4>
+              <div v-for="reference,key in currentBlog.reference" :key="key">
+                <a :href="reference.link" target="_blank">{{reference.name}}</a>
+              </div>
+            </div>
           </div>
 
 
@@ -25,6 +40,8 @@
 
         <!-- <el-col class="blank_R" :span="3"></el-col> -->
       </el-row>
+      
+      <div style="height: 120px;"></div>
     </div>
 </template>
 
@@ -40,6 +57,7 @@
         currentBlog: {  //当前展示的 blog
             id: 10,
             title: '疯狂动物城',
+            tags: '动物城,百科,朱迪,动漫,影视',
             createTime: '2020-09-15',
             content: '一个现代化的动物都市，每种动物在这里都有自己的居所，有沙漠气候的撒哈拉广场、常年严寒的冰川镇等等，它就像一座大熔炉，动物们在这里和平共处——无论是大象还是小老鼠，只要努力，都能闯出一番名堂。兔子朱迪从小就梦想能成为动物城市的警察，尽管身边的所有人都觉得兔子不可能当上警察，但她还是通过自己的努力，跻身到了全是大块头动物城警察局，成为了第一个兔子警官。为了证明自己，她决心侦破一桩神秘案件。追寻真相的路上，朱迪迫使在动物城里以坑蒙拐骗为生的狐狸尼克帮助自己，却发现这桩案件背后隐藏着一个意欲颠覆动物城的巨大阴谋，他们不得不联手合作，去尝试揭开隐藏在这巨大阴谋后的真相 [3-4]。'+
             '在最初组成狐尼克和兔朱迪的想法构建之前，该片一直是以狐尼克为主打的，而狐尼克的形象来自于迪斯尼1973年的动画电影《罗宾汉》中的狐狸罗宾汉形象 [13]  。'+
@@ -70,8 +88,8 @@
             '<br>'+
             '<br>动物城里的人气天后夏奇羊，其造型和服饰的设计灵感都来自于拉丁美洲天后夏奇拉，夏奇羊的配音也由夏奇拉亲自上阵担纲的。',
             reference: [
-              { name: '', link: '' },
-              { name: '', link: '' },
+              { name: '百科', link: 'http://www.baidu.com' },
+              { name: '百度百科', link: 'http://www.baidu.com' },
             ]
         },
         blogs: {
@@ -129,9 +147,36 @@
   }
 
 
-.blog-text{
-  text-align: left;
-  text-indent: 2rem;
-}
 
+  .blog-head{
+    margin-top: 20px;
+  }
+  .blog-title{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+  }
+  .blog-meta{
+    margin-top: 10px;
+  }
+  .blog-tag{
+    display: inline-block;
+    padding: 4px;
+  }
+  .blog-time{
+    text-align: right;
+    color: grey;
+  }
+  .blog-text{
+    text-align: left;
+    text-indent: 2rem;
+    margin-top: 10px;
+    padding: 10px 8px 10px 8px;
+  }
+
+  .blog-refrence{
+    margin-top: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+  }
 </style>
