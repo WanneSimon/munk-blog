@@ -16,25 +16,25 @@
          <div class="nav-items">
             <!-- <router-link :to="'http://www.wanforme.cc'">主页</router-link> -->
             <div class="nav-item"><router-link :to="'/index'">主页</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">me</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">me</router-link></div>
 
             <el-divider content-position="center">*****</el-divider>
 
             <div class="nav-item"><router-link :to="'/comicWords'">语录</router-link></div>
             <div class="nav-item"><router-link :to="'/dailyLog'">动态</router-link></div>
             <div class="nav-item"><router-link :to="'/blog'">博文</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">书签</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">发现</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">书签</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">发现</router-link></div>
 
             <el-divider content-position="center">*****</el-divider>
 
-            <div class="nav-item"><router-link :to="'/tree'">书架</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">游戏</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">相册</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/books'">书架</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">游戏</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">相册</router-link></div>
 
             <el-divider content-position="center">*****</el-divider>
-            <div class="nav-item"><router-link :to="'/tree'">纪念</router-link></div>
-            <div class="nav-item"><router-link :to="'/tree'">net圈</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">纪念</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">V圈</router-link></div>
          </div>
        </el-drawer>
 
@@ -53,7 +53,7 @@
         };
       },
       created: function(){
-       
+
       }
     };
 </script>
@@ -83,12 +83,17 @@
 }
 .nav-item{
   margin: 2px 0px;
+   color: coral;
 }
 .nav-item a{
   /* width: 120px; */
   font-size: 1.2rem;
   text-decoration-line: none;
-  color: coral;
+  color: inherit;
+}
+
+.part-unfinished{
+  color: #00BFFF;
 }
 
 </style>

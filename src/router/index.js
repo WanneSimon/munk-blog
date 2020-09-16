@@ -66,6 +66,13 @@ export default new Router({
       components: {
         default: _import('blog.vue')
       }
+    },
+    {
+      path: '/books',
+      name: 'books',
+      components: {
+        default: _import('books.vue')
+      }
     }
 
   ]
