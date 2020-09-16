@@ -19,6 +19,8 @@ Vue.use(Router)
 //   routes.push({path:(key.split('.'))[1],component:()=>r(key)})});
 // }
 
+// 获取路由的根路径
+// 组件中使用 console.log(this.$router.options.base)
 
 export default new Router({
   mode: 'history',

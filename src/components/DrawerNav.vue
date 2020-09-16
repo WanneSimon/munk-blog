@@ -51,6 +51,9 @@
           direction: 'ltr' ,//从右往左-rtl 从上往下-ttb 从下往上btt
           head_img: '/coco/static/images/t1.jpg', //菜单栏顶部图片
         };
+      },
+      created: function(){
+       
       }
     };
 </script>
