@@ -34,7 +34,7 @@
                 <p class="book-desc" slot="reference">{{book.desciption}}</p>
               </el-popover> -->
               <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
-                width="40%" >
+                width="50%" >
                 <span>{{book.desciption}}</span>
                 <!-- <span slot="footer" class="dialog-footer">
                   <el-button @click="setDialog(book, false)"> 关闭 </el-button>
