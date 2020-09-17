@@ -73,6 +73,13 @@ export default new Router({
       components: {
         default: _import('books.vue')
       }
+    },
+    {
+      path: '/games',
+      name: 'games',
+      components: {
+        default: _import('games.vue')
+      }
     }
 
   ]

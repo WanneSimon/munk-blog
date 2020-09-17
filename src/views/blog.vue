@@ -12,7 +12,9 @@
           <div class="blog-item-page">
             <el-pagination
               @size-change="handleSizeChange()" @current-change="handleCurrentChange()" :current-page.sync="pageData.current"
-              :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total">
+              :page-size="pageData.size" layout="prev, next, jumper" :total="pageData.total">
+              <!-- 注意适配 -->
+              <!-- :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total"> -->
             </el-pagination>
           </div>
         </div>
