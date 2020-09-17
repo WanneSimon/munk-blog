@@ -33,7 +33,7 @@
             <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">相册</router-link></div>
 
             <el-divider content-position="center">*****</el-divider>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">纪念</router-link></div>
+            <div class="nav-item" ><router-link :to="'/anniversary'">纪念</router-link></div>
             <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">V圈</router-link></div>
          </div>
        </el-drawer>

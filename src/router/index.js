@@ -80,6 +80,13 @@ export default new Router({
       components: {
         default: _import('games.vue')
       }
+    },
+    {
+      path: '/anniversary',
+      name: 'anniversary',
+      components: {
+        default: _import('anniversary.vue')
+      }
     }
 
   ]

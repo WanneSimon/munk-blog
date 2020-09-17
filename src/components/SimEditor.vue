@@ -3,7 +3,7 @@
 
     <!-- 给编辑器预留 -->
     <div class="editor-container">
-      <textarea rows="8" cols="100">编辑器预留</textarea>
+      <textarea rows="6" cols="80">编辑器预留</textarea>
     </div>
 
   </div>
