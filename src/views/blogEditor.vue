@@ -23,8 +23,7 @@
            </div>
            <!-- 自定义按钮部分 -->
            <div class="editor-bottom">
-             <el-button type="primary" @click="add()">添加</el-button>
-             <el-button type="primary" @click="update()">更新</el-button>
+
            </div>
            <!-- 预览部分 -->
            <div class="output ql-snow" v-if="showOutput && showOutput===true">
@@ -110,57 +109,15 @@
       onEditorChange: function(){
         this.$emit('onEditorChange')
       },
-      onEditorBlur: function(e){
-        this.$emit('onEditorBlur', e)
+      onEditorBlur: function(){
+        this.$emit('onEditorBlur')
       },
-      onEditorFocus: function(e){
-        this.$emit('onEditorFocus', e)
+      onEditorFocus: function(){
+        this.$emit('onEditorFocus')
       },
-      onEditorReady: function(e){
-        this.$emit('onEditorReady', e)
+      onEditorReady: function(){
+        this.$emit('onEditorReady')
       },
-      add: function(){
-        // this.$emit('add', content);
-        const context = this
-        this.$confirm('添加新内容, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          context.$emit('add', content);
-          e.preventDefault();
-          // this.$message({
-          //   type: 'info',
-          //   message: '已添加'
-          // });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
-      },
-      update: function(){
-        // this.$emit('update', content);
-        const context = this
-        this.$confirm('添加新内容, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-         context.$emit('update', content);
-         e.preventDefault();
-         // this.$message({
-         //   type: 'info',
-         //   message: '已更新'
-         // });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
-      }
 
     }
   };
