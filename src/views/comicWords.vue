@@ -5,7 +5,7 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <SimEditor class="simEditor" :add="add()" :update="update()"
+        <SimEditor class="simEditor" :add="addHandler()" :update="updateHandler()"
         :showCode="false" :showOutput="false" style="min-height:40px; max-height:300px;" ></SimEditor>
         <el-row :gutter="14">
           <el-col class="comics-item" :span="12"
@@ -44,10 +44,10 @@
 
     },
     methods: {
-      add: function(content){
+      addHandler: function(content){
         console.log("add!");
       },
-      update: function(content){
+      updateHandler: function(content){
         console.log("update!");
       }
     }

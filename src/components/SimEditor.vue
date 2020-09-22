@@ -23,8 +23,8 @@
            </div>
            <!-- 自定义按钮部分 -->
            <div class="editor-bottom">
-             <el-button type="primary" @click="add()">添加</el-button>
-             <el-button type="primary" @click="update()">更新</el-button>
+             <el-button type="primary" @click="addClick()">添加</el-button>
+             <el-button type="primary" @click="updateClick()">更新</el-button>
            </div>
            <!-- 预览部分 -->
            <div class="output ql-snow" v-if="showOutput && showOutput===true">
@@ -119,16 +119,16 @@
       onEditorReady: function(e){
         this.$emit('onEditorReady', e)
       },
-      add: function(){
+      addClick: function(){
         // this.$emit('add', content);
+        console.log("add clicked!")
         const context = this
         this.$confirm('添加新内容, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          context.$emit('add', content);
-          e.preventDefault();
+          this.$emit('add', content);
           // this.$message({
           //   type: 'info',
           //   message: '已添加'
@@ -140,16 +140,19 @@
           });
         });
       },
-      update: function(){
+      updateClick: function(){
         // this.$emit('update', content);
+        console.log("update clicked!")
         const context = this
         this.$confirm('添加新内容, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-         context.$emit('update', content);
-         e.preventDefault();
+         console.log("1")
+         this.$emit('update', content);
+         console.log("2")
+          // e.preventDefault();
          // this.$message({
          //   type: 'info',
          //   message: '已更新'
