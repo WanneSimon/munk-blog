@@ -56,8 +56,12 @@
     name: 'SimEditor',
     components: { quillEditor },
     props: {
-      // onEditorChange: Function, onEditorBlur: Function,
-      // onEditorFocus: Function, onEditorReady: Function,
+      // onEditorChange: { type:Function, default: function(){ console.log("onEditorChange") } },
+      onEditorBlur: { type:Function, default: function(){ console.log("onEditorBlur") } },
+      onEditorFocus: { type:Function, default: function(){ console.log("onEditorFocus") } },
+      onEditorReady: { type:Function, default: function(){ console.log("onEditorReady") } },
+      onAdd: { type:Function, default: function(){ console.log("onAdd") } },
+      onUpdate: { type:Function, default: function(){ console.log("onUpdate") } },
       showCode: Boolean, // 是否展示代码
       showOutput: Boolean, // 是否展示预览
       background: String, // 背景颜色
@@ -110,17 +114,8 @@
       onEditorChange: function(){
         this.$emit('onEditorChange')
       },
-      onEditorBlur: function(e){
-        this.$emit('onEditorBlur', e)
-      },
-      onEditorFocus: function(e){
-        this.$emit('onEditorFocus', e)
-      },
-      onEditorReady: function(e){
-        this.$emit('onEditorReady', e)
-      },
+
       addClick: function(){
-        // this.$emit('add', content);
         console.log("add clicked!")
         const context = this
         this.$confirm('添加新内容, 是否继续?', '提示', {
@@ -128,11 +123,9 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('add', content);
-          // this.$message({
-          //   type: 'info',
-          //   message: '已添加'
-          // });
+          console.log(this.content)
+          this.$emit('onAdd', this.content)
+          // this.onAdd(this.content)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -141,7 +134,6 @@
         });
       },
       updateClick: function(){
-        // this.$emit('update', content);
         console.log("update clicked!")
         const context = this
         this.$confirm('添加新内容, 是否继续?', '提示', {
@@ -149,15 +141,13 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-         console.log("1")
-         this.$emit('update', content);
-         console.log("2")
-          // e.preventDefault();
+         this.onUpdate(this.content);
          // this.$message({
          //   type: 'info',
          //   message: '已更新'
          // });
-        }).catch(() => {
+        }).catch((e) => {
+          console.log(e)
           this.$message({
             type: 'info',
             message: '已取消'
@@ -178,6 +168,7 @@
    .editor-bottom{
     min-height: 20px;
     border-top: 1px solid #ccc;
+    padding-top: 8px;
    }
 
   /** 隐藏滚动条*/

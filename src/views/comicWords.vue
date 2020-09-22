@@ -5,12 +5,12 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <SimEditor class="simEditor" :add="addHandler()" :update="updateHandler()"
-        :showCode="false" :showOutput="false" style="min-height:40px; max-height:300px;" ></SimEditor>
+        <SimEditor class="simEditor" @onAdd="addHandler" @onUpdate="updateHandler"
+        :showCode="false" :showOutput="false" style="min-height:40px; " ></SimEditor>
         <el-row :gutter="14">
           <el-col class="comics-item" :span="12"
             v-for="(c, index) in comics.datas" :key="index">
-            <div>{{c.id}}.  &nbsp;<span v-html="c.content"></span></div>
+            <div class="ql-snow">{{c.id}}.  &nbsp;<span v-html="c.content"></span></div>
           </el-col>
         </el-row>
       </el-col>
@@ -37,18 +37,23 @@
             { id: 5, content: '睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要' },
             { id: 6, content: '睡觉吧狗命最重要' }
           ],
-        }
+        },
+        maxId: 6,
       }
     },
     created: function() {
 
     },
     methods: {
-      addHandler: function(content){
+      addHandler: function(text){
         console.log("add!");
+        console.log(text)
+        this.comics.datas.push({id: this.maxId+1, content: text})
+        this.maxId = this.maxId + 1
       },
-      updateHandler: function(content){
+      updateHandler: function(text){
         console.log("update!");
+        console.log(text)
       }
     }
 
