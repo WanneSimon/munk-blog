@@ -5,7 +5,7 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <SimEditor></SimEditor>
+        <SimEditor :showCode="false" :showOutput="false" style="max-height: 300px; background-color: #fff" ></SimEditor>
         <el-row :gutter="14">
           <el-col class="comics-item" :span="12"
             v-for="(c, index) in comics.datas" :key="index">

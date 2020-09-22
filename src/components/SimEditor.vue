@@ -1,32 +1,118 @@
 <template>
-  <div>
+  <el-row>
 
+    <el-col :span="0"></el-col>
     <!-- 给编辑器预留 -->
-    <div class="editor-container">
-      <textarea rows="6" cols="80">编辑器预留</textarea>
-    </div>
+    <el-col :span="24" class="editor-container" >
+       <quill-editor class="editor" ref="myTextEditor"
+        :value="content"  :options="editorOption"
+         @change="onEditorChange()"
+         @blur="onEditorBlur($event)"
+         @focus="onEditorFocus($event)"
+         @ready="onEditorReady($event)"
+       />
+       <div class="output code" v-if="showCode && showCode===true">
+         <code class="hljs" v-html="contentCode"></code>
+       </div>
+       <div style="height: 30px;"></div>
+       <div class="output ql-snow" v-if="showOutput && showOutput===true">
+         <div class="ql-editor" v-html="content"></div>
+       </div>
+    </el-col>
 
-  </div>
+    <el-col :span="0"></el-col>
+
+  </el-row>
 </template>
 
 <script>
+  import dedent from 'dedent'
+  import hljs from 'highlight.js'
+  import debounce from 'lodash/debounce'
+  import { quillEditor } from 'vue-quill-editor'
+
+  // highlight.js style
+  import 'highlight.js/styles/tomorrow.css'
+
+   // import theme style
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+
   export default {
     name: 'SimEditor',
+    components: { quillEditor },
+    props: {
+      // onEditorChange: Function, onEditorBlur: Function,
+      // onEditorFocus: Function, onEditorReady: Function,
+      showCode: Boolean, // 是否展示代码
+      showOutput: Boolean, // 是否展示预览
+      background: String, // 背景颜色
+    },
     data() {
       return {
-        drawer: false,
-        direction: 'ltr', //从右往左-rtl 从上往下-ttb 从下往上btt
-        head_img: '/coco/static/images/t1.jpg', //菜单栏顶部图片
+        editorOption:{
+          modules:{
+            toolbar: [
+               ['bold', 'italic', 'underline', 'strike'],
+                 ['blockquote', 'code-block'],
+                 [{ 'header': 1 }, { 'header': 2 }],
+                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                 [{ 'script': 'sub' }, { 'script': 'super' }],
+                 [{ 'indent': '-1' }, { 'indent': '+1' }],
+                 [{ 'direction': 'rtl' }],
+                 [{ 'size': ['small', false, 'large', 'huge'] }],
+                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                 [{ 'font': [] }],
+                 [{ 'color': [] }, { 'background': [] }],
+                 [{ 'align': [] }],
+                 ['clean'],
+                 ['link', 'image', 'video']
+              ] ,
+            syntax: {
+                highlight: text => hljs.highlightAuto(text).value
+            },
+          },
+        },
+        content: dedent`
+                 <h1 class="ql-align-center"><span class="ql-font-serif" style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> I am snow example! </span></h1><p><br></p><p><span class="ql-font-serif">W Can a man still be brave if he's afraid? That is the only time a man can be brave. </span></p><p><br></p><p><strong class="ql-font-serif ql-size-large">Courage and folly is </strong><strong class="ql-font-serif ql-size-large" style="color: rgb(230, 0, 0);">always</strong><strong class="ql-font-serif ql-size-large"> just a fine line.</strong></p><p><br></p><p><u class="ql-font-serif">There is only one God, and his name is Death. And there is only one thing we say to Death: "Not today."</u></p><p><br></p><p><em class="ql-font-serif">Fear cuts deeper than swords.</em></p><p><br></p><pre class="ql-syntax" spellcheck="false"><span class="hljs-keyword">const</span> a = <span class="hljs-number">10</span>;
+                 <span class="hljs-keyword">const</span> editorOption = { <span class="hljs-attr">highlight</span>: <span class="hljs-function"><span class="hljs-params">text</span> =&gt;</span> hljs.highlightAuto(text).value };</pre><p><br></p><p><span class="ql-font-serif">Every flight begins with a fall.</span></p><p><br></p><p><a href="https://surmon.me/" rel="noopener noreferrer" target="_blank" class="ql-font-serif ql-size-small" style="color: rgb(230, 0, 0);"><u>A ruler who hides behind paid executioners soon forgets what death is. </u></a></p><p><br></p><iframe class="ql-video ql-align-center" frameborder="0" allowfullscreen="true" src="https://www.youtube.com/embed/QHH3iSeDBLo?showinfo=0" height="238" width="560"></iframe><p><br></p><p><span class="ql-font-serif">Hear my words, and bear witness to my vow. Night gathers, and now my watch begins. It shall not end until my death. I shall take no wife, hold no lands, father no children. I shall wear no crowns and win no glory. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I pledge my life and honor to the Night’s Watch, for this night and all the nights to come.</span></p><p><br></p><p><span class="ql-font-serif">We are born to suffer, to suffer can make us strong.</span></p><p><br></p><p><span class="ql-font-serif">The things we love destroy us every time.</span></p>
+               `,
+
+      }
+    },
+    computed: {
+      editor() {
+        return this.$refs.myTextEditor.quill
+      },
+      contentCode() {
+        return hljs.highlightAuto(this.content).value
       }
     },
     created: function(){
 
     },
     methods: {
+      onEditorChange: function(){
+        this.$emit('onEditorChange')
+      },
+      onEditorBlur: function(){
+        this.$emit('onEditorBlur')
+      },
+      onEditorFocus: function(){
+        this.$emit('onEditorFocus')
+      },
+      onEditorReady: function(){
+        this.$emit('onEditorReady')
+      },
 
     }
   };
 </script>
 
 <style>
+  .editor {
+    height: 20rem;
+    overflow: hidden;
+   }
+
 </style>

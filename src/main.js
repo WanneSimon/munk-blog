@@ -18,15 +18,16 @@ import base from './cfg/base.js'
 Vue.prototype.base = base
 
 // 引入 Vue-quill-editor
+import VueQuillEditor from 'vue-quill-editor'
 // import VueQuillEditor, { Quill } from 'vue-quill-editor'
-// import 'quill/dist/quill.core.css'
-// import 'quill/dist/quill.snow.css'
-// import 'quill/dist/quill.bubble.css'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 // 引入 Quill调整图片大小的组件(报错，解决不了)
 // import * as Quill from 'quill'  //引入编辑器
 // import ImageResize from 'quill-image-resize-module'
 // Quill.register('modules/imageResize', ImageResize)npm
-// Vue.use(VueQuillEditor)
+Vue.use(VueQuillEditor)
 
 
 /* eslint-disable no-new */
