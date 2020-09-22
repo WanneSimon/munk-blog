@@ -12,7 +12,7 @@ import DrawerNav from './components/DrawerNav.vue'
 
 export default {
   name: 'App',
-components: { DrawerNav },
+  components: { DrawerNav },
   computed: {
 		router_key() {
 			return this.$route.path + Math.random()

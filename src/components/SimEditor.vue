@@ -1,26 +1,39 @@
 <template>
   <el-row>
 
-    <el-col :span="0"></el-col>
+    <el-col :span="4"></el-col>
     <!-- 给编辑器预留 -->
-    <el-col :span="24" class="editor-container" >
-       <quill-editor class="editor" ref="myTextEditor"
-        :value="content"  :options="editorOption"
-         @change="onEditorChange()"
-         @blur="onEditorBlur($event)"
-         @focus="onEditorFocus($event)"
-         @ready="onEditorReady($event)"
-       />
-       <div class="output code" v-if="showCode && showCode===true">
-         <code class="hljs" v-html="contentCode"></code>
-       </div>
-       <div style="height: 30px;"></div>
-       <div class="output ql-snow" v-if="showOutput && showOutput===true">
-         <div class="ql-editor" v-html="content"></div>
-       </div>
+    <el-col :span="16" :offset="4" class="editor-container" >
+      <el-collapse accordion>
+         <el-collapse-item title="">
+
+           <template slot="title" style="text-align: right;">
+                 <div>编辑器<i class="header-icon el-icon-info"></i></div>
+           </template>
+
+           <quill-editor class="editor" ref="myTextEditor"
+            :value="content"  :options="editorOption"
+             @change="onEditorChange()"
+             @blur="onEditorBlur($event)"
+             @focus="onEditorFocus($event)"
+             @ready="onEditorReady($event)"
+           />
+           <div class="output code" v-if="showCode && showCode===true">
+             <code class="hljs" v-html="contentCode"></code>
+           </div>
+           <!-- 自定义按钮部分 -->
+           <div class="editor-bottom">
+
+           </div>
+           <!-- 预览部分 -->
+           <div class="output ql-snow" v-if="showOutput && showOutput===true">
+             <div class="ql-editor" v-html="content"></div>
+           </div>
+         </el-collapse-item>
+      </el-collapse>
     </el-col>
 
-    <el-col :span="0"></el-col>
+    <el-col :span="4"></el-col>
 
   </el-row>
 </template>
@@ -50,12 +63,13 @@
     },
     data() {
       return {
-        editorOption:{
-          modules:{
+        editorOption: {
+          modules: {
             toolbar: [
                ['bold', 'italic', 'underline', 'strike'],
                  ['blockquote', 'code-block'],
-                 [{ 'header': 1 }, { 'header': 2 }],
+                 ['clean'],
+                 // [{ 'header': 1 }, { 'header': 2 }],
                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                  [{ 'script': 'sub' }, { 'script': 'super' }],
                  [{ 'indent': '-1' }, { 'indent': '+1' }],
@@ -65,7 +79,7 @@
                  [{ 'font': [] }],
                  [{ 'color': [] }, { 'background': [] }],
                  [{ 'align': [] }],
-                 ['clean'],
+
                  ['link', 'image', 'video']
               ] ,
             syntax: {
@@ -110,9 +124,23 @@
 </script>
 
 <style>
-  .editor {
+  .ql-container {
     height: 20rem;
-    overflow: hidden;
+    overflow-y: hidden;
+   }
+
+   .editor-bottom{
+    min-height: 20px;
+    border-top: 1px solid #ccc;
+   }
+
+  /** 隐藏滚动条*/
+  .ql-editor::-webkit-scrollbar {
+    width: 0 !important; /* 谷歌 safari*/
+  }
+  .ql-editor{
+    -ms-overflow-style: none; /*IE10+*/
+    overflow: -moz-scrollbars-none; /* firefox */
    }
 
 </style>
