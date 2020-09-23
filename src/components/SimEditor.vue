@@ -12,7 +12,7 @@
            </template>
 
            <quill-editor class="editor" ref="myTextEditor"
-            :value="content"  :options="editorOption"
+            v-model="content"  :options="editorOption"
              @change="onEditorChange()"
              @blur="onEditorBlur($event)"
              @focus="onEditorFocus($event)"

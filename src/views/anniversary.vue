@@ -4,7 +4,8 @@
 
       <el-col class="anni-body" :span="18">
         <div class="anni-top float-block">
-          <SimEditor></SimEditor>
+          <SimEditor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
+          :showCode="false" :showOutput="false" style="min-height:40px; " ></SimEditor>
         </div>
 
         <el-timeline class="anni-content">
@@ -17,8 +18,8 @@
                 <el-col class="anni-node-col" :span="6">
                   <el-image :src="d.img" fit='contain'></el-image>
                 </el-col>
-                <el-col :span="16">
-                  <p>{{d.text}}</p>
+                <el-col class="output ql-snow " :span="16">
+                  <span class="ql-editor" v-html="d.text"></span>
                 </el-col>
               </el-row>
 
@@ -43,7 +44,8 @@
     components: { SimEditor },
     data() {
       return {
-          anniDatas: []
+          anniDatas: [],
+          maxId: 0,
       }
     },
     created: function() {
@@ -53,12 +55,20 @@
         {id: '3', anniTime: '2020-04-01', img: '/coco/static/images/anni-test.gif', text: '今天又是充满希望的一天。'},
         {id: '4', anniTime: '2019-12-04', img: '/coco/static/images/anni-test.gif', text: '今天是个特别的日子。小姐姐同意了！'},
         {id: '5', anniTime: '2019-10-01', img: '', text: '国庆加班，重构个项目吧！'}
-
       ]
-
+       this.maxId = 5
     },
     methods: {
-
+      addHandler: function(data){
+        console.log("add callback")
+        // console.log(data)
+        this.maxId = this.maxId + 1
+        this.anniDatas.push({id: '5', anniTime: '2019-10-01', img: '/coco/static/images/anni-test.gif', text: data})
+      },
+      updateHandler: function(data){
+        console.log("update callback")
+        console.log(data)
+      }
     }
 
 
@@ -67,7 +77,7 @@
 
 <style>
   .anni-top{
-    height: 100px;
+    /* height: 100px; */
     width: 80%;
     min-width: 400px;
     margin: auto;

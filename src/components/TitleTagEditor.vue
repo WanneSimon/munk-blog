@@ -20,7 +20,7 @@
            <!-- </div> -->
 
            <quill-editor class="editor" ref="myTextEditor"
-            :value="data.content"  :options="editorOption"
+            v-model="data.content"  :options="editorOption"
              @change="onEditorChange()"
              @blur="onEditorBlur($event)"
              @focus="onEditorFocus($event)"

@@ -4,11 +4,14 @@
       <el-col class="blank_L" :span="2" style="max-width:360px;"></el-col>
 
       <el-col :span="20">
+          <title-tag-editor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
+            :showCode="false" :showOutput="false" style="min-height:40px; " >
+          </title-tag-editor>
 
           <el-row>
             <el-col class="book-block" :span="4"
               v-for="book,key in games" :key="key">
-                    <!-- <el-button slot="reference">hover 激活</el-button> -->
+                <!-- <el-button slot="reference">hover 激活</el-button> -->
                 <div class="book-block-item-wrapper float-block">
 
                   <el-row>
@@ -31,14 +34,15 @@
                   </el-row>
 
 
-                  <p class="book-desc" @click="setDialog(book, true)">{{book.desciption}}</p>
+                  <p class="book-desc" @click="setDialog(book, true)" v-html="book.desciption"></p>
                   <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
                       :content="longText">
                     <p class="book-desc" slot="reference">{{book.desciption}}</p>
                   </el-popover> -->
-                  <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
+                  <el-dialog  class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
                     width="50%" >
-                    <span>{{book.desciption}}</span>
+                    <div>  &nbsp;<span class="ql-editor" v-html="book.desciption"></span>
+                    </div>
                     <!-- <span slot="footer" class="dialog-footer">
                       <el-button @click="setDialog(book, false)"> 关闭 </el-button>
                       <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -62,12 +66,16 @@
 </template>
 
 <script>
+    import TitleTagEditor from '../components/TitleTagEditor.vue'
+
   export default {
     name: "games",
+    components: { TitleTagEditor },
     data() {
       return {
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         fit: 'contain',
+        maxId: 6,
         games: [
           {id: 1, name: 'CS GO', img:'', desciption:'V社经典 cs 的延续', process: '0'},
           {id: 2, name: '奥日与黑暗森林', img:'', desciption:'Ori and The Blind Forest, 2015 惊艳世界的横版游戏，音乐、玩法、美术各方面都是无法超越的巅峰', process: '1'},
@@ -104,6 +112,17 @@
     methods: {
       setDialog: function(book, visible){
         this.$set(this.dialogs, book.id, visible)
+      },
+
+      addHandler: function(data){
+        console.log("add callback")
+        // console.log(data)
+        this.maxId = this.maxId + 1
+        this.games.push({id: this.maxId, name: data.title, img:'', desciption: data.content, process: '0'})
+      },
+      updateHandler: function(data){
+        console.log("update callback")
+        console.log(data)
       }
     }
   }
