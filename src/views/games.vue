@@ -5,10 +5,10 @@
 
       <el-col :span="20">
 
-          <el-col class="book-block float-block" :span="7"
+          <el-col class="book-block" :span="5"
             v-for="book,key in games" :key="key">
                   <!-- <el-button slot="reference">hover 激活</el-button> -->
-
+              <div class="book-block-item-wrapper float-block">
 
                 <el-row>
                   <el-col :span="10">
@@ -25,22 +25,26 @@
 
                   <el-col :span="14" class="book-right">
                     <div class="book-name">{{book.name}}</div>
+                    <div>其他文字</div>
                   </el-col>
                 </el-row>
 
-              <p class="book-desc" @click="setDialog(book, true)">{{book.desciption}}</p>
-              <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
-                  :content="longText">
-                <p class="book-desc" slot="reference">{{book.desciption}}</p>
-              </el-popover> -->
-              <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
-                width="50%" >
-                <span>{{book.desciption}}</span>
-                <!-- <span slot="footer" class="dialog-footer">
-                  <el-button @click="setDialog(book, false)"> 关闭 </el-button>
-                  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                </span> -->
-              </el-dialog>
+
+                <p class="book-desc" @click="setDialog(book, true)">{{book.desciption}}</p>
+                <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
+                    :content="longText">
+                  <p class="book-desc" slot="reference">{{book.desciption}}</p>
+                </el-popover> -->
+                <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
+                  width="50%" >
+                  <span>{{book.desciption}}</span>
+                  <!-- <span slot="footer" class="dialog-footer">
+                    <el-button @click="setDialog(book, false)"> 关闭 </el-button>
+                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                  </span> -->
+                </el-dialog>
+
+            </div>
           </el-col>
 
 
@@ -116,7 +120,7 @@
   }
 
   .book-image{
-    width: 100px;
+    /* width: 100px; */
     height: 100px;
     margin-right: 8px;
   }
