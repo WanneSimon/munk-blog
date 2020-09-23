@@ -1,9 +1,9 @@
 <template>
   <el-row>
 
-    <el-col :span="4"></el-col>
+    <!-- <el-col :span="4"></el-col> -->
     <!-- 给编辑器预留 -->
-    <el-col :span="16" :offset="4" class="editor-container" >
+    <el-col :span="width" :offset="offset" class="editor-container" >
       <el-collapse accordion>
          <el-collapse-item title="">
 
@@ -34,7 +34,7 @@
       </el-collapse>
     </el-col>
 
-    <el-col :span="4"></el-col>
+   <!-- <el-col :span="4"></el-col> -->
 
   </el-row>
 </template>
@@ -65,6 +65,9 @@
       showCode: Boolean, // 是否展示代码
       showOutput: Boolean, // 是否展示预览
       background: String, // 背景颜色
+      width: { type: Number, default: 16}, // 宽度
+      offset: { type: Number, default: 4}, // 左偏移量
+      // right: { type: Number, default: 4}, // 宽度
     },
     data() {
       return {
@@ -123,9 +126,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          console.log(this.content)
           this.$emit('onAdd', this.content)
-          // this.onAdd(this.content)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -142,10 +143,6 @@
           type: 'warning'
         }).then(() => {
          this.onUpdate(this.content);
-         // this.$message({
-         //   type: 'info',
-         //   message: '已更新'
-         // });
         }).catch((e) => {
           console.log(e)
           this.$message({

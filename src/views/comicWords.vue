@@ -5,12 +5,15 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <SimEditor class="simEditor" @onAdd="addHandler" @onUpdate="updateHandler"
+        <SimEditor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
         :showCode="false" :showOutput="false" style="min-height:40px; " ></SimEditor>
         <el-row :gutter="14">
           <el-col class="comics-item" :span="12"
             v-for="(c, index) in comics.datas" :key="index">
-            <div class="ql-snow">{{c.id}}.  &nbsp;<span v-html="c.content"></span></div>
+            <div class="output ql-snow ">
+              <div>{{c.id}}.  &nbsp;<span class="ql-editor" v-html="c.content"></span>
+              </div>
+            </div>
           </el-col>
         </el-row>
       </el-col>
