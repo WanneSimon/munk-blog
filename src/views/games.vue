@@ -5,47 +5,49 @@
 
       <el-col :span="20">
 
-          <el-col class="book-block" :span="5"
-            v-for="book,key in games" :key="key">
-                  <!-- <el-button slot="reference">hover 激活</el-button> -->
-              <div class="book-block-item-wrapper float-block">
+          <el-row>
+            <el-col class="book-block" :span="4"
+              v-for="book,key in games" :key="key">
+                    <!-- <el-button slot="reference">hover 激活</el-button> -->
+                <div class="book-block-item-wrapper float-block">
 
-                <el-row>
-                  <el-col :span="10">
-                    <el-image class="book-image" :src="book.url" :fit='fit'>
-                      <div slot="placeholder" class="image-slot">
-                        加载中<span class="dot">...</span>
-                      </div>
-                      <div slot="error" class="image-slot">
-                              <!-- <i class="el-icon-picture-outline"></i> -->
-                          <img style="width: 100%;height: 100%;" :src="'/coco/static/images/book-default.jpg'" />
-                      </div>
-                    </el-image>
-                  </el-col>
+                  <el-row>
+                    <el-col :span="10">
+                      <el-image class="book-image" :src="book.url" :fit='fit'>
+                        <div slot="placeholder" class="image-slot">
+                          加载中<span class="dot">...</span>
+                        </div>
+                        <div slot="error" class="image-slot">
+                                <!-- <i class="el-icon-picture-outline"></i> -->
+                            <img style="width: 100%;height: 100%;" :src="'/coco/static/images/book-default.jpg'" />
+                        </div>
+                      </el-image>
+                    </el-col>
 
-                  <el-col :span="14" class="book-right">
-                    <div class="book-name">{{book.name}}</div>
-                    <div>其他文字</div>
-                  </el-col>
-                </el-row>
+                    <el-col :span="14" class="book-right">
+                      <div class="book-name">{{book.name}}</div>
+                      <div>其他文字</div>
+                    </el-col>
+                  </el-row>
 
 
-                <p class="book-desc" @click="setDialog(book, true)">{{book.desciption}}</p>
-                <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
-                    :content="longText">
-                  <p class="book-desc" slot="reference">{{book.desciption}}</p>
-                </el-popover> -->
-                <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
-                  width="50%" >
-                  <span>{{book.desciption}}</span>
-                  <!-- <span slot="footer" class="dialog-footer">
-                    <el-button @click="setDialog(book, false)"> 关闭 </el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                  </span> -->
-                </el-dialog>
+                  <p class="book-desc" @click="setDialog(book, true)">{{book.desciption}}</p>
+                  <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
+                      :content="longText">
+                    <p class="book-desc" slot="reference">{{book.desciption}}</p>
+                  </el-popover> -->
+                  <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
+                    width="50%" >
+                    <span>{{book.desciption}}</span>
+                    <!-- <span slot="footer" class="dialog-footer">
+                      <el-button @click="setDialog(book, false)"> 关闭 </el-button>
+                      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                    </span> -->
+                  </el-dialog>
 
-            </div>
-          </el-col>
+              </div>
+            </el-col>
+          </el-row>
 
 
         </el-col>
@@ -111,12 +113,11 @@
 
   .book-block{
     text-align: left;
-    margin-top: 20px;
-    margin-right: 20px;
+    margin: auto;
     padding: 8px 8px 10px 8px;
     height: 200px;
     min-width: 260px;
-    max-width: 310px;
+    /* max-width: 310px; */
   }
 
   .book-image{

@@ -8,51 +8,44 @@
           <title-tag-editor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
             :showCode="false" :showOutput="false" style="min-height:40px; " >
           </title-tag-editor>
-          <el-col class="book-block" :span="5"
-            v-for="book,key in books" :key="key">
-                  <!-- <el-button slot="reference">hover 激活</el-button> -->
-              <div class="book-block-item-wrapper float-block">
-                <el-row>
-                  <el-col :span="10">
-                    <el-image class="book-image" :src="book.url" :fit='fit'>
-                      <div slot="placeholder" class="image-slot">
-                        加载中<span class="dot">...</span>
+
+          <el-row>
+            <el-col class="book-block" :span="4"
+              v-for="book,key in books" :key="key">
+                    <!-- <el-button slot="reference">hover 激活</el-button> -->
+                <div class="book-block-item-wrapper float-block">
+                  <el-row>
+                    <el-col :span="10">
+                      <el-image class="book-image" :src="book.url" :fit='fit'>
+                        <div slot="placeholder" class="image-slot">
+                          加载中<span class="dot">...</span>
+                        </div>
+                        <div slot="error" class="image-slot">
+                                <!-- <i class="el-icon-picture-outline"></i> -->
+                            <img style="width: 100%;height: 100%;" :src="'/coco/static/images/book-default.jpg'" />
+                        </div>
+                      </el-image>
+                    </el-col>
+
+                    <el-col :span="14" class="book-right">
+                      <div class="book-name">{{book.name}}</div>
+                    </el-col>
+                  </el-row>
+
+                  <p class="book-desc" @click="setDialog(book, true)" v-html="book.desciption"></p>
+                  <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
+                      :content="longText">
+                    <p class="book-desc" slot="reference">{{book.desciption}}</p>
+                  </el-popover> -->
+                  <el-dialog class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
+                    width="50%" >
+                      <div>  &nbsp;<span class="ql-editor" v-html="book.desciption"></span>
                       </div>
-                      <div slot="error" class="image-slot">
-                              <!-- <i class="el-icon-picture-outline"></i> -->
-                          <img style="width: 100%;height: 100%;" :src="'/coco/static/images/book-default.jpg'" />
-                      </div>
-                    </el-image>
-                  </el-col>
+                  </el-dialog>
 
-                  <el-col :span="14" class="book-right">
-                    <div class="book-name">{{book.name}}</div>
-                  </el-col>
-
-
-                </el-row>
-
-                <p class="book-desc" @click="setDialog(book, true)" v-html="book.desciption"></p>
-                <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
-                    :content="longText">
-                  <p class="book-desc" slot="reference">{{book.desciption}}</p>
-                </el-popover> -->
-                <el-dialog class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
-                  width="50%" >
-                  <!-- <div > -->
-                    <div>  &nbsp;<span class="ql-editor" v-html="book.desciption"></span>
-                    </div>
-                  <!-- </div>
- -->                  <!-- <span>{{book.desciption}}</span> -->
-                  <!-- <span slot="footer" class="dialog-footer">
-                    <el-button @click="setDialog(book, false)"> 关闭 </el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                  </span> -->
-                </el-dialog>
-
-              </div>
-          </el-col>
-
+                </div>
+            </el-col>
+          </el-row>
 
         </el-col>
      </el-row>
