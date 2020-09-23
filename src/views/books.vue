@@ -5,7 +5,9 @@
       <el-col class="blank_L" :span="2" ></el-col>
 
       <el-col :span="20">
-
+          <title-tag-editor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
+            :showCode="false" :showOutput="false" style="min-height:40px; " >
+          </title-tag-editor>
           <el-col class="book-block" :span="5"
             v-for="book,key in books" :key="key">
                   <!-- <el-button slot="reference">hover 激活</el-button> -->
@@ -30,14 +32,18 @@
 
                 </el-row>
 
-                <p class="book-desc" @click="setDialog(book, true)">{{book.desciption}}</p>
+                <p class="book-desc" @click="setDialog(book, true)" v-html="book.desciption"></p>
                 <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
                     :content="longText">
                   <p class="book-desc" slot="reference">{{book.desciption}}</p>
                 </el-popover> -->
-                <el-dialog  :title="book.title" :visible.sync="dialogs[book.id]"
+                <el-dialog class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
                   width="50%" >
-                  <span>{{book.desciption}}</span>
+                  <!-- <div > -->
+                    <div>  &nbsp;<span class="ql-editor" v-html="book.desciption"></span>
+                    </div>
+                  <!-- </div>
+ -->                  <!-- <span>{{book.desciption}}</span> -->
                   <!-- <span slot="footer" class="dialog-footer">
                     <el-button @click="setDialog(book, false)"> 关闭 </el-button>
                     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -61,8 +67,11 @@
 </template>
 
 <script>
+  import TitleTagEditor from '../components/TitleTagEditor.vue'
+
   export default {
     name: "books",
+    components: { TitleTagEditor },
     data() {
       return {
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
@@ -75,6 +84,7 @@
           {id: 5, name: 'Vue实战', img:'', desciption:'没看过', process: '0'},
           {id: 6, name: 'kafka中间件', img:'', desciption:'没看过', process: '0'}
         ],
+        maxId: 6,
         longText: 'ES6， 全称 ECMAScript 6.0 ，是 JavaScript 的下一个版本标准，2015.06 发版。'+
 +'\nES6 主要是为了解决 ES5 的先天不足，比如 JavaScript 里并没有类的概念，但是目前浏览器的 JavaScript 是 ES5 版本，大多数高版本的浏览器也支持 ES6，不过只实现了 ES6 的部分特性和功能。'
 +'\nJavaScript 是大家所了解的语言名称，但是这个语言名称是商标（ Oracle 公司注册的商标）。因此，JavaScript 的正式名称是 ECMAScript 。1996年11月，JavaScript 的创造者网景公司将 JS 提交给国际化标准组织 ECMA（European computer manufactures association，欧洲计算机制造联合会），希望这种语言能够成为国际标准，随后 ECMA 发布了规定浏览器脚本语言的标准，即 ECMAScript。这也有利于这门语言的开放和中立。'
@@ -103,6 +113,16 @@
     methods: {
       setDialog: function(book, visible){
         this.$set(this.dialogs, book.id, visible)
+      },
+      addHandler: function(data){
+        console.log("add callback")
+        // console.log(data)
+        this.maxId = this.maxId + 1
+        this.books.push({id: this.maxId, name: data.title, img:'', desciption: data.content, process: '0'})
+      },
+      updateHandler: function(data){
+        console.log("update callback")
+        console.log(data)
       }
     }
   }
