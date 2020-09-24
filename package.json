@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "dedent": "^0.7.0",
     "element-ui": "^2.13.1",
     "highlight.js": "^10.2.0",

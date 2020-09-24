@@ -13,9 +13,24 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 // Vue.use(Element)
 
+// 引入 axios
+import axios from 'axios'
+Vue.prototype.$axios = axios
+
 // 挂载自定义全局变量
 import base from './cfg/base.js'
-Vue.prototype.base = base
+Vue.prototype.$base = base
+import mbapi from './cfg/mbapi.js'
+Vue.prototype.$mbapi = mbapi
+
+// Vue.prototype.$mbapi.ctx = this
+// Vue.prototype.$mbapi.$base = Vue.prototype.$mbapi.$base
+// Vue.prototype.$mbapi.$axios = Vue.prototype.$mbapi.$axios
+// mbapi.$base = Vue.prototype.$mbapi.$base
+// mbapi.$axios = Vue.prototype.$mbapi.$axios
+
+// console.log("main.js mbapi")
+// console.log(mbapi)
 
 // 引入 Vue-quill-editor
 import VueQuillEditor from 'vue-quill-editor'
@@ -28,6 +43,7 @@ import 'quill/dist/quill.bubble.css'
 // import ImageResize from 'quill-image-resize-module'
 // Quill.register('modules/imageResize', ImageResize)npm
 Vue.use(VueQuillEditor)
+
 
 
 /* eslint-disable no-new */

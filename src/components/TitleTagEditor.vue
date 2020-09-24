@@ -13,7 +13,8 @@
 
            <!-- <div > -->
              <el-form class="ttEditor-head" :label-position="'right'" >
-                <el-form-item label="名称">
+                <!-- 这个是默认的<el-form-item label="标题"> -->
+                <el-form-item :label="titleName">
                   <el-input v-model="data.name" width=20></el-input>
                 </el-form-item>
              </el-form>
@@ -75,6 +76,8 @@
       background: String, // 背景颜色
       width: { type: Number, default: 16}, // 宽度
       offset: { type: Number, default: 4}, // 左偏移量
+
+      titleName: {type: String, default: "标题"}, // 标题展示的名字
       // right: { type: Number, default: 4}, // 宽度
     },
     data() {

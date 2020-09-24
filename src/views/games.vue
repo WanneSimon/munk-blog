@@ -66,7 +66,7 @@
 </template>
 
 <script>
-    import TitleTagEditor from '../components/TitleTagEditor.vue'
+   import TitleTagEditor from '../components/TitleTagEditor.vue'
 
   export default {
     name: "games",
