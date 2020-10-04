@@ -1,11 +1,13 @@
 import base from './base.js'
 import axios from 'axios'
+import { Message } from 'element-ui';
+
 
 const mbapi = {
 
   // 提示信息
   info: function(msg){
-    this.$message({
+    Message({
       type: 'info',
       message: msg
     });
@@ -13,7 +15,7 @@ const mbapi = {
 
   // 错误信息
   error: function(msg){
-    this.$message({
+    Message({
       type: 'error',
       message: msg
     });
@@ -21,11 +23,14 @@ const mbapi = {
 
   // 封装基础请求，错误回调是根据子自定义的请求码来识别的
   base_post: function(url, data, callback, errorCallBack){
-    axios.post( url, data,  
+    axios.post( url, data,
       { header: {'Content-Type':'application/json' }} ,
       )
       .then(function(response){
         let data = response.data
+
+        info("mbapi: \n" + JSON.stringify(data))
+
         if(data.code === SUCCESS_CODE){
           callback()
         } else {
