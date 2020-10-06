@@ -32,12 +32,12 @@ const mbapi = {
         info("mbapi: \n" + JSON.stringify(data))
 
         if(data.code === SUCCESS_CODE){
-          callback()
+          callback(data)
         } else {
           if(errorCallBack){
             errorCallBack()
           } else {
-            this.error(data.error)
+            this.error(data.info)
           }
         }
       })
@@ -47,11 +47,21 @@ const mbapi = {
   },
 
   // 语录添加
-  addCommicsWords: function(data, callback){
+  addComicsWords: function(data, callback){
     // console.log('mbapi.js base')
     // console.log(base)
     this.base_post(base.api_context + base.comicsWords_add, data, callback)
   },
+  searchComicsWords: function(data, callback){
+    this.base_post(base.api_context + base.comicsWords_search, data, callback)
+  },
+  getComicsWords: function(data, callback){
+    this.base_post(base.api_context + base.comicsWords_get, data, callback)
+  },
+  updateComicsWords: function(data, callback){
+    this.base_post(base.api_context + base.comicsWords_update, data, callback)
+  },
+
 
 }
 

@@ -8,15 +8,15 @@
         <!-- <SimEditor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
           :showCode="false" :showOutput="false"
           style="min-height:40px; " ></SimEditor> -->
-        <title-tag-editor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
-          :showCode="false" :showOutput="false" :titleName="'作者'"
+        <title-tag-editor class="simEditor"  @onAdd="addCW" @onUpdate="updateCW"
+          :showCode="false" :showOutput="false" :titleName="'作者'" :data="editorVo"
           style="min-height:40px; " >
         </title-tag-editor>
 
         <el-row :gutter="14">
           <el-col class="comics-item" :span="12"
             v-for="(c, index) in comics.datas" :key="index">
-            <div class="output ql-snow ">
+            <div class="output ql-snow " @click="editCW(c.id)">
               <div>{{c.id}}.  &nbsp;<span class="ql-editor" v-html="c.content"></span>
               </div>
             </div>
@@ -47,6 +47,8 @@
 
         },
 
+        tempVo: '',// 正在被编辑的对象
+        editorVo: { title: '', content: '' }, // 编辑器中的对象
         maxId: 0, // 测试使用
       }
     },
@@ -63,17 +65,17 @@
 
     },
     methods: {
-      addHandler: function(data){
+      addCW: function(data){
         console.log("add!");
         console.log(data)
-        // this.comics.datas.push({id: this.maxId+1, content: data.content})
+        // this.comics.datas.push({id: this.maxId+1, content: data.conte{}
         // this.maxId = this.maxId + 1
         // this.$base.atest = "aatest"
         // console.log("this.$base")
         // console.log(this.$base)
         const comicWordsVo =  {author: data.title, text: data.content, valid: '1'}
 
-        mbapi.addCommicsWords(
+        mbapi.addComicsWords(
           comicWordsVo,
           function(res){
             this.comics.datas.unshift(res.data)
@@ -82,10 +84,35 @@
         })
 
       },
-      updateHandler: function(text){
+
+      // 选中需要编辑的对象
+      editCW: function(comicWordsId){
+        this.tempVo = {}
+        this.editorVo = {}
+
+        mbapi.getComicsWords({id: comicWordsId}, function(res){
+           this.tempVo = res.data
+           this.editorVo.title = res.data.author
+           this.editorVo.content = res.data.text
+        })
+      },
+
+      updateCW: function(data){
         console.log("update!");
-        console.log(text)
-      }
+        console.log(data)
+
+        mbapi.updateComicsWords(
+          {
+             id: this.tempVo.id,
+             author: data.author,
+             text: data.content
+          }, function(res){
+            mbapi.Message(res.info)
+            this.editorVo = {}
+            this.tempVo = {}
+          })
+      },
+
     }
 
   }
