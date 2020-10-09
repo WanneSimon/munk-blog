@@ -92,7 +92,7 @@ const mbapi = {
     return true
   },
 
-  // 语录添加
+  // 语录
   addComicsWords: function(data, callback){
     // console.log('mbapi.js base')
     // console.log(base)
@@ -110,6 +110,19 @@ const mbapi = {
     this.base_post(base.api_context + base.comicsWords_update, data, callback, errorCallBack)
   },
 
+  // 日志
+  addDailyLog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.dailyLog_add, data, callback, errorCallBack)
+  },
+  searchDailyLog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.dailyLog_search, data, callback, errorCallBack)
+  },
+  getDailyLog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.dailyLog_get, data, callback, errorCallBack)
+  },
+  updateDailyLog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.dailyLog_update, data, callback, errorCallBack)
+  },
 
 }
 

@@ -12,7 +12,7 @@
            </template>
 
            <quill-editor class="editor" ref="myTextEditor"
-            v-model="data"  :options="editorOption"
+            v-model="data.content"  :options="editorOption"
              @change="onEditorChange()"
              @blur="onEditorBlur($event)"
              @focus="onEditorFocus($event)"
@@ -28,7 +28,7 @@
            </div>
            <!-- 预览部分 -->
            <div class="output ql-snow" v-if="showOutput && showOutput===true">
-             <div class="ql-editor" v-html="content"></div>
+             <div class="ql-editor" v-html="data.content"></div>
            </div>
          </el-collapse-item>
       </el-collapse>
@@ -60,8 +60,8 @@
       onEditorBlur: { type:Function, default: function(){ console.log("onEditorBlur") } },
       onEditorFocus: { type:Function, default: function(){ console.log("onEditorFocus") } },
       onEditorReady: { type:Function, default: function(){ console.log("onEditorReady") } },
-      onAdd: { type:Function, default: function(){ console.log("onAdd") } },
-      onUpdate: { type:Function, default: function(){ console.log("onUpdate") } },
+      // onAdd: { type:Function, default: function(){ console.log("onAdd") } },
+      // onUpdate: { type:Function, default: function(){ console.log("onUpdate") } },
       showCode: Boolean, // 是否展示代码
       showOutput: Boolean, // 是否展示预览
       background: String, // 背景颜色
@@ -69,7 +69,7 @@
       offset: { type: Number, default: 4}, // 左偏移量
       // right: { type: Number, default: 4}, // 宽度
 
-      data: { type: String, default:''},// 绑定的数据
+      data: {type: Object, default(){ return { content: ""}}}, // 绑定的数据
     },
     data() {
       return {
@@ -130,7 +130,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('onAdd', this.content)
+          this.$emit('onAdd', this.data)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -139,14 +139,14 @@
         });
       },
       updateClick: function(){
-        console.log("update clicked!")
+        // console.log("update clicked!")
         const context = this
         this.$confirm('添加新内容, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-         this.onUpdate(this.content);
+         this.$emit('onUpdate', this.data);
         }).catch((e) => {
           console.log(e)
           this.$message({

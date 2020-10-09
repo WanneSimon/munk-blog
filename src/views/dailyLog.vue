@@ -5,7 +5,8 @@
         <el-col class="blank_L" :span="3"></el-col>
 
         <el-col class="dlog-content" :span="18">
-          <SimEditor class="simEditor" @onAdd="addHandler" @onUpdate="updateHandler"
+          <SimEditor id="dl_editor" class="simEditor" v-if="$mbapi.hasPermission()"
+           @onAdd="addDL" @onUpdate="updateDL" :data="editorVo"
           :showCode="false" :showOutput="false" style="min-height:40px;"
           :offset="2" :width="20"></SimEditor>
            <!-- 动态列表 -->
@@ -15,13 +16,14 @@
                 <el-row>
                   <el-col :span="6">{{item.rtime}}</el-col>
                   <el-col :span="2">
-                    <a href="javascript:void(0);" @click="editDL(c.id)"><i class="el-icon-edit"></i></a>
+                    <a href="javascript:void(0);" @click="editDL(item.id)"><i class="el-icon-edit"></i></a>
                     <el-popconfirm
                       confirmButtonText='好的'
                       cancelButtonText='不用了'
                       icon="el-icon-info"
                       iconColor="red"
-                      title="这是一段内容确定删除吗？"
+                      title="确定删除吗？"
+                       @onConfirm="deleteDL(item.id)"
                     >
                     <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
                     </el-popconfirm>
@@ -43,41 +45,141 @@
 
 <script>
   import SimEditor from '../components/SimEditor.vue'
+  import mbapi from '../cfg/mbapi.js'
+
   export default {
     name: "dailyLog",
     components: { SimEditor },
     data() {
       return {
         dailyLogs: {
-          datas: [
-            { id: 1, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-            { id: 2, rtime: '2020-09-15 17:28', content:"葱姜" },
-            { id: 3, rtime: '2020-09-15 17:28', content:"欸，又加班，我想回家。" },
-            { id: 4, rtime: '2020-09-15 17:28', content:"提丰孙宇" },
-            { id: 5, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-            { id: 6, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-            { id: 7, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-            { id: 8, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-            { id: 9, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" }
-          ],
+          datas: [],
         },
-        maxId: 9
+        searchVo: { // 搜索对象
+          page: 0,
+          size: 2,
+          totalPage: 0,
+          content: null,
+          valid: '1'
+        },
+
+        tempVo: '',// 正在被编辑的对象
+        editorVo: { content: '' }, // 编辑器中的对象
+        maxId: 9, // 测试使用
       }
+    },
+    mounted () {
+      this.$nextTick(function () {
+        window.addEventListener('scroll', this.onScroll)
+      })
     },
     created: function(){
+      // this.dailyLogs.datas = [
+      //   { id: 1, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
+      //   { id: 2, rtime: '2020-09-15 17:28', content:"葱姜" },
+      //   { id: 3, rtime: '2020-09-15 17:28', content:"欸，又加班，我想回家。" },
+      //   { id: 4, rtime: '2020-09-15 17:28', content:"提丰孙宇" },
+      //   { id: 5, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
+      //   { id: 6, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
+      //   { id: 7, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
+      //   { id: 8, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
+      //   { id: 9, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" }
+      // ]
 
+      var _this = this
+      this.requestDLPage( 1, function(res){
+        _this.searchVo.page = res.pageNum
+        _this.searchVo.totalPage = res.pages
+        _this.dailyLogs.datas = res.data.list
+        console.log(res )
+      })
     },
     methods: {
-      addHandler: function(text){
-        console.log("add!");
-        console.log(text)
-        this.dailyLogs.datas.push({id: this.maxId+1, rtime: '2020-09-15 17:28', content: text })
-        this.maxId = this.maxId + 1
+      addDL: function(data){
+        console.log(data)
+        const dailyLogVo =  { content: data.content, valid: '1'}
+        const _this = this
+
+        mbapi.addDailyLog(
+          dailyLogVo,
+          function(res){
+            mbapi.info(res.info)
+        })
       },
-      updateHandler: function(text){
+
+      updateDL: function(data){
         console.log("update!");
-        console.log(text)
-      }
+        console.log(data)
+
+        const _this = this
+        mbapi.updateDailyLog(
+          {
+             id: this.tempVo.id,
+             content: data.content,
+          }, function(res){
+            mbapi.info(res.info)
+            _this.editorVo = {}
+            _this.tempVo = {}
+          })
+      },
+      // 选中需要编辑的对象
+      editDL: function(dailyLogId){
+        this.tempVo = {}
+        this.editorVo = { content: '' }
+
+        const _this = this
+        mbapi.getDailyLog({id: dailyLogId}, function(res){
+          console.log('edit')
+          console.log(res)
+           _this.tempVo = res.data
+           _this.editorVo.content = res.data.content; // 这个分号不要删，解释器好像把后面的一起识别成函数了
+
+           (_this.$el.querySelector('#dl_editor')).scrollIntoView()
+        })
+      },
+
+
+      deleteDL: function(id){
+        mbapi.updateDailyLog(
+          {
+            id: id,
+            valid: '0',
+          }, function(res){
+            mbapi.info(res.info)
+          })
+      },
+
+      // 搜索页
+      requestDLPage: function(page, callback){
+        var requestVo = JSON.parse(JSON.stringify(this.searchVo))
+        if(page > this.searchVo.totalPage) {
+          requestVo.page = this.searchVo.totalPage
+        } // else
+        if( page <= 0 ) {
+          requestVo.page = 1
+        } else {
+          requestVo.page = page
+        }
+
+        mbapi.searchDailyLog( requestVo, callback)
+      },
+
+      onScroll: function(){
+        if( this.searchVo.page > 0
+          && this.searchVo.page < this.searchVo.totalPage ){
+            var _this = this
+            this.requestPage( this.searchVo.page+1, function(res){
+              _this.searchVo.page = res.pageNum
+              _this.searchVo.totalPage = res.pages
+              _this.dailyLogs.datas = res.data.list
+
+              for(var i in res.data.list){
+                _this.dailyLogs.datas.push(res.data.list[i])
+              }
+            })
+         }
+      },
+
     }
 
   }

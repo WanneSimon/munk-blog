@@ -11,6 +11,10 @@ const base = {
   comicsWords_get: '/comicWords/get', //获取语录
   comicsWords_update: '/comicWords/update', 
 
+  dailyLog_add: '/dailyLog/add', // 添加语录
+  dailyLog_search: '/dailyLog/search', // 添加语录
+  dailyLog_get: '/dailyLog/get', //获取语录
+  dailyLog_update: '/dailyLog/update', 
 }
 
 export default base

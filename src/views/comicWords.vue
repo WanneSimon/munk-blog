@@ -5,7 +5,8 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <title-tag-editor class="simEditor"  @onAdd="addCW" @onUpdate="updateCW"
+        <title-tag-editor id="cw_editor" class="simEditor" v-if="$mbapi.hasPermission()"
+          @onAdd="addCW" @onUpdate="updateCW"
           :showCode="false" :showOutput="false" :titleName="'作者'" :data="editorVo"
           style="min-height:40px; " >
         </title-tag-editor>
@@ -23,7 +24,8 @@
                    cancelButtonText='不用了'
                    icon="el-icon-info"
                    iconColor="red"
-                   title="这是一段内容确定删除吗？"
+                   title="确定删除吗？"
+                   @onConfirm="deleteCW(c.id)"
                  >
                  <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
                  </el-popconfirm>
@@ -70,6 +72,11 @@
         maxId: 0, // 测试使用
       }
     },
+    mounted () {
+      this.$nextTick(function () {
+        window.addEventListener('scroll', this.onScroll)
+      })
+    },
     created: function() {
       // this.comics.datas = [
       //       { id: 1, content: "洗洗睡吧，梦里什么都有"  },
@@ -83,11 +90,10 @@
 
       var _this = this
       this.requestPage( 1, function(res){
-        console.log(res)
         _this.searchVo.page = res.pageNum
         _this.searchVo.totalPage = res.pages
         _this.comics.datas = res.data.list
-        console.log(_this.comics.data )
+        // console.log(_this.comics.data )
       })
 
     },
@@ -110,25 +116,46 @@
       // 选中需要编辑的对象
       editCW: function(comicWordsId){
         this.tempVo = {}
-        this.editorVo = {}
+        this.editorVo = { title: '', content: '' }
 
+        const _this = this
         mbapi.getComicsWords({id: comicWordsId}, function(res){
-           this.tempVo = res.data
-           this.editorVo.title = res.data.author
-           this.editorVo.content = res.data.text
+          // console.log("res")
+          // console.log(res)
+           _this.tempVo = res.data
+           _this.editorVo.title = res.data.author
+           _this.editorVo.content = res.data.text; // 这个分号不要删，解释器好像把后面的一起识别成函数了
+           // console.log(1)
+
+           (_this.$el.querySelector('#cw_editor')).scrollIntoView()
+           // _this.$refs.title_tag_editor.blur()
         })
       },
 
       updateCW: function(data){
+        const _this = this
+        // console.log("update")
+        // console.log(data)
+
         mbapi.updateComicsWords(
           {
              id: this.tempVo.id,
-             author: data.author,
-             text: data.content
+             author: data.title,
+             text: data.content,
           }, function(res){
             mbapi.info(res.info)
-            this.editorVo = {}
-            this.tempVo = {}
+            _this.editorVo = {}
+            _this.tempVo = {}
+          })
+      },
+
+      deleteCW: function(id){
+        mbapi.updateComicsWords(
+          {
+             id: id,
+             valid: '0'
+          }, function(res){
+            mbapi.info(res.info)
           })
       },
 
@@ -163,6 +190,22 @@
         // })
       },
 
+      onScroll: function(){
+        if( this.searchVo.page > 0
+          && this.searchVo.page < this.searchVo.totalPage ){
+            var _this = this
+            this.requestPage( this.searchVo.page+1, function(res){
+              _this.searchVo.page = res.pageNum
+              _this.searchVo.totalPage = res.pages
+              _this.comics.datas = res.data.list
+
+              for(var i in res.data.list){
+                _this.comics.datas.push(res.data.list[i])
+              }
+            })
+         }
+      },
+      
     }
 
   }

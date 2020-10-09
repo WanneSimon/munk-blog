@@ -37,7 +37,7 @@
            </div>
            <!-- 预览部分 -->
            <div class="output ql-snow" v-if="showOutput && showOutput===true">
-             <div class="ql-editor" v-html="content"></div>
+             <div class="ql-editor" v-html="data.content"></div>
            </div>
          </el-collapse-item>
       </el-collapse>
@@ -69,8 +69,8 @@
       onEditorBlur: { type:Function, default: function(){ console.log("onEditorBlur") } },
       onEditorFocus: { type:Function, default: function(){ console.log("onEditorFocus") } },
       onEditorReady: { type:Function, default: function(){ console.log("onEditorReady") } },
-      onAdd: { type:Function, default: function(){ console.log("onAdd") } },
-      onUpdate: { type:Function, default: function(){ console.log("onUpdate") } },
+      // onAdd: { type:Function, default: function(){ console.log("onAdd") } },
+      // onUpdate: { type:Function, default: function(){ console.log("onUpdate") } },
       showCode: Boolean, // 是否展示代码
       showOutput: Boolean, // 是否展示预览
       background: String, // 背景颜色
