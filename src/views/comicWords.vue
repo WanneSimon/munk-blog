@@ -5,20 +5,33 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <!-- <SimEditor class="simEditor"  @onAdd="addHandler" @onUpdate="updateHandler"
-          :showCode="false" :showOutput="false"
-          style="min-height:40px; " ></SimEditor> -->
         <title-tag-editor class="simEditor"  @onAdd="addCW" @onUpdate="updateCW"
           :showCode="false" :showOutput="false" :titleName="'作者'" :data="editorVo"
           style="min-height:40px; " >
         </title-tag-editor>
 
         <el-row :gutter="14">
-          <el-col class="comics-item" :span="12"
+          <el-col class="comics-item" :span="24"
             v-for="(c, index) in comics.datas" :key="index">
-            <div class="output ql-snow " @click="editCW(c.id)">
-              <div>{{c.id}}.  &nbsp;<span class="ql-editor" v-html="c.content"></span>
+            <div class="output ql-snow " >
+
+              <div>{{c.id}}. <span>{{c.author}}</span>
+               <label v-if="$mbapi.hasPermission()">
+                 <a href="javascript:void(0);" @click="editCW(c.id)"><i class="el-icon-edit"></i></a>
+                 <el-popconfirm
+                   confirmButtonText='好的'
+                   cancelButtonText='不用了'
+                   icon="el-icon-info"
+                   iconColor="red"
+                   title="这是一段内容确定删除吗？"
+                 >
+                 <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+                 </el-popconfirm>
+               </label>
+
+               <span class="ql-editor" v-html="c.text"></span>
               </div>
+
             </div>
           </el-col>
         </el-row>
@@ -44,7 +57,12 @@
           datas: []
         },
         searchVo: { // 搜索对象
-
+          page: 0,
+          size: 20,
+          totalPage: 0,
+          author: null,
+          text: null,
+          valid: '1'
         },
 
         tempVo: '',// 正在被编辑的对象
@@ -53,34 +71,38 @@
       }
     },
     created: function() {
-      this.comics.datas = [
-            { id: 1, content: "洗洗睡吧，梦里什么都有"  },
-            { id: 2, content: '骗的就是你这种读书少的，读书多的不好骗' },
-            { id: 3, content: '听我一句劝，打一架吧' },
-            { id: 4, content: '睡觉吧狗命最重要' },
-            { id: 5, content: '睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要' },
-            { id: 6, content: '睡觉吧狗命最重要' }
-          ],
-      this.maxId = 6
+      // this.comics.datas = [
+      //       { id: 1, content: "洗洗睡吧，梦里什么都有"  },
+      //       { id: 2, content: '骗的就是你这种读书少的，读书多的不好骗' },
+      //       { id: 3, content: '听我一句劝，打一架吧' },
+      //       { id: 4, content: '睡觉吧狗命最重要' },
+      //       { id: 5, content: '睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要' },
+      //       { id: 6, content: '睡觉吧狗命最重要' }
+      //     ],
+      // this.maxId = 6
+
+      var _this = this
+      this.requestPage( 1, function(res){
+        console.log(res)
+        _this.searchVo.page = res.pageNum
+        _this.searchVo.totalPage = res.pages
+        _this.comics.datas = res.data.list
+        console.log(_this.comics.data )
+      })
 
     },
     methods: {
       addCW: function(data){
         console.log("add!");
         console.log(data)
-        // this.comics.datas.push({id: this.maxId+1, content: data.conte{}
-        // this.maxId = this.maxId + 1
-        // this.$base.atest = "aatest"
-        // console.log("this.$base")
-        // console.log(this.$base)
         const comicWordsVo =  {author: data.title, text: data.content, valid: '1'}
+        const _this = this
 
         mbapi.addComicsWords(
           comicWordsVo,
           function(res){
-            this.comics.datas.unshift(res.data)
-            console.log("success")
-            console.log(res.data)
+            mbapi.info(res.info)
+            // console.log(res)
         })
 
       },
@@ -98,19 +120,47 @@
       },
 
       updateCW: function(data){
-        console.log("update!");
-        console.log(data)
-
         mbapi.updateComicsWords(
           {
              id: this.tempVo.id,
              author: data.author,
              text: data.content
           }, function(res){
-            mbapi.Message(res.info)
+            mbapi.info(res.info)
             this.editorVo = {}
             this.tempVo = {}
           })
+      },
+
+      // 搜索页
+      requestPage: function(page, callback){
+        var requestVo = JSON.parse(JSON.stringify(this.searchVo))
+        if(page > this.searchVo.totalPage) {
+          requestVo.page = this.searchVo.totalPage
+        } // else
+        if( page <= 0 ) {
+          requestVo.page = 1
+        } else {
+          requestVo.page = page
+        }
+
+        mbapi.searchComicsWords( requestVo, callback)
+
+        // var _this = this
+        // return new Promise ((callback, reject) => {
+        //   mbapi.searchComicsWords( requestVo, (res) => {
+        //     console.log("test")
+        //     console.log(res)
+        //     console.log(callback)
+        //       if (callback) {
+        //         callback(res)
+        //       } else {
+        //         _this.searchVo.page = res.pageNum
+        //         _this.searchVo.totalPage = res.pages
+        //         _this.comics.data = res.data.list
+        //       }
+        //   }, reject )
+        // })
       },
 
     }
@@ -139,17 +189,18 @@
     text-align: left;
   }
   .comics-item>div{
+    position: relative;
     font-size: 18px;
     /* background-color: #b9cbce; */
     background-color: #fcfcfc;
     box-shadow: 0 0 1px 3px rgb(234, 236, 234);
     -webkit-box-shadow: 0 0 1px 3px rgb(234, 236, 234);
-    min-height: 28px;
+    min-height: 42px;
     margin: 10px 0px 2px 0px;
-    padding-top: 0px;
+    padding-top: 10px !important;
     padding-bottom: 0px;
     padding: 4px 6px ;
-   border-radius: 6px;
+    border-radius: 6px;
   }
 
   .comics .comics-item:nth-child(n) {

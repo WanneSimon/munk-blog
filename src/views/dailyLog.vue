@@ -6,15 +6,27 @@
 
         <el-col class="dlog-content" :span="18">
           <SimEditor class="simEditor" @onAdd="addHandler" @onUpdate="updateHandler"
-          :showCode="false" :showOutput="false" style="min-height:40px;" 
+          :showCode="false" :showOutput="false" style="min-height:40px;"
           :offset="2" :width="20"></SimEditor>
            <!-- 动态列表 -->
           <div class="log-container">
             <div class="log-item" v-for="item,key in dailyLogs.datas" :key="key">
               <div class="log-item-head">
                 <el-row>
-                  <el-col :span="8">{{item.rtime}}</el-col>
-                  <el-col :span="16">{{item.tags}}</el-col>
+                  <el-col :span="6">{{item.rtime}}</el-col>
+                  <el-col :span="2">
+                    <a href="javascript:void(0);" @click="editDL(c.id)"><i class="el-icon-edit"></i></a>
+                    <el-popconfirm
+                      confirmButtonText='好的'
+                      cancelButtonText='不用了'
+                      icon="el-icon-info"
+                      iconColor="red"
+                      title="这是一段内容确定删除吗？"
+                    >
+                    <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+                    </el-popconfirm>
+                  </el-col>
+                  <el-col :span="15">{{item.tags}}</el-col>
                 </el-row>
               </div>
               <div class="log-item-content ql-snow " >

@@ -32,16 +32,21 @@ export default {
   min-width: 720px;
   /* margin-top: 60px; */
 }
- 
+
   .blank_L, .blank_R {
     border-radius: 4px;
     min-height: 20px;
   }
-  
+
   .float-block{
     padding: 4px 10px;
     background-color: #fff;
     border-radius: 6px;
     box-shadow: 0 8px 18px rgba(0,0,0,.2);
   }
+
+  .text-ops{
+    width: auto;
+  }
+
 </style>

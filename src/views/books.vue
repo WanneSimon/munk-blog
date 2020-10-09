@@ -29,14 +29,22 @@
 
                     <el-col :span="14" class="book-right">
                       <div class="book-name">{{book.name}}</div>
+                      <div>
+                        <a href="javascript:void(0);" @click="editB(book.id)"><i class="el-icon-edit"></i></a>
+                        <el-popconfirm
+                          confirmButtonText='好的'
+                          cancelButtonText='不用了'
+                          icon="el-icon-info"
+                          iconColor="red"
+                          title="这是一段内容确定删除吗？"
+                        >
+                        <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+                        </el-popconfirm>
+                      </div>
                     </el-col>
                   </el-row>
 
                   <p class="book-desc" @click="setDialog(book, true)" v-html="book.desciption"></p>
-                  <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
-                      :content="longText">
-                    <p class="book-desc" slot="reference">{{book.desciption}}</p>
-                  </el-popover> -->
                   <el-dialog class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
                     width="50%" >
                       <div>  &nbsp;<span class="ql-editor" v-html="book.desciption"></span>

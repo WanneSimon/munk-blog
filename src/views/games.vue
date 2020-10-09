@@ -10,13 +10,13 @@
 
           <el-row>
             <el-col class="book-block" :span="4"
-              v-for="book,key in games" :key="key">
+              v-for="g,key in games" :key="key">
                 <!-- <el-button slot="reference">hover 激活</el-button> -->
                 <div class="book-block-item-wrapper float-block">
 
                   <el-row>
                     <el-col :span="10">
-                      <el-image class="book-image" :src="book.url" :fit='fit'>
+                      <el-image class="book-image" :src="g.url" :fit='fit'>
                         <div slot="placeholder" class="image-slot">
                           加载中<span class="dot">...</span>
                         </div>
@@ -28,25 +28,28 @@
                     </el-col>
 
                     <el-col :span="14" class="book-right">
-                      <div class="book-name">{{book.name}}</div>
-                      <div>其他文字</div>
+                      <div class="book-name">{{g.name}}</div>
+                      <div>
+                        <a href="javascript:void(0);" @click="editG(g.id)"><i class="el-icon-edit"></i></a>
+                        <el-popconfirm
+                          confirmButtonText='好的'
+                          cancelButtonText='不用了'
+                          icon="el-icon-info"
+                          iconColor="red"
+                          title="这是一段内容确定删除吗？"
+                        >
+                        <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+                        </el-popconfirm>
+                      </div>
                     </el-col>
                   </el-row>
 
 
-                  <p class="book-desc" @click="setDialog(book, true)" v-html="book.desciption"></p>
-                  <!-- <el-popover placement="top-start"   :title="book.title" trigger="click" width="400"
-                      :content="longText">
-                    <p class="book-desc" slot="reference">{{book.desciption}}</p>
-                  </el-popover> -->
-                  <el-dialog  class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
+                  <p class="book-desc" @click="setDialog(g, true)" v-html="g.desciption"></p>
+                  <el-dialog  class="output ql-snow " :title="g.title" :visible.sync="dialogs[g.id]"
                     width="50%" >
-                    <div>  &nbsp;<span class="ql-editor" v-html="book.desciption"></span>
+                    <div>  &nbsp;<span class="ql-editor" v-html="g.desciption"></span>
                     </div>
-                    <!-- <span slot="footer" class="dialog-footer">
-                      <el-button @click="setDialog(book, false)"> 关闭 </el-button>
-                      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                    </span> -->
                   </el-dialog>
 
               </div>
@@ -110,8 +113,8 @@
       //   ]
     },
     methods: {
-      setDialog: function(book, visible){
-        this.$set(this.dialogs, book.id, visible)
+      setDialog: function(game, visible){
+        this.$set(this.dialogs, game.id, visible)
       },
 
       addHandler: function(data){
