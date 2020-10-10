@@ -10,7 +10,7 @@
           :showCode="false" :showOutput="false" style="min-height:40px;"
           :offset="2" :width="20"></SimEditor>
            <!-- 动态列表 -->
-          <div class="log-container">
+          <div class="log-container" v-infinite-scroll="nextPage" infinite-scroll-immediate='true'>
             <div class="log-item" v-for="item,key in dailyLogs.datas" :key="key">
               <div class="log-item-head">
                 <el-row>
@@ -69,9 +69,17 @@
       }
     },
     mounted () {
-      this.$nextTick(function () {
-        window.addEventListener('scroll', this.onScroll)
-      })
+      // 滚动懒加载（用了Element的无限滚动，此方式废弃）
+      // this.$nextTick(function () {
+      //   var _this = this
+      //   window.addEventListener('scroll',
+      //     function() {
+      //       if(mbapi.isLasyLoad()){
+      //         _this.nextPage()
+      //       }
+      //     }
+      //   )
+      // })
     },
     created: function(){
       // this.dailyLogs.datas = [
@@ -88,8 +96,8 @@
 
       var _this = this
       this.requestDLPage( 1, function(res){
-        _this.searchVo.page = res.pageNum
-        _this.searchVo.totalPage = res.pages
+        _this.searchVo.page = res.data.pageNum
+        _this.searchVo.totalPage = res.data.pages
         _this.dailyLogs.datas = res.data.list
         console.log(res )
       })
@@ -164,14 +172,18 @@
         mbapi.searchDailyLog( requestVo, callback)
       },
 
-      onScroll: function(){
+      nextPage: function(){
+        console.log("next page")
+
+        // 还需要计算高度
+
         if( this.searchVo.page > 0
           && this.searchVo.page < this.searchVo.totalPage ){
             var _this = this
-            this.requestPage( this.searchVo.page+1, function(res){
-              _this.searchVo.page = res.pageNum
-              _this.searchVo.totalPage = res.pages
-              _this.dailyLogs.datas = res.data.list
+            this.requestDLPage( this.searchVo.page+1, function(res){
+              _this.searchVo.page = res.data.pageNum
+              _this.searchVo.totalPage = res.data.pages
+              // _this.dailyLogs.datas = res.data.list
 
               for(var i in res.data.list){
                 _this.dailyLogs.datas.push(res.data.list[i])
@@ -193,7 +205,17 @@
 
   .log-container{
     margin: 40px 0px 10px 0px;
+    -ms-overflow-style: none; /*IE10+*/
+    overflow: -moz-scrollbars-none; /* firefox */
+
+    height:800px;
+    overflow:auto;
   }
+  /** 隐藏滚动条*/
+  .log-container::-webkit-scrollbar {
+    width: 0 !important; /* 谷歌 safari*/
+  }
+
   .log-item{
     min-height: 80px;
     max-width: 600px;

@@ -11,7 +11,7 @@
           style="min-height:40px; " >
         </title-tag-editor>
 
-        <el-row :gutter="14">
+        <el-row :gutter="14" class="comics-container" v-infinite-scroll="nextPage" >
           <el-col class="comics-item" :span="24"
             v-for="(c, index) in comics.datas" :key="index">
             <div class="output ql-snow " >
@@ -60,7 +60,7 @@
         },
         searchVo: { // 搜索对象
           page: 0,
-          size: 20,
+          size: 2,
           totalPage: 0,
           author: null,
           text: null,
@@ -73,8 +73,16 @@
       }
     },
     mounted () {
+      // 滚动懒加载
       this.$nextTick(function () {
-        window.addEventListener('scroll', this.onScroll)
+        var _this = this
+        window.addEventListener('scroll',
+          function() {
+            if(mbapi.isLasyLoad()){
+              _this.nextPage()
+            }
+          }
+        )
       })
     },
     created: function() {
@@ -90,8 +98,8 @@
 
       var _this = this
       this.requestPage( 1, function(res){
-        _this.searchVo.page = res.pageNum
-        _this.searchVo.totalPage = res.pages
+        _this.searchVo.page = res.data.pageNum
+        _this.searchVo.totalPage = res.data.pages
         _this.comics.datas = res.data.list
         // console.log(_this.comics.data )
       })
@@ -190,14 +198,14 @@
         // })
       },
 
-      onScroll: function(){
+      nextPage: function(){
         if( this.searchVo.page > 0
           && this.searchVo.page < this.searchVo.totalPage ){
             var _this = this
             this.requestPage( this.searchVo.page+1, function(res){
-              _this.searchVo.page = res.pageNum
-              _this.searchVo.totalPage = res.pages
-              _this.comics.datas = res.data.list
+              _this.searchVo.page = res.data.pageNum
+              _this.searchVo.totalPage = res.data.pages
+              // _this.comics.datas = res.data.list
 
               for(var i in res.data.list){
                 _this.comics.datas.push(res.data.list[i])
@@ -205,7 +213,7 @@
             })
          }
       },
-      
+
     }
 
   }
@@ -220,6 +228,21 @@
     padding: 10px 8px;
     background-color:beige
   }
+
+  .comics-container{
+    margin: 40px 0px 10px 0px;
+    /** 隐藏滚动条*/
+    -ms-overflow-style: none; /*IE10+*/
+    overflow: -moz-scrollbars-none; /* firefox */
+
+    height:800px;
+    overflow:auto;
+  }
+  /** 隐藏滚动条*/
+  .comics-container::-webkit-scrollbar {
+    width: 0 !important; /* 谷歌 safari*/
+  }
+
 
   .center_content {
 /*    background-color: #d7dee6; */
