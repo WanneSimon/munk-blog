@@ -24,7 +24,7 @@
                    cancelButtonText='不用了'
                    icon="el-icon-info"
                    iconColor="red"
-                   title="确定删除吗？"
+                   title="不喜欢这句了吗？"
                    @onConfirm="deleteCW(c.id)"
                  >
                  <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
@@ -74,16 +74,16 @@
     },
     mounted () {
       // 滚动懒加载
-      this.$nextTick(function () {
-        var _this = this
-        window.addEventListener('scroll',
-          function() {
-            if(mbapi.isLasyLoad()){
-              _this.nextPage()
-            }
-          }
-        )
-      })
+      // this.$nextTick(function () {
+      //   var _this = this
+      //   window.addEventListener('scroll',
+      //     function() {
+      //       if(mbapi.isLasyLoad()){
+      //         _this.nextPage()
+      //       }
+      //     }
+      //   )
+      // })
     },
     created: function() {
       // this.comics.datas = [

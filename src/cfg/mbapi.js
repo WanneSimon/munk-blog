@@ -157,6 +157,35 @@ const mbapi = {
     this.base_post(base.api_context + base.dailyLog_update, data, callback, errorCallBack)
   },
 
+  // 书
+  addBook: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.book_add, data, callback, errorCallBack)
+  },
+  searchBook: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.book_search, data, callback, errorCallBack)
+  },
+  getBook: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.book_get, data, callback, errorCallBack)
+  },
+  updateBook: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.book_update, data, callback, errorCallBack)
+  },
+
+  // 游戏
+  addGame: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.game_add, data, callback, errorCallBack)
+  },
+  searchGame: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.game_search, data, callback, errorCallBack)
+  },
+  getGame: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.game_get, data, callback, errorCallBack)
+  },
+  updateGame: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.game_update, data, callback, errorCallBack)
+  },
+  
+  
 }
 
 export default mbapi
