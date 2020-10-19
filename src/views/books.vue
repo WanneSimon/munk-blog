@@ -12,7 +12,7 @@
           </title-tag-editor>
 
           <el-row class="book-container"
-              v-infinite-scroll="nextPage" infinite-scroll-immediate='true' style="overflow:auto">
+              v-infinite-scroll="nextPage" infinite-scroll-immediate='true'>
             <el-col class="book-block" :span="4"
               v-for="book,key in books" :key="key">
                     <!-- <el-button slot="reference">hover 激活</el-button> -->
@@ -114,15 +114,14 @@
     created: function() {
       this.books =  [ ]
 
-        var _this = this
-        this.requestPage( 1, function(res){
-          _this.searchVo.page = res.data.pageNum
-          _this.searchVo.totalPage = res.data.pages
-          _this.books = res.data.list
-          console.log(res )
-          console.log(_this.books  )
-
-        })
+      var _this = this
+      this.requestPage( 1, function(res){
+        _this.searchVo.page = res.data.pageNum
+        _this.searchVo.totalPage = res.data.pages
+        _this.books = res.data.list
+        // console.log(res )
+        // console.log(_this.books  )
+      })
     },
     methods: {
       setDialog: function(book, visible){

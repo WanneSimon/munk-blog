@@ -26,7 +26,6 @@ const base = {
   game_get: '/game/get', //获取语录
   game_update: '/game/update',
   
-  
 }
 
 export default base
