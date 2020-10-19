@@ -184,8 +184,21 @@ const mbapi = {
   updateGame: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.game_update, data, callback, errorCallBack)
   },
-  
-  
+
+  // 博文
+  addBlog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.blog_add, data, callback, errorCallBack)
+  },
+  searchBlog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.blog_search, data, callback, errorCallBack)
+  },
+  getBlog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.blog_get, data, callback, errorCallBack)
+  },
+  updateBlog: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.blog_update, data, callback, errorCallBack)
+  },
+
 }
 
 export default mbapi

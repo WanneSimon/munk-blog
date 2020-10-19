@@ -87,6 +87,13 @@ export default new Router({
       components: {
         default: _import('anniversary.vue')
       }
+    },
+    {
+      path: '/editor',
+      name: 'editor',
+      components: {
+        default: _import('blogEditor.vue')
+      }
     }
 
   ]
