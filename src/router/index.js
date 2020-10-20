@@ -89,8 +89,15 @@ export default new Router({
       }
     },
     {
-      path: '/editor',
-      name: 'editor',
+      path: '/eb',
+      name: 'eb',
+      components: {
+        default: _import('blogEditor.vue')
+      }
+    },
+    {
+      path: '/eb/:id',
+      name: 'eb',
       components: {
         default: _import('blogEditor.vue')
       }

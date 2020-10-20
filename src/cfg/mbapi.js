@@ -193,6 +193,8 @@ const mbapi = {
     this.base_post(base.api_context + base.blog_search, data, callback, errorCallBack)
   },
   getBlog: function(data, callback, errorCallBack){
+    console.log("get data")
+    console.log(data)
     this.base_post(base.api_context + base.blog_get, data, callback, errorCallBack)
   },
   updateBlog: function(data, callback, errorCallBack){

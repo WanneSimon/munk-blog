@@ -8,8 +8,8 @@
           <el-input v-model="blogVo.title"></el-input>
         </el-form-item>
         <el-form-item class="form_item shadow_item" label="标签" >
-          <el-tag  :key="tag" v-for="tag in blogVo.tags" closable :disable-transitions="false"
-           @close="handleTagClose(tag)"> {{tag}} </el-tag>
+          <el-tag  :key="key" v-for="tag,key in blogVo.tags" closable :disable-transitions="false"
+           @close="handleTagClose(tag)"> {{tag.tagName}} </el-tag>
           <el-input class="input-new-tag"
             v-if="tagView.inputVisible" v-model="tagView.inputValue"
             ref="saveTagInput" size="small"
@@ -19,6 +19,9 @@
           </el-input>
           <el-button v-else class="button-new-tag" size="small" @click="showTagInput"> + </el-button>
         </el-form-item>
+        <el-form-item class="form_item shadow_item" label="归类">
+          <el-input v-model="blogVo.groupType"></el-input>
+        </el-form-item>
 
         <el-form-item class="form_buttons">
           <el-button type="primary" size="small" plain
@@ -26,8 +29,8 @@
           <el-button type="success" size="small" plain
             @click="openNewQuotation()"> + 参考 </el-button>
           <!-- 还是不要预览了 <el-button type="primary" @click="preview()">预览</el-button> -->
-          <el-button type="primary" size="small">添加</el-button>
-          <el-button type="success" size="small">更新</el-button>
+          <el-button type="primary" size="small" @click="addBlog()">添加</el-button>
+          <el-button type="success" size="small" @click="updateBlog()">更新</el-button>
         </el-form-item>
 
         <el-form-item>
@@ -52,7 +55,7 @@
     <!-- 给编辑器预留 -->
     <el-col :span="15" class="editor-container " >
          <quill-editor class="editor shadow_item" ref="myTextEditor"
-            :value="content"  :options="editorOption"
+            :value="blogVo.content"  :options="editorOption"
              @change="onEditorChange()"
              @blur="onEditorBlur($event)"
              @focus="onEditorFocus($event)"
@@ -69,7 +72,7 @@
 
     <el-col class="e_right" :span="1"></el-col>
 
-    <el-dialog title="添加引用" :visible.sync="dialogFormVisible">
+    <el-dialog title="添加引用" :visible.sync="dialogFormVisible" @beforeClose="beforeCloseQuotationView">
       <el-form :model="quotationView" ref="ruleForm" :rules="rules.quotation">
         <el-form-item label="名称" prop="name">
           <el-input v-model="quotationView.name"></el-input>
@@ -142,7 +145,7 @@
           content: null,
           groupType: null,
 
-          tags: [], // {tagName }
+          tags: [ {name: '标签1'},{name: '标签2'},{name: '标签3'},{name: '标签4'} ], // {tagName }
           quotations: [] // { name, link }
         },
 
@@ -160,6 +163,7 @@
         },
 
         rules: {
+          // 添加引用时的验证
           quotation: {
             name: [
                 { required: true, message: '请输入引用名称', trigger: 'blur' },
@@ -172,11 +176,6 @@
           }
         },
 
-        content: dedent`
-                 <h1 class="ql-align-center"><span class="ql-font-serif" style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> I am snow example! </span></h1><p><br></p><p><span class="ql-font-serif">W Can a man still be brave if he's afraid? That is the only time a man can be brave. </span></p><p><br></p><p><strong class="ql-font-serif ql-size-large">Courage and folly is </strong><strong class="ql-font-serif ql-size-large" style="color: rgb(230, 0, 0);">always</strong><strong class="ql-font-serif ql-size-large"> just a fine line.</strong></p><p><br></p><p><u class="ql-font-serif">There is only one God, and his name is Death. And there is only one thing we say to Death: "Not today."</u></p><p><br></p><p><em class="ql-font-serif">Fear cuts deeper than swords.</em></p><p><br></p><pre class="ql-syntax" spellcheck="false"><span class="hljs-keyword">const</span> a = <span class="hljs-number">10</span>;
-                 <span class="hljs-keyword">const</span> editorOption = { <span class="hljs-attr">highlight</span>: <span class="hljs-function"><span class="hljs-params">text</span> =&gt;</span> hljs.highlightAuto(text).value };</pre><p><br></p><p><span class="ql-font-serif">Every flight begins with a fall.</span></p><p><br></p><p><a href="https://surmon.me/" rel="noopener noreferrer" target="_blank" class="ql-font-serif ql-size-small" style="color: rgb(230, 0, 0);"><u>A ruler who hides behind paid executioners soon forgets what death is. </u></a></p><p><br></p><iframe class="ql-video ql-align-center" frameborder="0" allowfullscreen="true" src="https://www.youtube.com/embed/QHH3iSeDBLo?showinfo=0" height="238" width="560"></iframe><p><br></p><p><span class="ql-font-serif">Hear my words, and bear witness to my vow. Night gathers, and now my watch begins. It shall not end until my death. I shall take no wife, hold no lands, father no children. I shall wear no crowns and win no glory. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I pledge my life and honor to the Night’s Watch, for this night and all the nights to come.</span></p><p><br></p><p><span class="ql-font-serif">We are born to suffer, to suffer can make us strong.</span></p><p><br></p><p><span class="ql-font-serif">The things we love destroy us every time.</span></p>
-               `,
-
       }
     },
     computed: {
@@ -188,12 +187,25 @@
       }
     },
     created: function(){
+      console.log("create")
+      this.blogVo.title = '标题'
+      this.blogVo.groupType = '测试'
       this.blogVo.content = dedent`
                  <h1 class="ql-align-center"><span class="ql-font-serif" style="background-color: rgb(240, 102, 102); color: rgb(255, 255, 255);"> I am snow example! </span></h1><p><br></p><p><span class="ql-font-serif">W Can a man still be brave if he's afraid? That is the only time a man can be brave. </span></p><p><br></p><p><strong class="ql-font-serif ql-size-large">Courage and folly is </strong><strong class="ql-font-serif ql-size-large" style="color: rgb(230, 0, 0);">always</strong><strong class="ql-font-serif ql-size-large"> just a fine line.</strong></p><p><br></p><p><u class="ql-font-serif">There is only one God, and his name is Death. And there is only one thing we say to Death: "Not today."</u></p><p><br></p><p><em class="ql-font-serif">Fear cuts deeper than swords.</em></p><p><br></p><pre class="ql-syntax" spellcheck="false"><span class="hljs-keyword">const</span> a = <span class="hljs-number">10</span>;
                  <span class="hljs-keyword">const</span> editorOption = { <span class="hljs-attr">highlight</span>: <span class="hljs-function"><span class="hljs-params">text</span> =&gt;</span> hljs.highlightAuto(text).value };</pre><p><br></p><p><span class="ql-font-serif">Every flight begins with a fall.</span></p><p><br></p><p><a href="https://surmon.me/" rel="noopener noreferrer" target="_blank" class="ql-font-serif ql-size-small" style="color: rgb(230, 0, 0);"><u>A ruler who hides behind paid executioners soon forgets what death is. </u></a></p><p><br></p><iframe class="ql-video ql-align-center" frameborder="0" allowfullscreen="true" src="https://www.youtube.com/embed/QHH3iSeDBLo?showinfo=0" height="238" width="560"></iframe><p><br></p><p><span class="ql-font-serif">Hear my words, and bear witness to my vow. Night gathers, and now my watch begins. It shall not end until my death. I shall take no wife, hold no lands, father no children. I shall wear no crowns and win no glory. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I pledge my life and honor to the Night’s Watch, for this night and all the nights to come.</span></p><p><br></p><p><span class="ql-font-serif">We are born to suffer, to suffer can make us strong.</span></p><p><br></p><p><span class="ql-font-serif">The things we love destroy us every time.</span></p>
                `
+      this.blogVo.tags = [ {tagName: '标签1'},{tagName: '标签2'},{tagName: '标签3'},{tagName: '标签4'} ],
+      this.blogVo.quotations = [
+        { name: '百度一下', link:'https://www.baidu.com' },
+        { name: 'BiliBli干杯', link:'https://www.bilibili.com' },
+        { name: 'CS', link:'http://www.wanforme.cc' },
+        { name: '百度一下', link:'http://www.baidu.com' }
+      ]
+
+      this.checkAndInitBlog()
     },
     methods: {
+      /** 视图渲染部分 **/
       // 移除一个标签
       handleTagClose: function(tag) {
         this.blogVo.tags.splice(this.blogVo.tags.indexOf(tag), 1)
@@ -209,7 +221,7 @@
       handleTagInputConfirm: function() {
         let inputValue = this.tagView.inputValue
         if (inputValue) {
-          this.blogVo.tags.push(inputValue)
+          this.blogVo.tags.push( { tagName: inputValue})
         }
         this.tagView.inputVisible = false
         this.tagView.inputValue = ''
@@ -227,16 +239,35 @@
       // 添加新引用
       addNewQuotation: function() {
         // console.log(this.quotationView)
-        this.blogVo.quotations.push(this.quotationView)
+        const temp = {
+          name: this.quotationView.name,
+          link: this.quotationView.link
+        }
+        this.blogVo.quotations.push(temp)
         this.dialogFormVisible = false
-        this.quotationView = { index: null, name: '', link: '' }
+        this.quotationView.index = null
+        this.quotationView.name = ''
+        this.quotationView.link = ''
         // console.log(this.blogVo.quotations)
+      },
+      // 关闭前的检查
+      beforeCloseQuotationView: function(done){
+        if ( !this.quotationView.name || this.quotationView.link
+        || this.quotationView.name==='' || this.quotationView.link===''){
+          console.log("未通过")
+          mbapi.error("信息不完整")
+          return
+        } else {
+          console.log("通过")
+          done()
+        }
       },
       // 编辑引用
       editQuotation: function(q){
         console.log("edit")
         const index = this.blogVo.quotations.indexOf(q)
-        this.quotationView = this.blogVo.quotations[index]
+        const temp = JSON.parse(JSON.stringify(this.blogVo.quotations[index]))
+        this.quotationView = temp // this.blogVo.quotations[index]
         this.quotationView.index = index
         this.dialogFormVisible = true
       },
@@ -247,18 +278,107 @@
       // 更新引用
       updateQuotation: function(){
         console.log("update")
-        if(!this.quotationView.index) {
+        if(!this.quotationView.index && this.quotationView.index!=0) {
           mbapi.error('该引用不能更新')
           return
         }
-        this.blogVo.quotations[this.quotationView.index] = this.quotationView
+        const temp = this.blogVo.quotations[this.quotationView.index]
+        temp.name = this.quotationView.name
+        temp.link = this.quotationView.link
+        
         this.dialogFormVisible = false
         this.quotationView = { index: null, name: '', link: '' }
       },
 
 
+      /** 后台交互部分 **/
+      // po 转 vo
+      poToVo: function(po) {
+        return {
+          id: po.id,
+          title: po.title,
+          content: po.content,
+          groupType: po.groupType,
+          tags: po.tags,
+          quotations: po.quotations
+        }
+      },
+      // vo 转 要存储的vo
+      voToPo: function(vo) {
+        return {
+          id: vo.id,
+          title: vo.title,
+          content: vo.content,
+          groupType: vo.groupType,
+          tags: vo.tags,
+          quotations: vo.quotations
+        }
+      },
 
+      getBlog: function(id){
+        const _this = this
+        mbapi.getBlog( { id: id },  function (res) {
+          console.log("get:")
+          console.log(res)
 
+          _this.blogVo = _this.poToVo(res.data)
+        })
+      },
+
+      updateBlog: function(){
+        if (!this.blogVo.id) {
+          mbapi.error("该文章似乎是新文章")
+          return
+        }
+
+        // 转为要存储的vo
+        const blogVo =this.voToPo(this.blogVo)
+        const _this = this
+        mbapi.updateBlog( blogVo, function (res) {
+          _this.blogVo = _this.poToVo(res.data)
+        })
+      },
+
+      addBlog: function(){
+        console.log("add")
+        console.log(this.blogVo)
+
+        if( this.blogVo.id || this.blogVo.id==0 ) {
+          mbapi.error("该文章似乎是更新文章")
+          return
+        }
+
+        if( !this.blogVo.title ) {
+          mbapi.error("标题还没有填啊")
+          return
+        }
+
+        if( !this.blogVo.content ) {
+          mbapi.error("写点什么吧")
+          return
+        }
+
+        if( !this.blogVo.tags ) {
+          mbapi.error("加个标签吧")
+          return
+        }
+
+        const blogVo = this.voToPo(this.blogVo)
+        const _this = this
+        mbapi.addBlog(blogVo, function(){
+          _this.blogVo = _this.voToPo(res.data)
+        })
+      },
+
+      // 初始化时，检查是否是更新某个博文
+      checkAndInitBlog: function() {
+        const bid = this.$route.params.id
+        if ( bid ){
+          this.getBlog(bid)
+        }
+      },
+
+      // quill编辑器事件
       onEditorChange: function(){
         this.$emit('onEditorChange')
       },
@@ -271,8 +391,6 @@
       onEditorReady: function(){
         this.$emit('onEditorReady')
       },
-
-
 
     }
   };
