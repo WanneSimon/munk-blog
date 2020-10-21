@@ -53,7 +53,7 @@
     </el-col>
 
     <!-- 给编辑器预留 -->
-    <el-col :span="15" class="editor-container " >
+    <el-col :span="15" class="" >
          <quill-editor class="editor shadow_item" ref="myTextEditor"
             :value="blogVo.content"  :options="editorOption"
              @change="onEditorChange()"
@@ -66,7 +66,7 @@
            </div>
            <!-- 预览部分 -->
            <div class="output ql-snow" v-if="showOutput && showOutput===true">
-             <div class="ql-editor" v-html="content"></div>
+             <div class="ql-editor" v-html="blogVo.content"></div>
            </div>
     </el-col>
 
@@ -183,7 +183,7 @@
         return this.$refs.myTextEditor.quill
       },
       contentCode() {
-        return hljs.highlightAuto(this.content).value
+        return hljs.highlightAuto(this.blogVo.content).value
       }
     },
     created: function(){
@@ -285,7 +285,7 @@
         const temp = this.blogVo.quotations[this.quotationView.index]
         temp.name = this.quotationView.name
         temp.link = this.quotationView.link
-        
+
         this.dialogFormVisible = false
         this.quotationView = { index: null, name: '', link: '' }
       },
@@ -396,7 +396,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .e_left{
     padding: 10px;
   }
@@ -419,7 +419,6 @@
   .form_buttons button{
     margin: 2px 0px !important;
   }
-
   .ql-container, .ql-editor {
     height: 700px;
     overflow-y: auto;
@@ -450,6 +449,10 @@
   /* 输出框*/
   .output{
     margin-top: 10px;
+  }
+
+  .ql-tooltip, .ql-editing{
+    /* left: 2px !important; */
   }
 
 </style>

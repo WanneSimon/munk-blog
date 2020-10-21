@@ -101,7 +101,7 @@ const mbapi = {
             resolve(data)
           } else {
             if(reject){
-              reject()
+              reject(data)
             } else {
               _context.error(data.info)
             }
@@ -189,7 +189,7 @@ const mbapi = {
   addBlog: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.blog_add, data, callback, errorCallBack)
   },
-  searchBlog: function(data, callback, errorCallBack){
+  searchBlogs: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.blog_search, data, callback, errorCallBack)
   },
   getBlog: function(data, callback, errorCallBack){

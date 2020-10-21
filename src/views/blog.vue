@@ -4,9 +4,9 @@
       <el-col class="blank_L" :span="8" style="max-width:360px;">
         <el-calendar v-model="currentTime"></el-calendar>
 
-        <div class="blog-item-container">
-          <div class="blog-item" v-for="item,key in blogs.datas" :key="key">
-            <div class="blog-item-title" v-html="item.title" @click="showBlog(item.id)"></div>
+        <div class="blog-item-container" v-loading="loading.blogs">
+          <div class="blog-item" v-for="item,key in blogs" :key="key">
+            <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"></div>
           </div>
           <!-- 分页插件 -->
           <div class="blog-item-page">
@@ -23,18 +23,31 @@
 
       <el-col class="blog-content" :span="15">
         <!-- 具体文章 -->
-        <div v-if="blogView" class="blog-container">
+        <div v-if="blogView" class="blog-container"
+          v-loading="loading.blog"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          >
           <div class="blog-head float-block">
             <div class="blog-title">{{currentBlog.title}}</div>
             <el-row class="blog-meta">
               <el-col :span="16" style="text-align: left;">
                 <!-- {{currentBlog.tags}} -->
-                <span class="blog-tag" v-for='tag,key in currentBlog.tags' :key='key'>{{tag}}</span>
+                <!-- <span class="blog-tag" v-for='tag,key in currentBlog.tags' :key='key'>{{tag}}</span> -->
+                <el-tag class="blog-tag" type="success" :key="key" v-for="tag,key in currentBlog.tags"
+                  :disable-transitions="false"> {{tag.tagName}} </el-tag>
               </el-col>
               <el-col :span="8" class="blog-time">{{currentBlog.createTime}}</el-col>
             </el-row>
           </div>
-          <div class="blog-text float-block" v-html="currentBlog.content"></div>
+
+          <div v-if="currentBlog.editor===$base.editorType.QUILL3_Plus"
+              class="ql-snow blog-output float-block">
+            <div class="ql-editor" v-html="currentBlog.content"></div>
+          </div>
+          <div v-else class="blog-output blog-text float-block" v-html="currentBlog.content"></div>
+
           <div class="blog-refrence float-block" v-if="currentBlog.quotations && currentBlog.quotations.length>0">
             <h4>参阅：</h4>
             <div v-for="q,key in currentBlog.quotations" :key="key">
@@ -81,20 +94,23 @@
           quotations: [],
           // quotations: [ { name: '百科',  link: 'http://www.baidu.com' } ]
         },
-        blogs: {
-          datas: []
-        },
+        blogs: [],
         pageData: {
           page: 0,
           size: 10,
           totalPage: 0,
           keyText: null,
           valid: '1'
+        },
+        // 加载控制
+        loading: {
+          blogs: false,
+          blog: false
         }
       }
     },
     created: function() {
-      this.blogs.datas = [
+      this.blogs = [
             {id:1,title:"麻辣火锅羊肉串"},
             {id:2,title:"葱姜"},
             {id:3,title:"欸，又加班，我想回家。"},
@@ -151,8 +167,8 @@
         }
 
         //
-        this.pageData.current = 1
-
+        // this.pageData.current = 1
+        this.searchBlogs(1)
     },
 
     methods: {
@@ -168,18 +184,20 @@
         console.log(arg)
         this.searchBlogs(this.pageData.page)
       },
-      showBlog: function(id){
+      showBlog: function(blog){
         // 切换博文
         this.blogView = true
-        this.getBlogInfo(id)
+        this.getBlogInfo(blog.id)
       },
 
       // 获取博文详细信息
       getBlogInfo: function(id){
         const _this = this
-        mbapi.getBlog( { id: id },  function (res) {
-          console.log("get:")
-          console.log(res)
+        this.loading.blog = true
+        mbapi.getBlog( { id: id },  (res) => {
+          // console.log("get:")
+          // console.log(res)
+          _this.loading.blog = false
           _this.currentBlog.id = res.data.id
           _this.currentBlog.title = res.data.title
           _this.currentBlog.content = res.data.content
@@ -190,27 +208,42 @@
           _this.currentBlog.updateTime = res.data.updateTime
           _this.currentBlog.tags = res.data.tags
           _this.currentBlog.quotations = res.data.quotations
+        }, (res) => {
+          _this.loading.blog = false
+          mbapi.error(data.info)
         })
       },
 
       // 搜索博文信息
       searchBlogs: function(page) {
         const _this = this
+        if(!page){
+          page = this.pageData.page
+        }
+
         const queryVo = {
-          page: this.pageData.page,
+          page: page,
           size: this.pageData.size,
           keyText: this.pageData.keyText,
           valid: this.pageData.valid
         }
 
-        mbapi.searchBlogs(queryVo, function(res) {
-          console.log('查询结果')
-          console.log(res)
+        this.loading.blogs = true
+        mbapi.searchBlogs(queryVo, (res) => {
+          // console.log('查询结果')
+          // console.log(res)
+          this.loading.blogs = false
+          const data = res.data
 
-          _this.pageData.page = res.page
-          _this.pageData.size = res.pageNum
-          _this.pageData.totalPage = res.totalPage
-          _this.blogs.datas = res.list
+          _this.pageData.page = data.page
+          _this.pageData.size = data.size
+          _this.pageData.totalPage = data.totalPage
+          _this.blogs = data.datas
+          // console.log(_this.pageData)
+          // console.log(_this.blogs)
+        }, (res)=>{
+          this.loading.blogs = false
+          mbapi.error(data.info)
         })
       },
 
@@ -280,8 +313,7 @@
   }
 
   .blog-tag {
-    display: inline-block;
-    padding: 4px;
+    margin: 2px 1px;
     color: #00bfff;
   }
 
@@ -290,11 +322,13 @@
     color: grey;
   }
 
+  .blog-output{
+    margin-top: 10px;
+    padding: 10px 8px 10px 8px;
+  }
   .blog-text {
     text-align: left;
     text-indent: 2rem;
-    margin-top: 10px;
-    padding: 10px 8px 10px 8px;
     color: darkslateblue;
   }
 

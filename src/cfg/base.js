@@ -4,6 +4,12 @@ const base = {
   SUCCESS: '00',
   FAIL: '01',
 
+  // 定义文本编辑器类型
+  editorType: {
+    DEFAULT: '', //默认编辑器类型
+    QUILL3_Plus: 'quill3+', // quill3+编辑器
+  },
+
   api_context: '/munkblog/api', //后端基础路径
 
   comicsWords_add: '/comicWords/add', // 添加语录
