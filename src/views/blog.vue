@@ -7,6 +7,20 @@
         <div class="blog-item-container" v-loading="loading.blogs">
           <div class="blog-item" v-for="item,key in blogs" :key="key">
             <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"></div>
+            <div style="text-align: right;">
+              <!-- <a href="javascript:void(0);" @click="editBlog(item.id)"></a> -->
+              <router-link :to="{name:'eb', query: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i></router-link>
+              <el-popconfirm
+                confirmButtonText='不要了'
+                cancelButtonText='我手贱了'
+                icon="el-icon-info"
+                iconColor="red"
+                title="删除这条引用？"
+                @onConfirm="deleteBlog(item.id)"
+              >
+              <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+              </el-popconfirm>
+            </div>
           </div>
           <!-- 分页插件 -->
           <div class="blog-item-page">
@@ -247,6 +261,11 @@
         })
       },
 
+      deleteBlog: function(id){
+        mbapi.updateBlog( {id:id, valid: '0'}, (res) => {
+         mbapi.info(res.info)
+        })
+      }
     }
 
   }
