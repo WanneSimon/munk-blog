@@ -14,8 +14,8 @@
             <div class="log-item" v-for="item,key in dailyLogs.datas" :key="key">
               <div class="log-item-head">
                 <el-row>
-                  <el-col :span="6">{{item.rtime}}</el-col>
-                  <el-col :span="2">
+                  <el-col :span="6">{{item.updateTime}}</el-col>
+                  <el-col :span="2" :offset="16">
                     <a href="javascript:void(0);" @click="editDL(item.id)"><i class="el-icon-edit"></i></a>
                     <el-popconfirm
                       confirmButtonText='好的'

@@ -15,23 +15,27 @@
           <el-col class="comics-item" :span="24"
             v-for="(c, index) in comics.datas" :key="index">
             <div class="output ql-snow " >
+              <div style="text-align: right;">
+                <label v-if="$mbapi.hasPermission()">
+                  <a href="javascript:void(0);" @click="editCW(c.id)"><i class="el-icon-edit"></i></a>
+                  <el-popconfirm
+                    confirmButtonText='好的'
+                    cancelButtonText='不用了'
+                    icon="el-icon-info"
+                    iconColor="red"
+                    title="不喜欢这句了吗？"
+                    @onConfirm="deleteCW(c.id)"
+                  >
+                  <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+                  </el-popconfirm>
+                </label>
+                <span v-else>  </span>
+                [{{c.id}}]
+              </div>
+              <div class="ql-editor" v-html="c.text"></div>
 
-              <div>{{c.id}}. <span>{{c.author}}</span>
-               <label v-if="$mbapi.hasPermission()">
-                 <a href="javascript:void(0);" @click="editCW(c.id)"><i class="el-icon-edit"></i></a>
-                 <el-popconfirm
-                   confirmButtonText='好的'
-                   cancelButtonText='不用了'
-                   icon="el-icon-info"
-                   iconColor="red"
-                   title="不喜欢这句了吗？"
-                   @onConfirm="deleteCW(c.id)"
-                 >
-                 <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
-                 </el-popconfirm>
-               </label>
-
-               <span class="ql-editor" v-html="c.text"></span>
+              <div class="cw-info">
+                <span>{{c.author}}</span>
               </div>
 
             </div>
@@ -86,15 +90,6 @@
       // })
     },
     created: function() {
-      // this.comics.datas = [
-      //       { id: 1, content: "洗洗睡吧，梦里什么都有"  },
-      //       { id: 2, content: '骗的就是你这种读书少的，读书多的不好骗' },
-      //       { id: 3, content: '听我一句劝，打一架吧' },
-      //       { id: 4, content: '睡觉吧狗命最重要' },
-      //       { id: 5, content: '睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要,睡觉吧狗命最重要' },
-      //       { id: 6, content: '睡觉吧狗命最重要' }
-      //     ],
-      // this.maxId = 6
 
       var _this = this
       this.requestPage( 1, function(res){
@@ -220,7 +215,7 @@
 </script>
 
 
-<style>
+<style scoped>
 
   .comics {
     margin-top: 10px;
@@ -243,6 +238,14 @@
     width: 0 !important; /* 谷歌 safari*/
   }
 
+  .ql-editor{
+    padding-top: 0px !important;;
+    padding-bottom: 0px !important;
+  }
+  .cw-info{
+    text-align: right;
+    margin-right: 10%;
+  }
 
   .center_content {
 /*    background-color: #d7dee6; */
