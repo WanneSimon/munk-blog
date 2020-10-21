@@ -11,8 +11,8 @@
           <!-- 分页插件 -->
           <div class="blog-item-page">
             <el-pagination
-              @size-change="handleSizeChange()" @current-change="handleCurrentChange()" :current-page.sync="pageData.current"
-              :page-size="pageData.size" layout="prev, next, jumper" :total="pageData.total">
+              @size-change="handleSizeChange()" @current-change="handleCurrentChange()" :current-page.sync="pageData.page"
+              :page-size="pageData.size" layout="prev, next, jumper" :total="pageData.totalPage">
               <!-- 注意适配 -->
               <!-- :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total"> -->
             </el-pagination>
@@ -29,16 +29,16 @@
             <el-row class="blog-meta">
               <el-col :span="16" style="text-align: left;">
                 <!-- {{currentBlog.tags}} -->
-                <span class="blog-tag" v-for='tag,key in currentBlog.tags.split(",")' :key='key'>{{tag}}</span>
+                <span class="blog-tag" v-for='tag,key in currentBlog.tags' :key='key'>{{tag}}</span>
               </el-col>
               <el-col :span="8" class="blog-time">{{currentBlog.createTime}}</el-col>
             </el-row>
           </div>
           <div class="blog-text float-block" v-html="currentBlog.content"></div>
-          <div class="blog-refrence float-block" v-if="currentBlog.reference && currentBlog.reference.length>0">
+          <div class="blog-refrence float-block" v-if="currentBlog.quotations && currentBlog.quotations.length>0">
             <h4>参阅：</h4>
-            <div v-for="reference,key in currentBlog.reference" :key="key">
-              <a :href="reference.link" target="_blank">{{reference.name}}</a>
+            <div v-for="q,key in currentBlog.quotations" :key="key">
+              <a :href="q.link" target="_blank">{{q.name}}</a>
             </div>
           </div>
         </div>
@@ -59,6 +59,8 @@
 
 <script>
   // import SimEditor from '../components/SimEditor.vue'
+  import mbapi from '../cfg/mbapi.js'
+
   export default {
     name: "blog",
     // components: { SimEditor },
@@ -67,6 +69,44 @@
         currentTime: new Date(), // 当前时间
         blogView: false, // 是否是查看具体文章的视图
         currentBlog: { //当前展示的 blog
+          id: 0,
+          title: null,
+          content: null,
+          groupType: null,
+          createTime: null,
+          updateTime: null,
+          editor: null,
+          valid: null,
+          tags: [],
+          quotations: [],
+          // quotations: [ { name: '百科',  link: 'http://www.baidu.com' } ]
+        },
+        blogs: {
+          datas: []
+        },
+        pageData: {
+          page: 0,
+          size: 10,
+          totalPage: 0,
+          keyText: null,
+          valid: '1'
+        }
+      }
+    },
+    created: function() {
+      this.blogs.datas = [
+            {id:1,title:"麻辣火锅羊肉串"},
+            {id:2,title:"葱姜"},
+            {id:3,title:"欸，又加班，我想回家。"},
+            {id:4,title:"提丰孙宇"},
+            {id:5,title:"麻辣火锅羊肉串"},
+            {id:6,title:"麻辣火锅羊肉串"},
+            {id:7,title:"麻辣火锅羊肉串"},
+            {id:8,title:"麻辣火锅羊肉串<br>水水水水<br>嗡嗡嗡"},
+            {id:9,title:"麻辣火锅羊肉串"}
+      ]
+
+      this.currentBlog = { //当前展示的 blog
           id: 10,
           title: '疯狂动物城',
           tags: '动物城,百科,朱迪,动漫,影视',
@@ -106,48 +146,73 @@
             {
               name: '百度百科',
               link: 'http://www.baidu.com'
-            },
+            }
           ]
-        },
-        blogs: {
-          datas: [
-            {id:1,title:"麻辣火锅羊肉串"},
-            {id:2,title:"葱姜"},
-            {id:3,title:"欸，又加班，我想回家。"},
-            {id:4,title:"提丰孙宇"},
-            {id:5,title:"麻辣火锅羊肉串"},
-            {id:6,title:"麻辣火锅羊肉串"},
-            {id:7,title:"麻辣火锅羊肉串"},
-            {id:8,title:"麻辣火锅羊肉串<br>水水水水<br>嗡嗡嗡"},
-            {id:9,title:"麻辣火锅羊肉串"}
-          ]
-        },
-        pageData: {
-          current: 1,
-          size: 10,
-          total: 40
         }
-      }
-    },
-    created: function() {
+
+        //
+        this.pageData.current = 1
 
     },
+
     methods: {
       handleSizeChange: function(arg){
         // 每页数量发生变化
         console.log('size change')
         console.log(arg)
+        this.searchBlogs(this.pageData.page)
       },
       handleCurrentChange: function(arg){
         // 页码发生变化
-        console.log('size change')
+        console.log('page change')
         console.log(arg)
+        this.searchBlogs(this.pageData.page)
       },
       showBlog: function(id){
         // 切换博文
         this.blogView = true
+        this.getBlogInfo(id)
+      },
 
-      }
+      // 获取博文详细信息
+      getBlogInfo: function(id){
+        const _this = this
+        mbapi.getBlog( { id: id },  function (res) {
+          console.log("get:")
+          console.log(res)
+          _this.currentBlog.id = res.data.id
+          _this.currentBlog.title = res.data.title
+          _this.currentBlog.content = res.data.content
+          _this.currentBlog.groupType = res.data.groupType
+          _this.currentBlog.editor = res.data.editor
+          _this.currentBlog.valid = res.data.valid
+          _this.currentBlog.createTime = res.data.createTime
+          _this.currentBlog.updateTime = res.data.updateTime
+          _this.currentBlog.tags = res.data.tags
+          _this.currentBlog.quotations = res.data.quotations
+        })
+      },
+
+      // 搜索博文信息
+      searchBlogs: function(page) {
+        const _this = this
+        const queryVo = {
+          page: this.pageData.page,
+          size: this.pageData.size,
+          keyText: this.pageData.keyText,
+          valid: this.pageData.valid
+        }
+
+        mbapi.searchBlogs(queryVo, function(res) {
+          console.log('查询结果')
+          console.log(res)
+
+          _this.pageData.page = res.page
+          _this.pageData.size = res.pageNum
+          _this.pageData.totalPage = res.totalPage
+          _this.blogs.datas = res.list
+        })
+      },
 
     }
 
