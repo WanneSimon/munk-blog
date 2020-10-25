@@ -10,7 +10,23 @@ const base = {
     QUILL3_Plus: 'quill3+', // quill3+编辑器
   },
 
+  login: {
+    isLogined: false, // 是否已登录， 默认false
+    view: 'login', //展示登录视图的哪一个， login-登录，repwd-重置密码
+    show: true, // 展示登录框
+    //登录信息
+    data: {
+    },
+    // 页面相关视图控制
+    // view: {
+
+    // }
+  },
+
   api_context: '/munkblog/api', //后端基础路径
+
+  i_login: '/i/login', // 登录
+  i_logout: '/i/logout', //退出
 
   comicsWords_add: '/comicWords/add', // 添加语录
   comicsWords_search: '/comicWords/search', // 添加语录
@@ -36,6 +52,7 @@ const base = {
   blog_search: '/blog/search', // 搜索博文
   blog_get: '/blog/get', //获取博文
   blog_update: '/blog/update',
+
 }
 
 export default base

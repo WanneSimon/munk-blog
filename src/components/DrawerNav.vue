@@ -6,14 +6,21 @@
          &gt;&gt;
        </el-button>
 
+       <!-- <LoginModule></LoginModule> -->
+
        <el-drawer
          title="导航"
          :visible.sync="drawer" :direction="direction"
          :with-header="false">
          <div class="nav-head">
            <el-image :src="head_img" ></el-image>
+           <div class="head-bottom">
+             <span class="head-bottom-login" @click="showLogin()"> 登录 </span>
+             <span>&emsp;</span>
+             <span class="head-bottom-logout" @click="logout()"> 退出 </span>
+           </div>
          </div>
-         <div class="nav-items">
+         <div class="nav-items"  @click="drawer = false">
             <!-- <router-link :to="'http://www.wanforme.cc'">主页</router-link> -->
             <div class="nav-item"><router-link :to="'/index'">主页</router-link></div>
             <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">me</router-link></div>
@@ -42,9 +49,11 @@
 </template>
 
 <script>
+  // import LoginModule from './LoginModule.vue'
 
    export default {
       name: 'DrawerNav',
+      // components: { LoginModule },
       data() {
         return {
           drawer: false,
@@ -52,8 +61,22 @@
           head_img: '/coco/static/images/t1.jpg', //菜单栏顶部图片
         };
       },
+
       created: function(){
 
+      },
+
+      methods: {
+        showLogin: function () {
+          console.log("=== navi ====")
+          console.log(this.$base.login)
+          this.$base.login.show = true
+          console.log(this.$base.login)
+          console.log("=== navi ====")
+        },
+        logout: function () {
+
+        }
       }
     };
 </script>
@@ -80,7 +103,26 @@
 }
 .nav-head{
   /* background-color: deepskyblue; */
+  position: relative;
 }
+.head-bottom{
+  width: 100%;
+  text-align: right;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 2px 6px;
+  background-color: rgba( 1, 1, 1, 0.5);
+}
+.head-bottom-login{
+  color: orange;
+  cursor: pointer;
+}
+.head-bottom-logout{
+  color: crimson;
+  cursor: pointer;
+}
+
 .nav-item{
   margin: 2px 0px;
    color: coral;

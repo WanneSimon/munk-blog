@@ -4,19 +4,27 @@
     <!-- 导航 -->
     <DrawerNav></DrawerNav>
     <router-view :key="router_key" />
+    <!-- <LoginModule v-if="showLogin"></LoginModule> -->
   </div>
 </template>
 
 <script>
 import DrawerNav from './components/DrawerNav.vue'
+// import LoginModule from './components/LoginModule.vue'
 
 export default {
   name: 'App',
+  // components: { DrawerNav, LoginModule },
   components: { DrawerNav },
   computed: {
 		router_key() {
 			return this.$route.path + Math.random()
-		}
+		},
+    // showLogin() {
+    //   console.log("=== app ====")
+    //   console.log(this.$base.login)
+    //   return this.$base.login.show
+    // },
 	}
 }
 </script>

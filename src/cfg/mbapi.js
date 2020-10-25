@@ -201,6 +201,15 @@ const mbapi = {
     this.base_post(base.api_context + base.blog_update, data, callback, errorCallBack)
   },
 
+  // 登录
+  login: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.i_login, data, callback, errorCallBack)
+  },
+  // 退出
+  logout: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.i_logout, data, callback, errorCallBack)
+  },
+
 }
 
 export default mbapi

@@ -22,6 +22,8 @@ Vue.use(Router)
 // 获取路由的根路径
 // 组件中使用 console.log(this.$router.options.base)
 
+import LoginModule from '@/components/LoginModule.vue'
+
 export default new Router({
   mode: 'history',
   base: "/coco",
@@ -100,6 +102,13 @@ export default new Router({
       name: 'eb',
       components: {
         default: _import('blogEditor.vue')
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      components: {
+        default: LoginModule
       }
     }
 
