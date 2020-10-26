@@ -1,12 +1,21 @@
 <template>
+<!--  <div
+    v-loading="loading"
+    :visible.sync = "viewVisible.show"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+  > -->
   <div
     v-loading="loading"
     element-loading-text="拼命加载中"
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
   >
-    <el-dialog :visible.sync="$base.login.view == 'login'"
-        :title="title.login"  @beforeClose="beforLoginViewClose()">
+
+    <!-- <el-dialog :visible.sync="loginVisible" -->
+    <el-dialog :visible.sync="viewVisible.login"
+        :title="'登录'"  @beforeClose="beforLoginViewClose">
       <el-form :model="loginView" ref="ruleForm" :rules="rules.loginRules">
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginView.username"></el-input>
@@ -16,13 +25,14 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="closeView()">取 消</el-button>
+          <!-- <el-button @click="closeView()">取 消</el-button> -->
           <el-button type="primary" @click="login()">登 录</el-button>
             <!-- <el-button v-if="$base.login.isLogined" type="primary" @click="addNewQuotation()">修改密码</el-button> -->
         </div>
     </el-dialog>
-    <el-dialog :visible.sync="$base.login.view == 'repwd'"
-        :title="title.repwd"  @beforeClose="beforRepwdViewClose()">
+    <!-- <el-dialog :visible.sync="repwdVisible" -->
+    <el-dialog :visible.sync="viewVisible.repwd"
+        :title="'修改密码'"  @beforeClose="beforRepwdViewClose">
       <el-form :model="repwdView" ref="ruleForm" :rules="rules.repwdRules">
           <el-form-item label="原密码" prop="password">
             <el-input v-model="repwdView.password"></el-input>
@@ -32,7 +42,7 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="closeView()">取 消</el-button>
+          <!-- <el-button @click="closeView()">取 消</el-button> -->
           <el-button type="primary" @click="newPassword()">修 改</el-button>
             <!-- <el-button v-if="$base.login.isLogined" type="primary" @click="addNewQuotation()">修改密码</el-button> -->
         </div>
@@ -45,12 +55,18 @@
 
   export default {
     name: 'LoginModule',
+    props: {
+      // loginType: { type: String, default: '' }, //登录框
+      viewVisible: { type: Object, default() {
+        return {
+          // show: false, // 总开关
+          login: false,
+          repwd: false ,
+        }
+       }}, // 是否显示
+    },
     data() {
       return {
-        title: {
-          login: '登录',
-          repwd: '修改密码'
-        },
         loading: false, // 加载状态
         // 登录输入信息
         loginView: {
@@ -90,7 +106,8 @@
 
     },
     created: function(){
-      console.log(this.$base.login)
+      console.log('created')
+      console.log(this.viewVisible)
     },
     methods: {
       login: function() {
@@ -115,11 +132,11 @@
         }
       },
 
-      beforLoginViewClose: function () {
-
+      beforLoginViewClose: function (done) {
+        done()
       },
-      beforRepwdViewClose: function() {
-
+      beforRepwdViewClose: function(done) {
+        done()
       },
 
       // 重置密码

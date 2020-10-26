@@ -6,7 +6,7 @@
          &gt;&gt;
        </el-button>
 
-       <!-- <LoginModule></LoginModule> -->
+       <LoginModule :viewVisible='visible'></LoginModule>
 
        <el-drawer
          title="导航"
@@ -15,8 +15,10 @@
          <div class="nav-head">
            <el-image :src="head_img" ></el-image>
            <div class="head-bottom">
-             <span class="head-bottom-login" @click="showLogin()"> 登录 </span>
-             <span>&emsp;</span>
+             <span class="head-bottom-login" @click="showLogin()"> 登录 &emsp;</span>
+             <!-- <span>&emsp;</span> -->
+             <span class="head-bottom-repwd" @click="showRepwd()"> 修改 &emsp;</span>
+             <!-- <span>&emsp;</span> -->
              <span class="head-bottom-logout" @click="logout()"> 退出 </span>
            </div>
          </div>
@@ -49,16 +51,23 @@
 </template>
 
 <script>
-  // import LoginModule from './LoginModule.vue'
+  import LoginModule from './LoginModule.vue'
 
    export default {
       name: 'DrawerNav',
-      // components: { LoginModule },
+      components: { LoginModule },
       data() {
         return {
           drawer: false,
           direction: 'ltr' ,//从右往左-rtl 从上往下-ttb 从下往上btt
           head_img: '/coco/static/images/t1.jpg', //菜单栏顶部图片
+
+          // loginType: '', // login-登录, repwd-修改密码
+          visible: {
+            // show: false, // 总开关
+            login: false,
+            repwd: false
+          },
         };
       },
 
@@ -68,11 +77,23 @@
 
       methods: {
         showLogin: function () {
-          console.log("=== navi ====")
-          console.log(this.$base.login)
-          this.$base.login.show = true
-          console.log(this.$base.login)
-          console.log("=== navi ====")
+          // console.log("=== navi ====")
+          // console.log(this.$base.login)
+          // this.$base.login.show = true
+          // console.log(this.$base.login)
+          // this.loginType = 'login'
+          console.log('点击登录')
+          // this.visible.show  = true
+          this.visible.login  = true
+          this.visible.repwd  = false
+          console.log(this.visible)
+        },
+        showRepwd: function(){
+          console.log('点击')
+          // this.visible.show  = true
+          this.visible.login  = false
+          this.visible.repwd  = true
+          console.log(this.visible)
         },
         logout: function () {
 
@@ -115,6 +136,10 @@
   background-color: rgba( 1, 1, 1, 0.5);
 }
 .head-bottom-login{
+  color: greenyellow;
+  cursor: pointer;
+}
+.head-bottom-repwd{
   color: orange;
   cursor: pointer;
 }
