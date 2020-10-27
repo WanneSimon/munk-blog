@@ -5,7 +5,7 @@
       <el-col class="blank_L" :span="2" ></el-col>
 
       <el-col :span="20">
-          <title-tag-editor id="book_editor" class="simEditor"  v-if="$mbapi.hasPermission()"
+          <title-tag-editor id="book_editor" class="simEditor"  v-if="$mbapi.hasPermission('book_add', 'book_update')"
             @onAdd="addBook" @onUpdate="updateBook"
             :showCode="false" :showOutput="false" :titleName="'书名'" :data="editorVo"
             style="min-height:40px; " >
@@ -32,7 +32,7 @@
 
                     <el-col :span="14" class="book-right">
                       <div class="book-name">{{book.name}}</div>
-                      <div>
+                      <div v-if="$mbapi.hasPermission('book_add', 'book_update')">
                         <a href="javascript:void(0);" @click="editBook(book.id)"><i class="el-icon-edit"></i></a>
                         <el-popconfirm
                           confirmButtonText='不要了'

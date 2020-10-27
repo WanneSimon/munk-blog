@@ -99,7 +99,6 @@
             ],
           }
         },
-
       }
     },
     computed: {
@@ -121,7 +120,8 @@
           mbapi.login(vo, (res)=>{
             console.log("登录")
             console.log(res)
-            this.$base.data = res.data
+            this.$base.login.info = res.data
+            this.$base.login.isLogined = true
             this.loading = false
           }, (res)=>{
             mbapi.error(res.info)
@@ -151,6 +151,13 @@
           this.$base.login.show = false
           console.log(this.$base.login)
           console.log("=== login ====")
+      },
+
+      requestAu: function(){
+        mbapi.auth(null, (res) => {
+          console.log("login-auth")
+          this.$base.login.auth = res.data
+        })
       },
 
     }

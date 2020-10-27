@@ -5,7 +5,7 @@
       <el-col class="blank_L" :span="3"></el-col>
 
       <el-col class="center_content" :span="18">
-        <title-tag-editor id="cw_editor" class="simEditor" v-if="$mbapi.hasPermission()"
+        <title-tag-editor id="cw_editor" class="simEditor" v-if="$mbapi.hasPermission('CW_add', 'CW_update')"
           @onAdd="addCW" @onUpdate="updateCW"
           :showCode="false" :showOutput="false" :titleName="'作者'" :data="editorVo"
           style="min-height:40px; " >
@@ -16,7 +16,7 @@
             v-for="(c, index) in comics.datas" :key="index">
             <div class="output ql-snow " >
               <div style="text-align: right;">
-                <label v-if="$mbapi.hasPermission()">
+                <label v-if="$mbapi.hasPermission('CW_add', 'CW_update')">
                   <a href="javascript:void(0);" @click="editCW(c.id)"><i class="el-icon-edit"></i></a>
                   <el-popconfirm
                     confirmButtonText='好的'

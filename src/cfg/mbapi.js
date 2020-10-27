@@ -6,8 +6,8 @@ import { Message } from 'element-ui';
 const mbapi = {
   base: base,
 
-    // 获取滚动条当前的位置
-    getScrollTop: function () {
+  // 获取滚动条当前的位置 (已弃用)
+  getScrollTop: function () {
       var scrollTop = 0
       if (document.documentElement && document.documentElement.scrollTop) {
         scrollTop = document.documentElement.scrollTop
@@ -16,8 +16,8 @@ const mbapi = {
       }
       return scrollTop
     },
-    // 获取当前可视范围的高度
-    getClientHeight: function () {
+  // 获取当前可视范围的高度 (已弃用)
+  getClientHeight: function () {
       var clientHeight = 0
       if (document.body.clientHeight && document.documentElement.clientHeight) {
         clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight)
@@ -27,12 +27,12 @@ const mbapi = {
       return clientHeight
     },
 
-    // 获取文档完整的高度
-    getScrollHeight: function () {
+  // 获取文档完整的高度 (已弃用)
+  getScrollHeight: function () {
       return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
     },
-    // 滚动事件触发下拉加载
-    isLasyLoad: function (resolve) {
+  // 滚动事件触发下拉加载 (已弃用)
+  isLasyLoad: function (resolve) {
       // console.log(this.getScrollHeight())
       // console.log(this.getClientHeight())
       // console.log(this.getScrollTop())
@@ -114,14 +114,26 @@ const mbapi = {
   },
 
   // 检查是否有某个权限
-  hasPermission: function( arg ){
-    const _context = this
-    const url = ''
-    const data = {}
+  hasPermission: function(){
+    const args = arguments
+    if( (!args && args!=0) || !base.login.isLogined ){
+      return false
+    }
 
-    // const response = await base_post_promise(url, data)
-    // const res = response.data
+    const authArr = base.login.data.auth
+    for( var i in args) {
+      if ( authArr.indexOf(args[i]) == -1 ){
+        return false
+      }
+    }
+    // 'blog_add', 'blog_update'
+    // 'book_add', 'book_update'
+    // 'game_add', 'game_update'
+    // 'dailyLog_add', 'dailyLog_update'
+    // 'CW_add', 'CW_update'
 
+
+    // return false
     return true
   },
 
@@ -193,8 +205,6 @@ const mbapi = {
     this.base_post(base.api_context + base.blog_search, data, callback, errorCallBack)
   },
   getBlog: function(data, callback, errorCallBack){
-    console.log("get data")
-    console.log(data)
     this.base_post(base.api_context + base.blog_get, data, callback, errorCallBack)
   },
   updateBlog: function(data, callback, errorCallBack){
@@ -208,6 +218,10 @@ const mbapi = {
   // 退出
   logout: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.i_logout, data, callback, errorCallBack)
+  },
+  // 认证授权
+  auth: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.i_auth, data, callback, errorCallBack)
   },
 
 }

@@ -16,17 +16,16 @@ const base = {
     show: true, // 展示登录框
     //登录信息
     data: {
+        info: {}, // 登录成功信息
+        auth: [], // 认证信息
     },
-    // 页面相关视图控制
-    // view: {
-
-    // }
   },
 
   api_context: '/munkblog/api', //后端基础路径
 
   i_login: '/i/login', // 登录
   i_logout: '/i/logout', //退出
+  i_auth: '/i/auth', // 获取认证信息
 
   comicsWords_add: '/comicWords/add', // 添加语录
   comicsWords_search: '/comicWords/search', // 添加语录
@@ -52,6 +51,8 @@ const base = {
   blog_search: '/blog/search', // 搜索博文
   blog_get: '/blog/get', //获取博文
   blog_update: '/blog/update',
+
+
 
 }
 

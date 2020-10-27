@@ -5,7 +5,7 @@
         <el-col class="blank_L" :span="3"></el-col>
 
         <el-col class="dlog-content" :span="18">
-          <SimEditor id="dl_editor" class="simEditor" v-if="$mbapi.hasPermission()"
+          <SimEditor id="dl_editor" class="simEditor" v-if="$mbapi.hasPermission('dailyLog_add', 'dailyLog_update')"
            @onAdd="addDL" @onUpdate="updateDL" :data="editorVo"
           :showCode="false" :showOutput="false" style="min-height:40px;"
           :offset="2" :width="20"></SimEditor>
@@ -16,17 +16,19 @@
                 <el-row>
                   <el-col :span="6">{{item.updateTime}}</el-col>
                   <el-col :span="2" :offset="16">
-                    <a href="javascript:void(0);" @click="editDL(item.id)"><i class="el-icon-edit"></i></a>
-                    <el-popconfirm
-                      confirmButtonText='好的'
-                      cancelButtonText='不用了'
-                      icon="el-icon-info"
-                      iconColor="red"
-                      title="确定删除吗？"
-                       @onConfirm="deleteDL(item.id)"
-                    >
-                    <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
-                    </el-popconfirm>
+                    <label v-if="$mbapi.hasPermission('dailyLog_add', 'dailyLog_update')">
+                      <a href="javascript:void(0);" @click="editDL(item.id)"><i class="el-icon-edit"></i></a>
+                      <el-popconfirm
+                        confirmButtonText='好的'
+                        cancelButtonText='不用了'
+                        icon="el-icon-info"
+                        iconColor="red"
+                        title="确定删除吗？"
+                         @onConfirm="deleteDL(item.id)"
+                      >
+                      <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+                      </el-popconfirm>
+                    </label>
                   </el-col>
                   <el-col :span="15">{{item.tags}}</el-col>
                 </el-row>

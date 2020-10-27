@@ -5,7 +5,7 @@
 
       <el-col :span="20">
           <title-tag-editor class="simEditor" id="game_editor"
-            @onAdd="addGame" @onUpdate="updateGame" v-if="$mbapi.hasPermission()"
+            @onAdd="addGame" @onUpdate="updateGame" v-if="$mbapi.hasPermission('game_add', 'game_update')"
             :showCode="false" :showOutput="false" :titleName="'名称'" :data="editorVo"
             style="min-height:40px; " >
           </title-tag-editor>
@@ -32,7 +32,7 @@
 
                     <el-col :span="14" class="game-right">
                       <div class="game-name">{{g.name}}</div>
-                      <div>
+                      <div v-if="$mbapi.hasPermission('game_add', 'game_update')">
                         <a href="javascript:void(0);" @click="editGame(g.id)"><i class="el-icon-edit"></i></a>
                         <el-popconfirm
                           confirmButtonText='退坑'

@@ -15,11 +15,11 @@
          <div class="nav-head">
            <el-image :src="head_img" ></el-image>
            <div class="head-bottom">
-             <span class="head-bottom-login" @click="showLogin()"> 登录 &emsp;</span>
+             <span class="head-bottom-login" v-if="!($base.login.isLogined)" @click="showLogin()"> 登录 &emsp;</span>
              <!-- <span>&emsp;</span> -->
-             <span class="head-bottom-repwd" @click="showRepwd()"> 修改 &emsp;</span>
+             <span class="head-bottom-repwd" v-if="$base.login.isLogined" @click="showRepwd()"> 修改 &emsp;</span>
              <!-- <span>&emsp;</span> -->
-             <span class="head-bottom-logout" @click="logout()"> 退出 </span>
+             <span class="head-bottom-logout" v-if="$base.login.isLogined" @click="logout()"> 退出 </span>
            </div>
          </div>
          <div class="nav-items"  @click="drawer = false">
