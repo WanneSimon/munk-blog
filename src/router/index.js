@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import LoginModule from '@/components/LoginModule.vue'
+import UploadModule from '@/components/UploadModule.vue'
 
 // 加载vue视图模板
 // const _import = require('./_import_' + process.env.NODE_ENV)
@@ -22,7 +24,7 @@ Vue.use(Router)
 // 获取路由的根路径
 // 组件中使用 console.log(this.$router.options.base)
 
-import LoginModule from '@/components/LoginModule.vue'
+
 
 export default new Router({
   mode: 'history',
@@ -104,11 +106,19 @@ export default new Router({
         default: _import('blogEditor.vue')
       }
     },
+    // 测试时使用
     {
       path: '/login',
       name: 'login',
       components: {
         default: LoginModule
+      }
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      components: {
+        default: UploadModule
       }
     }
 

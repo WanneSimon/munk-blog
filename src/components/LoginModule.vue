@@ -105,8 +105,8 @@
 
     },
     created: function(){
-      console.log('created')
-      console.log(this.viewVisible)
+      // console.log('created')
+      // console.log(this.viewVisible)
     },
     methods: {
       login: function() {
