@@ -15,6 +15,7 @@
          <div class="nav-head">
            <el-image :src="head_img" ></el-image>
            <div class="head-bottom">
+             <span class="head-bottom-login" v-if="$base.login.isLogined"> Hi~&emsp;{{$base.login.data.info.name}}<br></span>
              <span class="head-bottom-login" v-if="!($base.login.isLogined)" @click="showLogin()"> 登录 &emsp;</span>
              <!-- <span>&emsp;</span> -->
              <span class="head-bottom-repwd" v-if="$base.login.isLogined" @click="showRepwd()"> 修改 &emsp;</span>
@@ -52,8 +53,9 @@
 
 <script>
   import LoginModule from './LoginModule.vue'
+  import mbapi from '../cfg/mbapi.js'
 
-   export default {
+  export default {
       name: 'DrawerNav',
       components: { LoginModule },
       data() {
@@ -77,26 +79,27 @@
 
       methods: {
         showLogin: function () {
-          // console.log("=== navi ====")
-          // console.log(this.$base.login)
-          // this.$base.login.show = true
-          // console.log(this.$base.login)
-          // this.loginType = 'login'
-          console.log('点击登录')
-          // this.visible.show  = true
           this.visible.login  = true
           this.visible.repwd  = false
-          console.log(this.visible)
         },
         showRepwd: function(){
-          console.log('点击')
           // this.visible.show  = true
           this.visible.login  = false
           this.visible.repwd  = true
-          console.log(this.visible)
         },
         logout: function () {
-
+          // mbapi.logout(null, (res)=>{
+          //   mbapi.auth(null, (ress)=>{
+          //     console.log("退出后的权限")
+          //     console.log(ress)
+          //   })
+          // })
+          mbapi.logout(null, (res)=>{
+            this.$base.login.isLogined = false
+            this.$base.login.data.info = {}
+            this.$base.login.data.auth = []
+            this.$router.go({name: 'index'})
+          })
         }
       }
     };

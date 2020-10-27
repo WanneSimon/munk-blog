@@ -11,6 +11,7 @@
 <script>
 import DrawerNav from './components/DrawerNav.vue'
 // import LoginModule from './components/LoginModule.vue'
+import mbapi from './cfg/mbapi.js'
 
 export default {
   name: 'App',
@@ -25,7 +26,22 @@ export default {
     //   console.log(this.$base.login)
     //   return this.$base.login.show
     // },
-	}
+	},
+  created: function(){
+    // 查询是否有 token
+    if( !this.$base.login.isLogined ){
+      mbapi.auth({}, (res) => {
+        console.log("登录信息")
+        console.log(res)
+        console.log(typeof(res.data))
+        if( typeof(res.data) == 'object'  ){
+          this.$base.login.isLogined = true
+          this.$base.login.data.info = res.data.info
+          this.$base.login.data.auth = res.data.auth
+        }
+      })
+    }
+  }
 }
 </script>
 

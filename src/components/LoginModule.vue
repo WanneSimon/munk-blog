@@ -105,8 +105,6 @@
 
     },
     created: function(){
-      // console.log('created')
-      // console.log(this.viewVisible)
     },
     methods: {
       login: function() {
@@ -118,10 +116,15 @@
 
           this.loading = true
           mbapi.login(vo, (res)=>{
-            console.log("登录")
-            console.log(res)
             this.$base.login.info = res.data
             this.$base.login.isLogined = true
+            this.viewVisible.login = false
+            mbapi.auth({}, (res) => {
+              this.$base.login.isLogined = true
+              this.$base.login.data.info = res.data.info
+              this.$base.login.data.auth = res.data.auth
+              this.$router.go(0) // 刷新
+            })
             this.loading = false
           }, (res)=>{
             mbapi.error(res.info)

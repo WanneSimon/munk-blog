@@ -121,6 +121,8 @@ const mbapi = {
     }
 
     const authArr = base.login.data.auth
+    console.log("mbapi-permission")
+    console.log(base.login)
     for( var i in args) {
       if ( authArr.indexOf(args[i]) == -1 ){
         return false
