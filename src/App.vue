@@ -31,9 +31,9 @@ export default {
     // 查询是否有 token
     if( !this.$base.login.isLogined ){
       mbapi.auth({}, (res) => {
-        console.log("登录信息")
-        console.log(res)
-        console.log(typeof(res.data))
+        // console.log("登录信息")
+        // console.log(res)
+        // console.log(typeof(res.data))
         if( typeof(res.data) == 'object'  ){
           this.$base.login.isLogined = true
           this.$base.login.data.info = res.data.info

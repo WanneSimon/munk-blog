@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-dialog :visible.sync="viewVisible"
-        :title="''"  @beforeClose="beforeViewClose">
+    <el-dialog :visible.sync="moduleVisible"
+        :title="''"  @close="$emit('close')">
 
       <el-upload
         class="upload_container"
@@ -11,7 +11,7 @@
         :on-remove="handleRemove"
         :on-success="handleSucess"
         :on-error="handleError"
-        :file-list="fileList"
+        :file-list="successList"
         :auto-upload="false"
         :drag = 'false'
         list-type="picture">
@@ -32,10 +32,13 @@
     name: 'UploadModule',
     props: {
         onSucess: { type: Function, default: function(data){ console.log("sucess");console.log((data)) } } ,// 文件上传成功后的处理
-        viewVisible: { type:Boolean, default: true } // 上传显示
     },
     data() {
       return {
+        // vue 不能直接绑定父组件传递的值，所以用个新的值存一下
+        // moduleVisible: this.viewVisible,
+        moduleVisible: true,
+        // viewVisible: true,
         // fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
         successList: [ {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
           {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
@@ -43,16 +46,10 @@
       }
     },
     computed: {
-
     },
     created: function(){
     },
     methods: {
-      // 关闭弹框
-      beforeViewClose: function(done){
-        this.viewVisible = false
-        done()
-      },
       // 文件操作
       submitUpload: function() {
         this.$refs.uploadForm.submit();

@@ -5,6 +5,9 @@
       <el-col class="blank_L" :span="2" ></el-col>
 
       <el-col :span="20">
+          <!-- 上传组件 -->
+          <!-- <UploadModule :viewVisible="uploadVisible" :afterClose="function() {uploadVisible=false}"></UploadModule> -->
+
           <title-tag-editor id="book_editor" class="simEditor"  v-if="$mbapi.hasPermission('book_add', 'book_update')"
             @onAdd="addBook" @onUpdate="updateBook"
             :showCode="false" :showOutput="false" :titleName="'书名'" :data="editorVo"
@@ -34,6 +37,7 @@
                       <div class="book-name">{{book.name}}</div>
                       <div v-if="$mbapi.hasPermission('book_add', 'book_update')">
                         <a href="javascript:void(0);" @click="editBook(book.id)"><i class="el-icon-edit"></i></a>
+                        <a href="javascript:void(0);" @click="openUpload(book.id)"><i class="el-icon-upload"></i></a>
                         <el-popconfirm
                           confirmButtonText='不要了'
                           cancelButtonText='我只是手贱了'
@@ -62,6 +66,33 @@
         </el-col>
      </el-row>
 
+    <el-dialog :visible.sync="moduleVisible"
+          :title="''" >
+
+        <el-upload
+          class="upload_container"
+          ref="uploadForm"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-preview="function(){}"
+          :on-remove="deleteUpload"
+          :on-success="successUpload"
+          :on-error="function(){}"
+          :file-list="successList"
+          :auto-upload="false"
+          :drag = 'false'
+          :close-on-click-modal	= 'false'
+          :limit='1'
+          :on-exceed="()=>$message({type:'error', message:'封面仅限一个哦！'})"
+          list-type="picture">
+          <!-- <el-button size="small" type="primary">点击上传</el-button> -->
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="$refs.uploadForm.submit()">上传文件</el-button>
+          <el-button size="small" type="primary" @click="updateCover()">确认封面</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+
+    </el-dialog>
+
 
       <!-- <el-col class="blank_R" :span="2" style="max-width:360px;"></el-col> -->
       <el-col class="blank_R" :span="2" ></el-col>
@@ -73,11 +104,12 @@
 
 <script>
   import TitleTagEditor from '../components/TitleTagEditor.vue'
+  // import UploadModule from '../components/UploadModule.vue'
   import mbapi from '../cfg/mbapi.js'
 
   export default {
     name: "books",
-    components: { TitleTagEditor },
+    components: { TitleTagEditor}, //UploadModule },
     data() {
       return {
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
@@ -94,19 +126,14 @@
 
         tempVo: '',// 正在被编辑的对象
         editorVo: { title: '', content: '' }, // 编辑器中的对象
-        longText: 'ES6， 全称 ECMAScript 6.0 ，是 JavaScript 的下一个版本标准，2015.06 发版。'+
-+'\nES6 主要是为了解决 ES5 的先天不足，比如 JavaScript 里并没有类的概念，但是目前浏览器的 JavaScript 是 ES5 版本，大多数高版本的浏览器也支持 ES6，不过只实现了 ES6 的部分特性和功能。'
-+'\nJavaScript 是大家所了解的语言名称，但是这个语言名称是商标（ Oracle 公司注册的商标）。因此，JavaScript 的正式名称是 ECMAScript 。1996年11月，JavaScript 的创造者网景公司将 JS 提交给国际化标准组织 ECMA（European computer manufactures association，欧洲计算机制造联合会），希望这种语言能够成为国际标准，随后 ECMA 发布了规定浏览器脚本语言的标准，即 ECMAScript。这也有利于这门语言的开放和中立。'
-+'\nES6 是 ECMAScript 标准十余年来变动最大的一个版本，为其添加了许多新的语法特性。'
-+'\n'
-+'\n1997 年 ECMAScript 1.0 诞生。'
-+'\n1998 年 6 月 ECMAScript 2.0 诞生，包含一些小的更改，用于同步独立的 ISO 国际标准。'
-+'\n1999 年 12 月 ECMAScript 3.0诞生，它是一个巨大的成功，在业界得到了广泛的支持，它奠定了 JS 的基本语法，被其后版本完全继承。直到今天，我们一开始学习 JS ，其实就是在学 3.0 版的语法。'
-+'\n2000 年的 ECMAScript 4.0 是当下 ES6 的前身，但由于这个版本太过激烈，对 ES 3 做了彻底升级，所以暂时被"和谐"了。'
-+'\n2009 年 12 月，ECMAScript 5.0 版正式发布。ECMA 专家组预计 ECMAScript 的第五个版本会在 2013 年中期到 2018 年作为主流的开发标准。2011年6月，ES 5.1 版发布，并且成为 ISO 国际标准。'
-+'\n2013 年，ES6 草案冻结，不再添加新的功能，新的功能将被放到 ES7 中；2015年6月， ES6 正式通过，成为国际标准。',
-        dialogs: {}
+        dialogs: {},
 
+        // 上传组件中的变量
+        moduleVisible: false,
+        successList: [ {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+                  {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+          ],
+        uploadBookId: null, // 更新封面的书籍id
       }
     },
     mounted () {
@@ -119,8 +146,6 @@
         _this.searchVo.page = res.data.pageNum
         _this.searchVo.totalPage = res.data.pages
         _this.books = res.data.list
-        // console.log(res )
-        // console.log(_this.books  )
       })
     },
     methods: {
@@ -218,6 +243,32 @@
             })
          }
       },
+
+      openUpload: function(id){
+        this.uploadBookId = id
+        this.moduleVisible = true
+      },
+
+      successUpload: function(file, res){
+        console.log("成功上传")
+        console.log(file)
+        console.log(res)
+        console.log(this.successList)
+        this.successList.push({name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'})
+
+        var result = res
+
+      },
+      deleteUpload: function(file, fileList){
+        // file 是被删除的那个， fileList 是删除后的列表
+        console.log("删除上传")
+        console.log(file)
+        console.log(fileList)
+        this.successList = fileList
+      },
+      updateCover: function(){
+        this.uploadBookId
+      }
 
     }
   }
