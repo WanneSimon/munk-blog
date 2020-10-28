@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :visible="viewVisible"
+    <el-dialog :visible.sync="viewVisible"
         :title="''"  @beforeClose="beforeViewClose">
 
       <el-upload
