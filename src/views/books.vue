@@ -22,7 +22,8 @@
                 <div class="book-block-item-wrapper float-block">
                   <el-row>
                     <el-col :span="10">
-                      <el-image class="book-image" :src="book.url" :fit='fit'>
+                      <el-image class="book-image"  :fit='fit'
+                          :src="book.url" >
                         <div slot="placeholder" class="image-slot">
                           加载中<span class="dot">...</span>
                         </div>
@@ -151,6 +152,13 @@
         _this.searchVo.page = res.data.pageNum
         _this.searchVo.totalPage = res.data.pages
         _this.books = res.data.list
+
+        for(var i in _this.books){
+          const temp = _this.books[i]
+          if(temp.cover){
+            temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+          }
+        }
       })
     },
     methods: {
@@ -241,7 +249,11 @@
               // _this.comics.datas = res.data.list
 
               for(var i in res.data.list){
-                _this.books.push(res.data.list[i])
+                const temp = res.data.list[i]
+                _this.books.push(temp)
+                if(temp.cover){
+                  temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+                }
               }
             })
          }
@@ -322,12 +334,12 @@
         }
 
         const vo = {
-          id: uploadBookId,
+          id: this.uploadBookId,
           cover: {
-            fileId: this.successList[0]
+            fileId: this.successList[0].id
           }
         }
-        mbapi.book_update( vo, (res)=>{
+        mbapi.updateBook( vo, (res)=>{
           mbapi.info(res.info)
           console.log("封面设置成功")
           console.log(res.info)
