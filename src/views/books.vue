@@ -67,12 +67,14 @@
      </el-row>
 
     <el-dialog :visible.sync="moduleVisible"
+          :before-close="beforeUploadClose"
           :title="''" >
 
+        <!-- action="https://jsonplaceholder.typicode.com/posts/" -->
         <el-upload
           class="upload_container"
           ref="uploadForm"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          :action="$base.api_context+$base.file_upload"
           :on-preview="function(){}"
           :on-remove="deleteUpload"
           :on-success="successUpload"
@@ -130,13 +132,14 @@
 
         // 上传组件中的变量
         moduleVisible: false,
-        successList: [ {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-                  {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-          ],
+        successList: [
+          // {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+          // {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        ],
         uploadBookId: null, // 更新封面的书籍id
       }
     },
-    mounted () {
+    mounted: {
     },
     created: function() {
       this.books =  [ ]
@@ -185,7 +188,6 @@
            // _this.$refs.title_tag_editor.blur()
         })
       },
-
       updateBook: function(data){
         const _this = this
         console.log("update")
@@ -201,7 +203,6 @@
             _this.tempVo = {}
           })
       },
-
       deleteBook: function(id){
         mbapi.updateBook(
           {
@@ -227,7 +228,7 @@
         }
         mbapi.searchBook( requestVo, callback)
       },
-
+      // 下一页
       nextPage: function(){
         if( this.searchVo.page > 0
           && this.searchVo.page < this.searchVo.totalPage ){
@@ -244,37 +245,97 @@
          }
       },
 
+      // 打开上传页面
       openUpload: function(id){
         this.uploadBookId = id
         this.moduleVisible = true
       },
-
-      successUpload: function(file, res){
-        console.log("成功上传")
-        console.log(file)
-        console.log(res)
-        console.log(this.successList)
-        this.successList.push({name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'})
-
-        var result = res
-
+      // 关闭上传页面前
+      beforeUploadClose: function(done){
+        console.log("关闭前")
+        this.uploadBookId = null
+        this.successList = []
+        done()
       },
+      // 单个文件上传成功
+      successUpload: function(resVo, resFile){
+        // resVo - 服务器的返回信息 ， resFile则是上传结束后的 组件封装的信息
+        // this.successList 不会变成 resFile
+        if(resVo.code != this.$base.SUCCESS){
+          mbapi.error(resVo.info)
+          console.log("上传错误")
+          console.log(resVo)
+          return
+        }
+
+        console.log("成功上传")
+        console.log(resVo)
+        console.log(resFile)
+        console.log(this.successList)
+
+        this.successList.push({id: resVo.data.id, name: resFile.name, url: this.$base.api_context + this.$base.file_get.replace('\{id\}', resVo.data.id)})
+
+        // setTimeout(()=> {
+        //   console.log("延时查看")
+        //   console.log(this.successList)
+        // }, 3000)
+      },
+      // 移除上传的文件
       deleteUpload: function(file, fileList){
-        // file 是被删除的那个， fileList 是删除后的列表
+        // file 是successList中被删除的那个对象， fileList 是删除后的列表
+        // this.successList 不会变成 fileList
         console.log("删除上传")
         console.log(file)
         console.log(fileList)
-        this.successList = fileList
-      },
-      updateCover: function(){
-        this.uploadBookId
-      }
+        console.log(this.successList)
 
-    }
+        const fileVo = {
+          id: file.id,
+          valid: '0',
+        }
+        mbapi.updateFile(fileVo, (res)=>{
+          for (var i in this.successList){
+            var temp = this.successList[i]
+            if(temp.id == file.id){
+              mbapi.info("删除成功")
+              this.successList.remove(temp)
+              break;
+            }
+          }
+        }, (res)=>{
+          mbapi.error(res.info)
+        })
+
+        // this.successList = fileList
+      },
+      // 文件上传结束，更新封面
+      updateCover: function(){
+        if(!this.uploadBookId && this.uploadBookId!=0){
+          mbapi.info("找不到需要更新的文件......")
+        }
+
+        //
+        if(!this.successList || this.successList.length==0){
+          mbapi.info("文件呢？")
+        }
+
+        const vo = {
+          id: uploadBookId,
+          cover: {
+            fileId: this.successList[0]
+          }
+        }
+        mbapi.book_update( vo, (res)=>{
+          mbapi.info(res.info)
+          console.log("封面设置成功")
+          console.log(res.info)
+        })
+      },
+    },
   }
 </script>
 
-<style>
+<style scoped>
 
   .book-container{
     margin: 40px 0px 10px 0px;

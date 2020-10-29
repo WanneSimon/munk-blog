@@ -226,6 +226,9 @@ const mbapi = {
     this.base_post(base.api_context + base.i_auth, data, callback, errorCallBack)
   },
 
+  updateFile: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.file_update, data, callback, errorCallBack)
+  },
 }
 
 export default mbapi

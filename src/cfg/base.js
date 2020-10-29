@@ -52,8 +52,9 @@ const base = {
   blog_get: '/blog/get', //获取博文
   blog_update: '/blog/update',
 
-
-
+  file_upload: '/file/upload', // 文件上传
+  file_update: '/file/update', // 文件更新
+  file_get: '/file/get/{id}', // 文件
 }
 
 export default base
