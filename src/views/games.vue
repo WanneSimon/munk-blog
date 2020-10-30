@@ -63,6 +63,32 @@
         </el-col>
      </el-row>
 
+      <el-dialog :visible.sync="moduleVisible"
+            :title="''" >
+
+          <!-- action="https://jsonplaceholder.typicode.com/posts/" -->
+          <el-upload
+            class="upload_container"
+            ref="uploadForm"
+            :action="$base.api_context+$base.file_upload"
+            :on-preview="function(){}"
+            :on-remove="deleteUpload"
+            :on-success="successUpload"
+            :on-error="function(){}"
+            :file-list="successList"
+            :auto-upload="false"
+            :drag = 'false'
+            :close-on-click-modal	= 'false'
+            :limit='1'
+            :on-exceed="()=>$message({type:'error', message:'封面仅限一个哦！'})"
+            list-type="picture">
+            <!-- <el-button size="small" type="primary">点击上传</el-button> -->
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;" size="small" type="success" @click="$refs.uploadForm.submit()">上传文件</el-button>
+            <el-button size="small" type="primary" @click="updateCover()">确认封面</el-button>
+            <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+          </el-upload>
+      </el-dialog>
 
       <el-col class="blank_R" :span="2" style="max-width:360px;"></el-col>
     </el-row>
@@ -95,31 +121,18 @@
 
         tempVo: '',// 正在被编辑的对象
         editorVo: { title: '', content: '' }, // 编辑器中的对象
-        longText: 'ES6， 全称 ECMAScript 6.0 ，是 JavaScript 的下一个版本标准，2015.06 发版。'+
-+'\nES6 主要是为了解决 ES5 的先天不足，比如 JavaScript 里并没有类的概念，但是目前浏览器的 JavaScript 是 ES5 版本，大多数高版本的浏览器也支持 ES6，不过只实现了 ES6 的部分特性和功能。'
-+'\nJavaScript 是大家所了解的语言名称，但是这个语言名称是商标（ Oracle 公司注册的商标）。因此，JavaScript 的正式名称是 ECMAScript 。1996年11月，JavaScript 的创造者网景公司将 JS 提交给国际化标准组织 ECMA（European computer manufactures association，欧洲计算机制造联合会），希望这种语言能够成为国际标准，随后 ECMA 发布了规定浏览器脚本语言的标准，即 ECMAScript。这也有利于这门语言的开放和中立。'
-+'\nES6 是 ECMAScript 标准十余年来变动最大的一个版本，为其添加了许多新的语法特性。'
-+'\n'
-+'\n1997 年 ECMAScript 1.0 诞生。'
-+'\n1998 年 6 月 ECMAScript 2.0 诞生，包含一些小的更改，用于同步独立的 ISO 国际标准。'
-+'\n1999 年 12 月 ECMAScript 3.0诞生，它是一个巨大的成功，在业界得到了广泛的支持，它奠定了 JS 的基本语法，被其后版本完全继承。直到今天，我们一开始学习 JS ，其实就是在学 3.0 版的语法。'
-+'\n2000 年的 ECMAScript 4.0 是当下 ES6 的前身，但由于这个版本太过激烈，对 ES 3 做了彻底升级，所以暂时被"和谐"了。'
-+'\n2009 年 12 月，ECMAScript 5.0 版正式发布。ECMA 专家组预计 ECMAScript 的第五个版本会在 2013 年中期到 2018 年作为主流的开发标准。2011年6月，ES 5.1 版发布，并且成为 ISO 国际标准。'
-+'\n2013 年，ES6 草案冻结，不再添加新的功能，新的功能将被放到 ES7 中；2015年6月， ES6 正式通过，成为国际标准。',
-        dialogs: {}
+        dialogs: {},
 
+        // 上传组件中的变量
+        moduleVisible: false,
+        successList: [
+          // {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+          // {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+        ],
+        uploadGameId: null, // 更新封面的书籍id
       }
     },
     created: function() {
-      // this.games =  [
-      //   {id: 1, name: 'CS GO', img:'', desciption:'V社经典 cs 的延续', process: '0'},
-      //   {id: 2, name: '奥日与黑暗森林', img:'', desciption:'Ori and The Blind Forest, 2015 惊艳世界的横版游戏，音乐、玩法、美术各方面都是无法超越的巅峰', process: '1'},
-      //   {id: 3, name: '奥日与萤火意志', img:'', desciption:'Ori and The Wisps, 奥日与黑暗森林的延续，开放式地图，全新的技能和机制。将2D横版类游戏发挥到了极致。', process: '1'},
-      //   {id: 4, name: '空洞骑士', img:'', desciption:'Hellow Knight, 2D横版动作游戏，类银河风，有着优秀的美术风格和打斗极致，动作流程，打击感十足。不少人称之为“2d黑魂”', process: '1'},
-      //   {id: 5, name: '无主之地3', img:'', desciption:'V社2020年，无主之地系列的最后一部。是个RPG刷刷刷宝箱的开放世界FPS射击游戏。我映像最深的是 中文配音 十分接地气。', process: '0'},
-      //   {id: 6, name: '求生之路2', img:'', desciption:'Left 4 Dead 2, V社 2008发售的 《求生之路》续作，融合了一代的所有内容。是合作、丧尸、末日类的求生射击游戏，靠着创意工坊，至今任然非常火', process: '1'}
-      // ]
-
       this.games =  [ ]
 
       var _this = this
@@ -127,8 +140,13 @@
         _this.searchVo.page = res.data.pageNum
         _this.searchVo.totalPage = res.data.pages
         _this.games = res.data.list
-        // console.log(res )
-        // console.log(_this.games  )
+
+        for(var i in _this.games){
+          const temp = _this.games[i]
+          if(temp.cover){
+            temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+          }
+        }
       })
 
     },
@@ -140,11 +158,11 @@
       addGame: function(data){
         // console.log("add callback")
         // console.log(data)
-        const bookVo =  {name: data.title, description: data.content, valid: '1'}
+        const gemeVo =  {name: data.title, description: data.content, valid: '1'}
         const _this = this
 
         mbapi.addGame(
-          bookVo,
+          gemeVo,
           function(res){
             mbapi.info(res.info)
             // console.log(res)
@@ -155,12 +173,12 @@
       },
 
       // 选中需要编辑的对象
-      editGame: function(bookId){
+      editGame: function(gameId){
         this.tempVo = {}
         this.editorVo = { title: '', content: '' }
 
         const _this = this
-        mbapi.getGame({id: bookId}, function(res){
+        mbapi.getGame({id: gameId}, function(res){
           // console.log("res")
           // console.log(res)
            _this.tempVo = res.data
@@ -192,7 +210,7 @@
           })
       },
 
-      deleteBook: function(id){
+      deleteGame: function(id){
         mbapi.updateGame(
           {
              id: id,
@@ -228,18 +246,144 @@
               // _this.comics.datas = res.data.list
 
               for(var i in res.data.list){
-                _this.games.push(res.data.list[i])
+                const temp = res.data.list[i]
+                _this.games.push(temp)
+                if(temp.cover){
+                  temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+                }
               }
             })
          }
       },
 
+      // 搜索页
+      requestPage: function(page, callback){
+        console.log("page : " + page)
+
+        var requestVo = JSON.parse(JSON.stringify(this.searchVo))
+        if(page > this.searchVo.totalPage) {
+          requestVo.page = this.searchVo.totalPage
+        } // else
+        if( page <= 0 ) {
+          requestVo.page = 1
+        } else {
+          requestVo.page = page
+        }
+        mbapi.searchGame( requestVo, callback)
+      },
+      // 下一页
+      nextPage: function(){
+        if( this.searchVo.page > 0
+          && this.searchVo.page < this.searchVo.totalPage ){
+            var _this = this
+            this.requestPage( this.searchVo.page+1, function(res){
+              _this.searchVo.page = res.data.pageNum
+              _this.searchVo.totalPage = res.data.pages
+              // _this.comics.datas = res.data.list
+
+              for(var i in res.data.list){
+                const temp = res.data.list[i]
+                _this.games.push(temp)
+                if(temp.cover){
+                  temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+                }
+              }
+            })
+         }
+      },
+
+      // 打开上传页面
+      openUpload: function(id){
+        this.uploadGameId = id
+        this.moduleVisible = true
+      },
+      // 关闭上传页面前
+      beforeUploadClose: function(done){
+        console.log("关闭前")
+        this.uploadGameId = null
+        this.successList = []
+        done()
+      },
+      // 单个文件上传成功
+      successUpload: function(resVo, resFile){
+        // resVo - 服务器的返回信息 ， resFile则是上传结束后的 组件封装的信息
+        // this.successList 不会变成 resFile
+        if(resVo.code != this.$base.SUCCESS){
+          mbapi.error(resVo.info)
+          console.log("上传错误")
+          console.log(resVo)
+          return
+        }
+
+        console.log("成功上传")
+        console.log(resVo)
+        console.log(resFile)
+        console.log(this.successList)
+
+        this.successList.push({id: resVo.data.id, name: resFile.name, url: this.$base.api_context + this.$base.file_get.replace('\{id\}', resVo.data.id)})
+
+        // setTimeout(()=> {
+        //   console.log("延时查看")
+        //   console.log(this.successList)
+        // }, 3000)
+      },
+      // 移除上传的文件
+      deleteUpload: function(file, fileList){
+        // file 是successList中被删除的那个对象， fileList 是删除后的列表
+        // this.successList 不会变成 fileList
+        console.log("删除上传")
+        console.log(file)
+        console.log(fileList)
+        console.log(this.successList)
+
+        const fileVo = {
+          id: file.id,
+          valid: '0',
+        }
+        mbapi.updateFile(fileVo, (res)=>{
+          for (var i in this.successList){
+            var temp = this.successList[i]
+            if(temp.id == file.id){
+              mbapi.info("删除成功")
+              this.successList.remove(temp)
+              break;
+            }
+          }
+        }, (res)=>{
+          mbapi.error(res.info)
+        })
+
+        // this.successList = fileList
+      },
+      // 文件上传结束，更新封面
+      updateCover: function(){
+        if(!this.uploadGameId && this.uploadGameId!=0){
+          mbapi.info("找不到需要更新的文件......")
+        }
+
+        //
+        if(!this.successList || this.successList.length==0){
+          mbapi.info("文件呢？")
+        }
+
+        const vo = {
+          id: this.uploadGameId,
+          cover: {
+            fileId: this.successList[0].id
+          }
+        }
+        mbapi.updateGame( vo, (res)=>{
+          mbapi.info(res.info)
+          console.log("封面设置成功")
+          console.log(res.info)
+        })
+      },
 
     }
   }
 </script>
 
-<style>
+<style scoped>
   .game-container{
     margin: 40px 0px 10px 0px;
     -ms-overflow-style: none; /*IE10+*/

@@ -67,9 +67,6 @@
         </el-col>
      </el-row>
 
-<!--    <el-dialog :visible.sync="moduleVisible"
-          :before-close="beforeUploadClose"
-          :title="''" > -->
     <el-dialog :visible.sync="moduleVisible"
           :title="''" >
 
@@ -95,7 +92,6 @@
           <el-button size="small" type="primary" @click="updateCover()">确认封面</el-button>
           <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
         </el-upload>
-
     </el-dialog>
 
 
