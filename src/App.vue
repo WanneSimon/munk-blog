@@ -54,6 +54,7 @@ export default {
   color: #2c3e50;
   background-color: #fbf5f5cc;
   min-width: 980px;
+  min-height: 1px;
   /* margin-top: 60px; */
 }
 

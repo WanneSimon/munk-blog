@@ -10,13 +10,17 @@
     </el-carousel>
 
     <div class="wrapper">
-       <div class="div_top">
-          <div class="content_item div_top1">什么什么什么</div>
-          <div class="content_item div_top2">什22222222</div>
-       </div>
-       <div class="div_bottom">
-         <div class="content_item">这又是什么什么是额是你</div>
-       </div>
+
+      <el-carousel :interval="5000" indicator-position="none" arrow="hover">
+        <el-carousel-item class="little-wrapper" v-for="item,key in images1" :key="key">
+          <!-- <h3>{{ item }}</h3> -->
+          <el-image class="little-item" :fit='fit' :src="item.url" >
+          </el-image>
+          <span class="little_text">{{item.text}}</span>
+        </el-carousel-item>
+      </el-carousel>
+
+      <!-- <div style="position:absolute; width:100%; height:10rem;"></div> -->
     </div>
 
   </div>
@@ -38,15 +42,25 @@
         ],
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         fit: 'cover',
+
+        images1: [ ],
       }
     },
     created: function() {
+      this.initDiv1();
     },
     mounted() {
     },
     computed: {
     },
     methods: {
+      initDiv1: function(){
+        // 设置图片
+        const baseDir = "/coco/static/images/me/"
+        this.images1.push({url: baseDir + "1-1.png", text: '芭芭拉的密汁饮料？芭芭拉的黑暗饮料？'})
+        // this.images1.push({url:baseDir + "1-2.png", text: "可莉，淦！干！肝！"})
+      },
+
 
     }
   }
@@ -54,55 +68,43 @@
 
 <style>
   .bg-images{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1 ;
+    position: absolute;
+    width: 90%;
+    height: 60%;
+    left: 5%;
+    top: 1%;
+    z-index: -1;
   }
   .el-carousel__container{
     height: 100% !important;
     width: 100% !important;
   }
-  .image-item{
-    width: 100%;
-    height: 100%;
-  }
-
   .wrapper{
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    color: orangered;
-  }
-  .content_item{
-    background-color: rgba(255,255,255,0.4);
     position: absolute;
-    top: 20%;
-  }
-  .div_top {
-    /* background-color: coral; */
-    position: relative;
-    height: 60%;
-    width: 70%;
-    left: 20%;
-    right: 10%;
-  }
-  .div_bottom {
-    /* background-color: #0066CC; */
-    position: relative;
-    height: 40%;
-    width: 70%;
-    left: 30%;
-    right: 0;
+    bottom: 1%;
+    z-index: 0;
+    width: 92%;
+    left: 4%;
+    height: 70%;
+    background-color: rgba(1, 1, 1, 0.3);
   }
 
-  .div_top1{
-    width: 50%;
+  .little-wrapper{
+    margin-top: 10%;
+    height: 86%;
+    position: relative;
   }
-  .div_top2{
-    width: 50%;
-    right: 0;
-    top: 60%;
+  .little-item{
+    width: 40%;
+    position: relative;
+    left: -15%;
+    /* position: ; */
+  }
+  .little_text{
+    position: absolute;
+    color: cornsilk;
+   /* top: 35%; */
+    left: 60%;
+    bottom: 8%;
   }
 </style>
