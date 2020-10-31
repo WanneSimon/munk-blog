@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="appLoading">
     <!-- 语录 -->
     <el-row class="comics">
       <el-col class="blank_L" :span="3"></el-col>
@@ -59,6 +59,7 @@
     components: { SimEditor, TitleTagEditor },
     data() {
       return {
+        appLoading: false, // 进入页面，加载
         comics: {
           datas: []
         },
@@ -91,12 +92,15 @@
     },
     created: function() {
 
-      var _this = this
-      this.requestPage( 1, function(res){
-        _this.searchVo.page = res.data.pageNum
-        _this.searchVo.totalPage = res.data.pages
-        _this.comics.datas = res.data.list
-        // console.log(_this.comics.data )
+      this.appLoading = true
+      this.requestPage( 1, (res)=>{
+        this.searchVo.page = res.data.pageNum
+        this.searchVo.totalPage = res.data.pages
+        this.comics.datas = res.data.list
+        // console.log(this.comics.data )
+      }, (res)=>{
+        mbapi.error(res.info)
+        this.appLoading = false
       })
 
     },

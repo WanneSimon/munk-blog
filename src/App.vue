@@ -53,7 +53,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: #fbf5f5cc;
-  min-width: 720px;
+  min-width: 980px;
   /* margin-top: 60px; */
 }
 

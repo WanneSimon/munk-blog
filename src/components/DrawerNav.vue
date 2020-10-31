@@ -2,7 +2,7 @@
     <div>
       <!-- 抽屉导航栏 -->
        <el-button class="drawer-nav" @click="drawer = true"
-        type="primary" style="margin-left: 16px;" >
+        type="primary" style="margin-left: 16px;z-index: 2001;" >
          &gt;&gt;
        </el-button>
 
@@ -26,7 +26,7 @@
          <div class="nav-items"  @click="drawer = false">
             <!-- <router-link :to="'http://www.wanforme.cc'">主页</router-link> -->
             <div class="nav-item"><router-link :to="'/index'">主页</router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'">me</router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/me'">me</router-link></div>
 
             <el-divider content-position="center">*****</el-divider>
 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="appLoading">
       <!-- 语录 -->
       <el-row class="dlog">
         <el-col class="blank_L" :span="3"></el-col>
@@ -54,6 +54,7 @@
     components: { SimEditor },
     data() {
       return {
+        appLoading: false, // 进入页面，加载
         dailyLogs: {
           datas: [],
         },
@@ -84,24 +85,15 @@
       // })
     },
     created: function(){
-      // this.dailyLogs.datas = [
-      //   { id: 1, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-      //   { id: 2, rtime: '2020-09-15 17:28', content:"葱姜" },
-      //   { id: 3, rtime: '2020-09-15 17:28', content:"欸，又加班，我想回家。" },
-      //   { id: 4, rtime: '2020-09-15 17:28', content:"提丰孙宇" },
-      //   { id: 5, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-      //   { id: 6, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-      //   { id: 7, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-      //   { id: 8, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" },
-      //   { id: 9, rtime: '2020-09-15 17:28', content:"麻辣火锅羊肉串" }
-      // ]
 
-      var _this = this
-      this.requestDLPage( 1, function(res){
-        _this.searchVo.page = res.data.pageNum
-        _this.searchVo.totalPage = res.data.pages
-        _this.dailyLogs.datas = res.data.list
-        console.log(res )
+      this.requestDLPage( 1, (res)=>{
+        this.searchVo.page = res.data.pageNum
+        this.searchVo.totalPage = res.data.pages
+        this.dailyLogs.datas = res.data.list
+        this.appLoading = false
+      }, (res)=>{
+        mbapi.error(res.info)
+        this.appLoading = false
       })
     },
     methods: {

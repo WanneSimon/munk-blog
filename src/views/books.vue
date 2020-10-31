@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="appLoading">
     <el-row class="blog">
       <!-- <el-col class="blank_L" :span="2" style="max-width:360px;"></el-col> -->
       <el-col class="blank_L" :span="2" ></el-col>
@@ -114,6 +114,8 @@
     data() {
       return {
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+        appLoading: false, // 进入页面，加载
+
         fit: 'contain',
         books: [],
         searchVo: { // 搜索对象
@@ -143,18 +145,23 @@
     created: function() {
       this.books =  [ ]
 
-      var _this = this
-      this.requestPage( 1, function(res){
-        _this.searchVo.page = res.data.pageNum
-        _this.searchVo.totalPage = res.data.pages
-        _this.books = res.data.list
+      // var _this = this
+      this.appLoading = true
+      this.requestPage( 1, (res)=>{
+        this.searchVo.page = res.data.pageNum
+        this.searchVo.totalPage = res.data.pages
+        this.books = res.data.list
 
-        for(var i in _this.books){
-          const temp = _this.books[i]
+        for(var i in this.books){
+          const temp = this.books[i]
           if(temp.cover){
-            temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+            temp.url = (this.$base.api_context+this.$base.file_get).replace('\{id\}', temp.cover.fileId)
           }
         }
+        this.appLoading = false
+      }, (res)=>{
+        mbapi.error(res.info)
+        this.appLoading = false
       })
     },
     methods: {

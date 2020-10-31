@@ -1,8 +1,10 @@
 <template>
   <!-- <el-carousel :interval="5000" arrow="always"> -->
   <el-carousel :interval="5000">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
+    <el-carousel-item v-for="item,key in images" :key="key">
+      <!-- <h3>{{ item }}</h3> -->
+      <el-image class="image-item" :fit='fit' :src="item" >
+      </el-image>
     </el-carousel-item>
   </el-carousel>
 </template>
@@ -10,9 +12,13 @@
 <script>
   export default {
     name: 'CarouselIndex',
+    props: {
+      images: { type: Array, default(){ return []; } }
+    },
     data() {
        return {
-
+          // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+          fit: 'contain',
        }
     },
     created: function(){
@@ -24,7 +30,12 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .image-item{
+    width: 100%;
+    height: 100%;
+  }
+
   .el-carousel__item h3 {
     color: #475669;
     font-size: 18px;

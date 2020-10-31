@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="appLoading">
     <el-row class="games">
       <el-col class="blank_L" :span="2" style="max-width:360px;"></el-col>
 
@@ -34,6 +34,7 @@
                       <div class="game-name">{{g.name}}</div>
                       <div v-if="$mbapi.hasPermission('game_add', 'game_update')">
                         <a href="javascript:void(0);" @click="editGame(g.id)"><i class="el-icon-edit"></i></a>
+                        <a href="javascript:void(0);" @click="openUpload(g.id)"><i class="el-icon-upload"></i></a>
                         <el-popconfirm
                           confirmButtonText='退坑'
                           cancelButtonText='继续受苦'
@@ -48,10 +49,10 @@
                   </el-row>
 
 
-                  <p class="game-desc" @click="setDialog(g, true)" v-html="g.desciption"></p>
+                  <p class="game-desc" @click="setDialog(g, true)" v-html="g.description"></p>
                   <el-dialog  class="output ql-snow " :title="g.title" :visible.sync="dialogs[g.id]"
                     width="50%" >
-                    <div>  &nbsp;<span class="ql-editor" v-html="g.desciption"></span>
+                    <div>  &nbsp;<span class="ql-editor" v-html="g.description"></span>
                     </div>
                   </el-dialog>
 
@@ -106,6 +107,7 @@
     components: { TitleTagEditor },
     data() {
       return {
+        appLoading: false, // 进入页面，加载
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         fit: 'contain',
         games: [],
@@ -135,18 +137,22 @@
     created: function() {
       this.games =  [ ]
 
-      var _this = this
-      this.requestPage( 1, function(res){
-        _this.searchVo.page = res.data.pageNum
-        _this.searchVo.totalPage = res.data.pages
-        _this.games = res.data.list
+      this.appLoading = true
+      this.requestPage( 1, (res)=>{
+        this.searchVo.page = res.data.pageNum
+        this.searchVo.totalPage = res.data.pages
+        this.games = res.data.list
 
-        for(var i in _this.games){
-          const temp = _this.games[i]
+        for(var i in this.games){
+          const temp = this.games[i]
           if(temp.cover){
-            temp.url = (_this.$base.api_context+_this.$base.file_get).replace('\{id\}', temp.cover.fileId)
+            temp.url = (this.$base.api_context+this.$base.file_get).replace('\{id\}', temp.cover.fileId)
           }
         }
+        this.appLoading = false
+      }, (res)=>{
+        mbapi.error(res.info)
+        this.appLoading = false
       })
 
     },
@@ -296,6 +302,15 @@
       openUpload: function(id){
         this.uploadGameId = id
         this.moduleVisible = true
+
+        // 找到更新的对象的coverId
+        for( var m in this.games) {
+          if(this.games[m].id == id){
+            console.log("open VO")
+            console.log(this.games[m])
+            break;
+          }
+        }
       },
       // 关闭上传页面前
       beforeUploadClose: function(done){
@@ -372,6 +387,15 @@
             fileId: this.successList[0].id
           }
         }
+
+        // 找到更新的对象的coverId
+        for( var m in this.games) {
+          if(this.games[m].id == vo.id && this.games[m].cover){
+            vo.cover.id = this.games[m].cover.id
+            break;
+          }
+        }
+
         mbapi.updateGame( vo, (res)=>{
           mbapi.info(res.info)
           console.log("封面设置成功")

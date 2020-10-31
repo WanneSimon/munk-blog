@@ -44,6 +44,13 @@ export default new Router({
       }
     },
     {
+      path: '/me',
+      name: 'me',
+      components: {
+        default: _import('me.vue')
+      }
+    },
+    {
       path: '/index',
       name: 'index',
       components: {
@@ -93,34 +100,34 @@ export default new Router({
       }
     },
     {
-      path: '/eb',
-      name: 'eb',
-      components: {
-        default: _import('blogEditor.vue')
-      }
-    },
-    {
       path: '/eb/:id',
       name: 'eb',
       components: {
         default: _import('blogEditor.vue')
       }
     },
-    // 测试时使用
     {
-      path: '/login',
-      name: 'login',
+      path: '/eb',
+      name: 'eb',
       components: {
-        default: LoginModule
+        default: _import('blogEditor.vue')
       }
     },
-    {
-      path: '/upload',
-      name: 'upload',
-      components: {
-        default: UploadModule
-      }
-    }
+    // 测试时使用
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   components: {
+    //     default: LoginModule
+    //   }
+    // },
+    // {
+    //   path: '/upload',
+    //   name: 'upload',
+    //   components: {
+    //     default: UploadModule
+    //   }
+    // }
 
   ]
 })
