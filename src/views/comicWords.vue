@@ -97,6 +97,7 @@
         this.searchVo.page = res.data.pageNum
         this.searchVo.totalPage = res.data.pages
         this.comics.datas = res.data.list
+        this.appLoading = false
         // console.log(this.comics.data )
       }, (res)=>{
         mbapi.error(res.info)
