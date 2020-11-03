@@ -113,6 +113,13 @@ export default new Router({
         default: _import('blogEditor.vue')
       }
     },
+    {
+      path: '/music',
+      name: 'music',
+      components: {
+        default: _import('music.vue')
+      }
+    },
     // 测试时使用
     // {
     //   path: '/login',
@@ -127,7 +134,17 @@ export default new Router({
     //   components: {
     //     default: UploadModule
     //   }
-    // }
+    // },
+
+    {
+      path: "/404",
+      name: "notFound",
+      component: _import('me.vue')
+    }, 
+    {
+      path: "*", // 此处需特别注意置于最底部
+      redirect: "/404",
+    }
 
   ]
 })
