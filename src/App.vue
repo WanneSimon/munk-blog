@@ -74,4 +74,19 @@ export default {
     width: auto;
   }
 
+  .scrolle-container{
+    /* margin: 40px 0px 10px 0px; */
+    margin: 0px;
+    -ms-overflow-style: none; /*IE10+*/
+    overflow: -moz-scrollbars-none; /* firefox */
+
+    height:800px;
+    overflow:auto;
+  }
+  /** 隐藏滚动条*/
+  .scrolle-container::-webkit-scrollbar {
+    width: 0 !important; /* 谷歌 safari*/
+  }
+
+
 </style>
