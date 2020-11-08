@@ -85,9 +85,7 @@
 </script>
 
 <style>
-  #app{
-    background-color: transparent !important;
-  }
+
 
   .me_container{
     height: 100%;
