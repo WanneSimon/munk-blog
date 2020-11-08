@@ -9,43 +9,37 @@
       </el-carousel-item>
     </el-carousel>
 
-    <el-row class="wrapper">
-      <el-col class="blank_L" :span="4"></el-col>
-      <el-col :span="10">
-        <el-carousel class="little-wrapper" :interval="5000"
-              indicator-position="none" arrow="hover" @change="changeLittle">
-          <el-carousel-item class="little-item" v-for="item,key in images1" :key="key">
-            <!-- <h3>{{ item }}</h3> -->
-            <el-image :fit='fit' :src="item.url" >
-            </el-image>
-          </el-carousel-item>
-        </el-carousel>
-      </el-col>
+    <div class="me_content">
+      <div class="me_top"> 这个人很懒，什么都没写！ </div>
 
-      <el-col class="blank_L" :span="1"></el-col>
-      <el-col :span="8" class="little_text">
-        <span>{{rightText}}</span>
-      </el-col>
+      <div class="me_center"> 去其他地方逛逛吧！ </div>
 
-      <el-col class="wrapper_bottom" :span="24">
-        进来看看？
-      </el-col>
-    </el-row>
-
-    <div class="me_bottom"> buttom </div>
+      <div class="me_bottom" >
+<!--        <Aplayer autoplay :music="{
+            title: 'Flight Of The Silverbird',
+            author: 'Two Steps From Hell、Thomas Bergersen',
+            src: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
+          }" :list="musicList" listFolded> -->
+        <Aplayer autoplay :music="musicList[0]" :list="musicList"
+          listFolded>
+        </Aplayer>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import CarouselIndex from '../components/CarouselIndex.vue'
+  import Aplayer from 'vue-aplayer'
 
   export default {
     name: "index",
     components: {
-      CarouselIndex
+      CarouselIndex, Aplayer
     },
     data() {
       return {
+        musicList: [],
         carouselImages: [
           "/coco/static/images/ori2.png",
           "/coco/static/images/ori2.png",
@@ -58,6 +52,16 @@
       }
     },
     created: function() {
+        this.musicList = [{
+            title: 'Flight Of The Silverbird',
+            artist: 'Two Steps From Hell、Thomas Bergersen',
+            url: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
+          },{
+            title: 'Flight Of The Silverbird',
+            artist: 'Two Steps From Hell、Thomas Bergersen',
+            url: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
+        }],
+
       this.initDiv1();
     },
     mounted() {
@@ -67,9 +71,9 @@
     methods: {
       initDiv1: function(){
         // 设置图片
-        const baseDir = "/coco/static/images/me/"
-        this.images1.push({url: baseDir + "1-1.png", text: '芭芭拉的密汁饮料？芭芭拉的黑暗饮料？'})
-        this.images1.push({url:baseDir + "1-2.png", text: "可莉，淦！干！肝！"})
+        // const baseDir = "/coco/static/images/me/"
+        // this.images1.push({url: baseDir + "1-1.png", text: '芭芭拉的密汁饮料？芭芭拉的黑暗饮料？'})
+        // this.images1.push({url:baseDir + "1-2.png", text: "可莉，淦！干！肝！"})
       },
 
       changeLittle: function(index){
@@ -81,13 +85,20 @@
 </script>
 
 <style>
+  #app{
+    background-color: transparent !important;
+  }
+
   .me_container{
-    position: relative;
+    height: 100%;
+    width: 100%;
   }
 
   .bg-images{
     width: 100%;
-    height: 30rem;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
   }
   .el-carousel__container{
     height: 100% !important;
@@ -97,34 +108,35 @@
     width: 100%;
     height: 100%;
   }
-  .wrapper{
+
+  .me_content{
+    position: absolute;
+    width: 50%;
+    height: 90%;
+    top: 10%;
+    left: 25%;
+  }
+  .me_top{
+    /* position: absolute; */
+    height: 4rem;
     width: 100%;
-    height: 30rem;
+    line-height: 4rem;
+    font-size: 1.1rem;
+    color: #9933FF;
     background-color: rgba(1, 1, 1, 0.3);
-    position: relative;
-    top: 0rem;
-    margin-top: -8rem;
-  }
-  .little-wrapper{
-    height: 23rem;
-  }
-  .little-item{
   }
 
-  .little_text{
-    margin-top: 10rem;
-    height: 10rem;
-  }
-  .wrapper_bottom{
-    margin-top: 1rem;
-    height: 7rem;
-    font-size: 1.5rem;
-    font-family: "arial black";
+  .me_center{
+    height: 30rem;
+    line-height: 30rem;
+    font-size: 1.3rem;
+    color: #7FFF00;
   }
 
   .me_bottom{
     width: 100%;
-    height: 4rem;
+    position: absolute;
+    bottom: 10%;
     background-color: rgba(1, 1, 1, 0.3);
   }
 </style>
