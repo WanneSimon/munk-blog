@@ -1,21 +1,19 @@
 {
   "carouselImages":[
-    "/coco/static/images/ori2.png",
-    "/coco/static/images/me/1-1.png",
-    "/coco/static/images/ori2.png",
-    "/coco/static/images/me/1-2.png"
+    "/coco/static/me/ori2.png",
+    "/coco/static/me/ZhenGang.png"
   ],
   "musicList": [
     {
-      "title": "Flight Of The Silverbird",
-      "artist": "Two Steps From Hell、Thomas Bergersen",
-      "url": "/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3",
+      "title": "Send Me Away",
+      "artist": "Truslow",
+      "src": "/coco/static/me/Truslow - Send Me Away.mp3",
       "pic": null,
       "lrc": null
     },{
-      "title": "Flight Of The Silverbird",
-      "artist": "Two Steps From Hell、Thomas Bergersen",
-      "url": "/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3",
+      "title": "Light of Nibel (medley)",
+      "artist": "Unkown",
+      "src": "/coco/static/me/Light of Nibel (medley).mp3",
       "pic": null,
       "lrc": null
     }
