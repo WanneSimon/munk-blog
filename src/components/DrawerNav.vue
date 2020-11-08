@@ -1,10 +1,15 @@
 <template>
     <div>
       <!-- 抽屉导航栏 -->
-       <el-button class="drawer-nav" @click="drawer = true"
+<!--       <el-button class="drawer-nav" @click="drawer = true"
         type="primary" style="margin-left: 16px;z-index: 2001;" >
          &gt;&gt;
-       </el-button>
+       </el-button> -->
+
+       <i class="el-icon-notebook-1 drawer-nav"
+        @click="drawer = true"
+       style="z-index: 2001; font-size:2rem;color: #38C0FF;">
+       </i>
 
        <LoginModule :viewVisible='visible'></LoginModule>
 

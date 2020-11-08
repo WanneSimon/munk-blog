@@ -70,10 +70,6 @@
     },
     methods: {
       initDiv1: function(){
-        // 设置图片
-        // const baseDir = "/coco/static/images/me/"
-        // this.images1.push({url: baseDir + "1-1.png", text: '芭芭拉的密汁饮料？芭芭拉的黑暗饮料？'})
-        // this.images1.push({url:baseDir + "1-2.png", text: "可莉，淦！干！肝！"})
       },
 
       changeLittle: function(index){
