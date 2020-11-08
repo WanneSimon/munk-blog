@@ -38,18 +38,18 @@
             <div class="nav-item"><router-link :to="'/comicWords'"> 语 录 </router-link></div>
             <div class="nav-item"><router-link :to="'/dailyLog'"> 动 态 </router-link></div>
             <div class="nav-item"><router-link :to="'/blog'"> 博 文 </router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'" disabled> 书 签 </router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"  disabled> 发 现 </router-link></div>
+<!--            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'" disabled> 书 签 </router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"  disabled> 发 现 </router-link></div> -->
 
             <el-divider content-position="center">*****</el-divider>
 
             <div class="nav-item"><router-link :to="'/books'"> 书 架 </router-link></div>
             <div class="nav-item"><router-link :to="'/games'"> 游 戏 </router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"  disabled> 相 册 </router-link></div>
+<!--            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"> 相 册 </router-link></div> -->
 
             <el-divider content-position="center">*****</el-divider>
-            <div class="nav-item" ><router-link :to="'/anniversary'" disabled> 纪 念 </router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"  disabled="true"> V 圈 </router-link></div>
+<!--            <div class="nav-item" ><router-link :to="'/anniversary'" disabled> 纪 念 </router-link></div>
+            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"> V 圈 </router-link></div> -->
          </div>
        </el-drawer>
 
