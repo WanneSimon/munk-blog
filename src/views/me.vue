@@ -20,6 +20,7 @@
             author: 'Two Steps From Hell、Thomas Bergersen',
             src: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
           }" :list="musicList" listFolded> -->
+          <!-- 必须要设置 music 属性，所以musicList必须要有一个元素 -->
         <Aplayer autoplay :music="musicList[0]" :list="musicList"
           listFolded>
         </Aplayer>
@@ -32,6 +33,8 @@
   import CarouselIndex from '../components/CarouselIndex.vue'
   import Aplayer from 'vue-aplayer'
 
+  // const jdata = require('/coco/static/me/me.json')
+
   export default {
     name: "index",
     components: {
@@ -39,11 +42,12 @@
     },
     data() {
       return {
-        musicList: [],
-        carouselImages: [
-          "/coco/static/images/ori2.png",
-          "/coco/static/images/ori2.png",
-        ],
+        musicList: [{
+          "title": "Flight Of The Silverbird",
+          "artist": "Two Steps From Hell、Thomas Bergersen",
+          "url": "/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3"
+        }],
+        carouselImages: [],
         // imageFits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
         fit: 'cover',
 
@@ -52,28 +56,23 @@
       }
     },
     created: function() {
-        this.musicList = [{
-            title: 'Flight Of The Silverbird',
-            artist: 'Two Steps From Hell、Thomas Bergersen',
-            url: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
-          },{
-            title: 'Flight Of The Silverbird',
-            artist: 'Two Steps From Hell、Thomas Bergersen',
-            url: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
-        }],
-
-      this.initDiv1();
+      this.readMusicList()
     },
     mounted() {
     },
     computed: {
     },
     methods: {
-      initDiv1: function(){
-      },
-
-      changeLittle: function(index){
-        this.rightText = this.images1[index].text
+      // 读取 me 的配置文件
+      readMusicList: function(){
+        this.$axios.get('/coco/static/me/me.json')
+            .then((res)=>{
+              // console.log("外部json")
+              // console.log(res)
+              var rd = res.data
+              this.musicList = rd.musicList
+              this.carouselImages = rd.carouselImages
+            })
       },
 
     }

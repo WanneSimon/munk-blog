@@ -1,0 +1,24 @@
+{
+  "carouselImages":[
+    "/coco/static/images/ori2.png",
+    "/coco/static/images/me/1-1.png",
+    "/coco/static/images/ori2.png",
+    "/coco/static/images/me/1-2.png"
+  ],
+  "musicList": [
+    {
+      "title": "Flight Of The Silverbird",
+      "artist": "Two Steps From Hell、Thomas Bergersen",
+      "url": "/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3",
+      "pic": null,
+      "lrc": null
+    },{
+      "title": "Flight Of The Silverbird",
+      "artist": "Two Steps From Hell、Thomas Bergersen",
+      "url": "/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3",
+      "pic": null,
+      "lrc": null
+    }
+  ]
+
+}
