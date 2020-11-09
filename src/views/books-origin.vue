@@ -64,7 +64,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 
   .book-block{
     text-align: left;
