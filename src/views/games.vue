@@ -317,6 +317,7 @@
         console.log("关闭前")
         this.uploadGameId = null
         this.successList = []
+        this.$refs.uploadForm.clearFiles()
         done()
       },
       // 单个文件上传成功

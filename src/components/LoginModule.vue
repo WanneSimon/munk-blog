@@ -21,7 +21,7 @@
             <el-input v-model="loginView.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="loginView.password"></el-input>
+            <el-input v-model="loginView.password" type="password"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
