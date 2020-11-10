@@ -45,13 +45,13 @@
 
       </el-col>
 
-      <el-col class="blank_L" :lg="6" :md="4" :sm="0" style="max-width:360px;">
+      <el-col class="blank_L" :lg="6" :md="4" :sm="24">
         <el-calendar class="hidden-sm-and-down" v-model="currentTime"></el-calendar>
 
         <div class="blog-item-container" v-loading="loading.blogs">
           <div class="blog-item" v-for="item,key in blogs" :key="key">
             <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"></div>
-            <div style="text-align: right;">
+            <div style="text-align: right;"  v-if="$mbapi.hasPermission('blog_add', 'blog_update')">
               <!-- <a href="javascript:void(0);" @click="editBlog(item.id)"></a> -->
               <router-link :to="{name:'eb', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i></router-link>
               <el-popconfirm
@@ -168,8 +168,8 @@
           _this.currentBlog.createTime = res.data.createTime
           _this.currentBlog.updateTime = res.data.updateTime
           _this.currentBlog.tags = res.data.tags
-          _this.currentBlog.quotations = res.data.quotations
-          // 定位到博文位置
+          _this.currentBlog.quotations = res.data.quotations;
+          // 定位到博文位置 (上面没打引号，被识别成方法了)
           (_this.$el.querySelector('#blog_content')).scrollIntoView()
         }, (res) => {
           _this.loading.blog = false
