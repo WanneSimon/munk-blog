@@ -1,41 +1,8 @@
 <template>
   <div>
     <el-row class="blog">
-      <el-col class="blank_L" :span="8" style="max-width:360px;">
-        <el-calendar v-model="currentTime"></el-calendar>
-
-        <div class="blog-item-container" v-loading="loading.blogs">
-          <div class="blog-item" v-for="item,key in blogs" :key="key">
-            <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"></div>
-            <div style="text-align: right;">
-              <!-- <a href="javascript:void(0);" @click="editBlog(item.id)"></a> -->
-              <router-link :to="{name:'eb', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i></router-link>
-              <el-popconfirm
-                confirmButtonText='不要了'
-                cancelButtonText='我手贱了'
-                icon="el-icon-info"
-                iconColor="red"
-                title="删除这篇文章？"
-                @onConfirm="deleteBlog(item.id)"
-              >
-              <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
-              </el-popconfirm>
-            </div>
-          </div>
-          <!-- 分页插件 -->
-          <div class="blog-item-page">
-            <el-pagination
-              @size-change="handleSizeChange()" @current-change="handleCurrentChange" :current-page.sync="pageData.page"
-              :page-size="pageData.size" layout="prev, next, jumper" :page-count="pageData.totalPage">
-              <!-- 注意适配 -->
-              <!-- :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total"> -->
-            </el-pagination>
-          </div>
-        </div>
-
-      </el-col>
-
-      <el-col class="blog-content" :span="15">
+      <el-col class="blank_L" :lg="1" :md="1" :sm="0"></el-col>
+      <el-col class="blog-content" id="blog_content" :lg="16" :md="16" :sm="24">
         <!-- 具体文章 -->
         <div v-if="blogView" class="blog-container"
           v-loading="loading.blog"
@@ -77,6 +44,41 @@
         </div>
 
       </el-col>
+
+      <el-col class="blank_L" :lg="6" :md="4" :sm="0" style="max-width:360px;">
+        <el-calendar class="hidden-sm-and-down" v-model="currentTime"></el-calendar>
+
+        <div class="blog-item-container" v-loading="loading.blogs">
+          <div class="blog-item" v-for="item,key in blogs" :key="key">
+            <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"></div>
+            <div style="text-align: right;">
+              <!-- <a href="javascript:void(0);" @click="editBlog(item.id)"></a> -->
+              <router-link :to="{name:'eb', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i></router-link>
+              <el-popconfirm
+                confirmButtonText='不要了'
+                cancelButtonText='我手贱了'
+                icon="el-icon-info"
+                iconColor="red"
+                title="删除这篇文章？"
+                @onConfirm="deleteBlog(item.id)"
+              >
+              <a href="javascript:void(0);" slot="reference"><i class="el-icon-delete"></i></a>
+              </el-popconfirm>
+            </div>
+          </div>
+          <!-- 分页插件 -->
+          <div class="blog-item-page">
+            <el-pagination
+              @size-change="handleSizeChange()" @current-change="handleCurrentChange" :current-page.sync="pageData.page"
+              :page-size="pageData.size" layout="prev, next, jumper" :page-count="pageData.totalPage">
+              <!-- 注意适配 -->
+              <!-- :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total"> -->
+            </el-pagination>
+          </div>
+        </div>
+
+      </el-col>
+
 
       <!-- <el-col class="blank_R" :span="3"></el-col> -->
     </el-row>
@@ -167,6 +169,8 @@
           _this.currentBlog.updateTime = res.data.updateTime
           _this.currentBlog.tags = res.data.tags
           _this.currentBlog.quotations = res.data.quotations
+          // 定位到博文位置
+          (_this.$el.querySelector('#blog_content')).scrollIntoView()
         }, (res) => {
           _this.loading.blog = false
           mbapi.error(data.info)

@@ -74,8 +74,8 @@
       showCode: Boolean, // 是否展示代码
       showOutput: Boolean, // 是否展示预览
       background: String, // 背景颜色
-      width: { type: Number, default: 16}, // 宽度
-      offset: { type: Number, default: 4}, // 左偏移量
+      width: { type: Number, default: 24}, // 宽度
+      offset: { type: Number, default: 0}, // 左偏移量
 
       titleName: {type: String, default: "标题"}, // 标题展示的名字
       // right: { type: Number, default: 4}, // 宽度

@@ -9,23 +9,30 @@
       </el-carousel-item>
     </el-carousel>
 
-    <div class="me_content">
-      <div class="me_top"> 这个人很懒，什么都没写！ </div>
+    <el-row class="me_content">
+      <el-col class="blank_L" :lg="6" :md="4" :sm="0"></el-col>
 
-      <div class="me_center"> 去其他地方逛逛吧！ </div>
+      <el-col :lg="12" :md="16" :sm="24" style="height: 100%;">
+        <div class="me_top"> 这个人很懒，什么都没写！ </div>
 
-      <div class="me_bottom" >
-<!--        <Aplayer autoplay :music="{
-            title: 'Flight Of The Silverbird',
-            author: 'Two Steps From Hell、Thomas Bergersen',
-            src: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
-          }" :list="musicList" listFolded> -->
-          <!-- 必须要设置 music 属性，所以musicList必须要有一个元素 -->
-        <Aplayer autoplay :music="musicList[0]" :list="musicList"
-          listFolded>
-        </Aplayer>
-      </div>
-    </div>
+        <div class="me_center"> 去其他地方逛逛吧！ </div>
+
+        <div class="me_bottom" >
+  <!--        <Aplayer autoplay :music="{
+              title: 'Flight Of The Silverbird',
+              author: 'Two Steps From Hell、Thomas Bergersen',
+              src: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
+            }" :list="musicList" listFolded> -->
+            <!-- 必须要设置 music 属性，所以musicList必须要有一个元素 -->
+          <Aplayer autoplay :music="musicList[0]" :list="musicList"
+            listFolded>
+          </Aplayer>
+        </div>
+      </el-col>
+
+      <el-col class="blank_R" :lg="6" :md="4" :sm="0">A</el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -109,10 +116,10 @@
 
   .me_content{
     position: absolute;
-    width: 50%;
+    width: 99.3%;
     height: 90%;
     top: 10%;
-    left: 25%;
+    /* left: 25%; */
   }
   .me_top{
     /* position: absolute; */
@@ -133,8 +140,8 @@
 
   .me_bottom{
     width: 100%;
-    position: absolute;
-    bottom: 10%;
+    /* position: absolute; */
+    bottom: 0;
     background-color: rgba(1, 1, 1, 0.3);
   }
 </style>
