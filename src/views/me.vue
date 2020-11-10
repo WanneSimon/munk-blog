@@ -115,7 +115,7 @@
   }
 
   .me_content{
-    position: absolute;
+    position: absolute !important;
     width: 99.3%;
     height: 90%;
     top: 10%;

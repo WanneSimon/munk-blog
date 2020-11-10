@@ -61,7 +61,7 @@ export default {
   .blank_L, .blank_R {
     border-radius: 4px;
     min-height: 20px;
-    display: block;
+    display: block !important;
   }
 
   .float-block{
