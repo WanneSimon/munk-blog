@@ -80,7 +80,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .me_container{
     position: relative;
   }

@@ -2,9 +2,9 @@
   <div v-loading="appLoading">
     <el-row class="blog">
       <!-- <el-col class="blank_L" :span="2" style="max-width:360px;"></el-col> -->
-      <el-col class="blank_L" :span="2" ></el-col>
+      <el-col class="blank_L"  :lg="4" :md="4" :sm="0"  ></el-col>
 
-      <el-col :span="20">
+      <el-col :lg="16" :md="16" :sm="24">
           <!-- 上传组件 -->
           <!-- <UploadModule :viewVisible="uploadVisible" :afterClose="function() {uploadVisible=false}"></UploadModule> -->
 
@@ -16,7 +16,7 @@
 
           <el-row class="book-container"
               v-infinite-scroll="nextPage" infinite-scroll-immediate='true'>
-            <el-col class="book-block" :span="4"
+            <el-col class="book-block" :lg="6" :md="8" :sm="24"
               v-for="book,key in books" :key="key">
                     <!-- <el-button slot="reference">hover 激活</el-button> -->
                 <div class="book-block-item-wrapper float-block">
@@ -55,7 +55,7 @@
 
                   <p class="book-desc" @click="setDialog(book, true)" v-html="book.description"></p>
                   <el-dialog class="output ql-snow " :title="book.title" :visible.sync="dialogs[book.id]"
-                    width="50%" >
+                    width="75%" >
                       <div>  &nbsp;<span class="ql-editor" v-html="book.description"></span>
                       </div>
                   </el-dialog>

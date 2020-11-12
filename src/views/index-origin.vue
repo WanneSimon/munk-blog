@@ -52,7 +52,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .head{
   height: 60px;
 }

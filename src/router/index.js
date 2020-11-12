@@ -37,6 +37,13 @@ export default new Router({
       // component: HelloWorld
     },
     {
+      path: '/index',
+      name: 'index',
+      components: {
+        default: _import('me.vue')
+      }
+    },
+    {
       path: '/tree',
       name: 'tree',
       components: {
@@ -48,13 +55,6 @@ export default new Router({
       name: 'me',
       components: {
         default: _import('me.vue')
-      }
-    },
-    {
-      path: '/index',
-      name: 'index',
-      components: {
-        default: _import('index.vue')
       }
     },
     {
@@ -108,7 +108,7 @@ export default new Router({
     },
     {
       path: '/eb',
-      name: 'eb',
+      name: 'eb_new',
       components: {
         default: _import('blogEditor.vue')
       }
@@ -140,7 +140,7 @@ export default new Router({
       path: "/404",
       name: "notFound",
       component: _import('me.vue')
-    }, 
+    },
     {
       path: "*", // 此处需特别注意置于最底部
       redirect: "/404",

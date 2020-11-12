@@ -53,7 +53,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: #fbf5f5cc;
-  min-width: 980px;
+  /* min-width: 980px; */
   min-height: 1px;
   /* margin-top: 60px; */
 }
@@ -61,6 +61,7 @@ export default {
   .blank_L, .blank_R {
     border-radius: 4px;
     min-height: 20px;
+    display: block !important;
   }
 
   .float-block{
