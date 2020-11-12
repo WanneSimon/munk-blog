@@ -55,7 +55,7 @@
     <!-- 给编辑器预留 -->
     <el-col :span="15" class="" >
          <quill-editor class="editor shadow_item" ref="myTextEditor"
-            :value="blogVo.content"  :options="editorOption"
+            v-model="blogVo.content"  :options="editorOption"
              @change="onEditorChange()"
              @blur="onEditorBlur($event)"
              @focus="onEditorFocus($event)"
@@ -142,7 +142,7 @@
         blogVo: {
           id: null,
           title: null,
-          content: null,
+          content: '',
           groupType: null,
 
           tags: [ ], // {tagName }
@@ -365,7 +365,7 @@
 
         const blogVo = this.voToPo(this.blogVo)
         const _this = this
-        mbapi.addBlog(blogVo, function(){
+        mbapi.addBlog(blogVo, function(res){
           _this.blogVo = _this.voToPo(res.data)
         })
       },
