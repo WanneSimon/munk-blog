@@ -364,6 +364,7 @@
         }
 
         const blogVo = this.voToPo(this.blogVo)
+        blogVo.editor = this.$base.editorType.QUILL3_Plus
         const _this = this
         mbapi.addBlog(blogVo, function(res){
           _this.blogVo = _this.voToPo(res.data)
