@@ -108,7 +108,7 @@ export default new Router({
     },
     {
       path: '/eb',
-      name: 'eb',
+      name: 'eb_new',
       components: {
         default: _import('blogEditor.vue')
       }

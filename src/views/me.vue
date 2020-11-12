@@ -1,7 +1,7 @@
 <template>
-  <div class="me_container">
+  <div class="me_container" v-loading="loading">
 
-    <el-carousel class="bg-images" :interval="5000" indicator-position="none" arrow="hover">
+    <el-carousel class="bg-images" v-if="!loading" :interval="5000" indicator-position="none" arrow="hover">
       <el-carousel-item v-for="item,key in carouselImages" :key="key">
         <!-- <h3>{{ item }}</h3> -->
         <el-image class="image-item" :fit='fit' :src="item" >
@@ -9,23 +9,30 @@
       </el-carousel-item>
     </el-carousel>
 
-    <div class="me_content">
-      <div class="me_top"> 这个人很懒，什么都没写！ </div>
+    <el-row class="me_content">
+      <el-col class="blank_L" :lg="6" :md="4" :sm="0"></el-col>
 
-      <div class="me_center"> 去其他地方逛逛吧！ </div>
+      <el-col :lg="12" :md="16" :sm="24" style="height: 100%;">
+        <div class="me_top"> 这个人很懒，什么都没写！ </div>
 
-      <div class="me_bottom" >
-<!--        <Aplayer autoplay :music="{
-            title: 'Flight Of The Silverbird',
-            author: 'Two Steps From Hell、Thomas Bergersen',
-            src: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
-          }" :list="musicList" listFolded> -->
-          <!-- 必须要设置 music 属性，所以musicList必须要有一个元素 -->
-        <Aplayer autoplay :music="musicList[0]" :list="musicList"
-          listFolded>
-        </Aplayer>
-      </div>
-    </div>
+        <div class="me_center"> 去其他地方逛逛吧！ </div>
+
+        <div class="me_bottom" >
+  <!--        <Aplayer autoplay :music="{
+              title: 'Flight Of The Silverbird',
+              author: 'Two Steps From Hell、Thomas Bergersen',
+              src: '/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3',
+            }" :list="musicList" listFolded> -->
+            <!-- 必须要设置 music 属性，所以musicList必须要有一个元素 -->
+          <Aplayer autoplay :music="musicList[0]" :list="musicList"
+            listFolded>
+          </Aplayer>
+        </div>
+      </el-col>
+
+      <el-col class="blank_R" :lg="6" :md="4" :sm="0">A</el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -42,6 +49,7 @@
     },
     data() {
       return {
+        loading: true,
         musicList: [{
           "title": "Flight Of The Silverbird",
           "artist": "Two Steps From Hell、Thomas Bergersen",
@@ -65,6 +73,7 @@
     methods: {
       // 读取 me 的配置文件
       readMusicList: function(){
+        this.loading = true
         this.$axios.get('/coco/static/me/me.json')
             .then((res)=>{
               // console.log("外部json")
@@ -72,6 +81,10 @@
               var rd = res.data
               this.musicList = rd.musicList
               this.carouselImages = rd.carouselImages
+              this.loading = false
+            }).catch((res)=>{
+              console.log(res)
+              this.loading = false
             })
       },
 
@@ -81,7 +94,6 @@
 
 <style>
 
-
   .me_container{
     height: 100%;
     width: 100%;
@@ -90,7 +102,7 @@
   .bg-images{
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: fixed !important;
     z-index: -1;
   }
   .el-carousel__container{
@@ -103,11 +115,11 @@
   }
 
   .me_content{
-    position: absolute;
-    width: 50%;
+    position: absolute !important;
+    width: 99.3%;
     height: 90%;
     top: 10%;
-    left: 25%;
+    /* left: 25%; */
   }
   .me_top{
     /* position: absolute; */
@@ -128,8 +140,8 @@
 
   .me_bottom{
     width: 100%;
-    position: absolute;
-    bottom: 10%;
+    /* position: absolute; */
+    bottom: 0;
     background-color: rgba(1, 1, 1, 0.3);
   }
 </style>

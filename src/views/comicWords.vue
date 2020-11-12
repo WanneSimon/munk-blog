@@ -2,9 +2,9 @@
   <div v-loading="appLoading">
     <!-- 语录 -->
     <el-row class="comics">
-      <el-col class="blank_L" :span="3"></el-col>
+      <el-col class="blank_L" :lg="6" :md="4" :sm="0"></el-col>
 
-      <el-col class="center_content" :span="18">
+      <el-col class="center_content" :lg="12" :md="16" :sm="24" >
         <title-tag-editor id="cw_editor" class="simEditor" v-if="$mbapi.hasPermission('CW_add', 'CW_update')"
           @onAdd="addCW" @onUpdate="updateCW"
           :showCode="false" :showOutput="false" :titleName="'作者'" :data="editorVo"
@@ -43,7 +43,7 @@
         </el-row>
       </el-col>
 
-      <el-col class="blank_R" :span="3"></el-col>
+      <el-col class="blank_R" :lg="6" :md="4" :sm="0"></el-col>
     </el-row>
 
   </div>

@@ -1,9 +1,9 @@
 <template>
   <div v-loading="appLoading">
     <el-row class="games">
-      <el-col class="blank_L" :span="2" style="max-width:360px;"></el-col>
+      <el-col class="blank_L" :lg="4" :md="4" :sm="0" ></el-col>
 
-      <el-col :span="20">
+      <el-col :lg="16" :md="16" :sm="24">
           <title-tag-editor class="simEditor" id="game_editor"
             @onAdd="addGame" @onUpdate="updateGame" v-if="$mbapi.hasPermission('game_add', 'game_update')"
             :showCode="false" :showOutput="false" :titleName="'名称'" :data="editorVo"
@@ -12,13 +12,13 @@
 
           <el-row class="game-container"
               v-infinite-scroll="nextPage" infinite-scroll-immediate='true'>
-            <el-col class="game-block" :span="4"
+            <el-col class="game-block" :lg="6" :md="8" :sm="24"
               v-for="g,key in games" :key="key">
                 <!-- <el-button slot="reference">hover 激活</el-button> -->
                 <div class="game-block-item-wrapper float-block">
 
                   <el-row>
-                    <el-col :span="10">
+                    <el-col :span="10" >
                       <el-image class="game-image" :src="g.url" :fit='fit'>
                         <div slot="placeholder" class="image-slot">
                           加载中<span class="dot">...</span>
@@ -50,8 +50,8 @@
 
 
                   <p class="game-desc" @click="setDialog(g, true)" v-html="g.description"></p>
-                  <el-dialog  class="output ql-snow " :title="g.title" :visible.sync="dialogs[g.id]"
-                    width="50%" >
+                  <el-dialog   class="output ql-snow " :title="g.title" :visible.sync="dialogs[g.id]"
+                    width="75%"  >
                     <div>  &nbsp;<span class="ql-editor" v-html="g.description"></span>
                     </div>
                   </el-dialog>
@@ -427,7 +427,7 @@
     margin: auto;
     padding: 8px 8px 10px 8px;
     height: 200px;
-    min-width: 260px;
+    /* min-width: 260px; */
     /* max-width: 310px; */
   }
 

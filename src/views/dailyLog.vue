@@ -2,9 +2,9 @@
     <div v-loading="appLoading">
       <!-- 语录 -->
       <el-row class="dlog">
-        <el-col class="blank_L" :span="3"></el-col>
+        <el-col class="blank_L" :lg="6" :md="4" :sm="0"></el-col>
 
-        <el-col class="dlog-content" :span="18">
+        <el-col class="dlog-content" :lg="12" :md="16" :sm="24">
           <SimEditor id="dl_editor" class="simEditor" v-if="$mbapi.hasPermission('dailyLog_add', 'dailyLog_update')"
            @onAdd="addDL" @onUpdate="updateDL" :data="editorVo"
           :showCode="false" :showOutput="false" style="min-height:40px;"
@@ -14,8 +14,8 @@
             <div class="log-item" v-for="item,key in dailyLogs.datas" :key="key">
               <div class="log-item-head">
                 <el-row>
-                  <el-col :span="6">{{item.updateTime}}</el-col>
-                  <el-col :span="2" :offset="16">
+                  <el-col :span="16">{{item.updateTime}}</el-col>
+                  <el-col :span="6" style="text-align: right;">
                     <label v-if="$mbapi.hasPermission('dailyLog_add', 'dailyLog_update')">
                       <a href="javascript:void(0);" @click="editDL(item.id)"><i class="el-icon-edit"></i></a>
                       <el-popconfirm
@@ -40,7 +40,7 @@
           </div>
         </el-col>
 
-        <el-col class="blank_R" :span="3"></el-col>
+        <el-col class="blank_R" :lg="6" :md="4" :sm="0"></el-col>
       </el-row>
     </div>
 </template>
