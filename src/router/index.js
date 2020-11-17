@@ -120,6 +120,13 @@ export default new Router({
         default: _import('music.vue')
       }
     },
+    {
+      path: '/bookmark',
+      name: 'bookmark',
+      components: {
+        default: _import('bookmark.vue')
+      }
+    },
     // 测试时使用
     // {
     //   path: '/login',
