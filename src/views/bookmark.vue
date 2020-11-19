@@ -10,7 +10,8 @@
             </el-input>
             <i class="el-icon-search clickable"></i>&emsp;
             <!-- <i class="el-icon-circle-plus-outline clickable"></i>&emsp; -->
-            <i class="el-icon-folder-add"></i>
+            <i class="el-icon-document-add"
+                @click="openBookmarkDialog()" ></i>
           </el-col>
         </el-row>
 
@@ -23,8 +24,21 @@
                   @mouseover="onFolderHover(f,true)" @mouseout="onFolderHover(f,false)">
                 <div class="folder_name">{{f.name}}</div>
                 <div class="folder_op" v-show="testVisible(f, 'folderVisible')">
-                  <i class="el-icon-circle-plus-outline clickable" style="color:#409eff"></i>
-                  <i class="el-icon-remove-outline clickable" style="color:#f56c6c"></i>
+                  <i class="el-icon-circle-plus-outline clickable"
+                        @click="openFolderDialog()" style="color:#409eff;font-size: 1.1rem;"></i>
+                  <el-popconfirm
+                    confirmButtonText='不要了'
+                    cancelButtonText='再考虑考虑'
+                    icon="el-icon-info"
+                    iconColor="red"
+                    title="删除这篇文章？"
+                    @onConfirm="deleteFolder(item.id)"
+                  >
+                  <i class="el-icon-delete" slot="reference"
+                    clickable style="color:#f56c6c;font-size: 1.1rem;" ></i>
+                  </el-popconfirm>
+<!--                  <i class="el-icon-remove-outline clickable"
+                        style="color:#f56c6c"></i> -->
                 </div>
               </div>
           </el-col>
@@ -36,13 +50,47 @@
                   @mouseover="onBmHover(bm,true)" @mouseout="onBmHover(bm,false)">
                  <div class="bm_name"><a :href="bm.link" :target="'_blank'">{{bm.name}}</a></div>
                  <div class="bm_op" v-show="testVisible(bm,'bmVisible')">
-                   <i class="el-icon-info clickable" style="color:#409eff"></i>
-                   <!-- <i class="el-icon-remove-outline clickable" style="color:#f56c6c"></i> -->
+                   <i class="el-icon-info clickable"
+                      @click="openBookmarkDialog({})" style="color:#409eff"></i>
+                   <i class="el-icon-rank clickable" style="color:#f56c6c"></i>
                  </div>
                </div>
             </el-col>
 
         </el-row>
+
+        <el-dialog title=""
+          :visible.sync="view.dialogVisible"
+          width="60%" center top="3rem">
+
+          <!-- 文件夹添加弹窗 -->
+          <div class="bookmark_dialog" v-if="view.bmVisiable">
+            <el-form :model="bookmarkVo">
+              <el-form-item label="文件夹" >
+                <el-input v-model="bookmarkVo.folderName" :disabled="view.folderNameDisabled"></el-input>
+              </el-form-item>
+              <el-form-item label="书签名" :rules="rules.addBookmark.name" prop="name">
+                <el-input v-model="bookmarkVo.name"></el-input>
+              </el-form-item>
+              <el-form-item label="Link" :rules="rules.addBookmark.link" prop="link">
+                <el-input v-model="bookmarkVo.link"></el-input>
+              </el-form-item>
+              <el-form-item label="描述">
+                <el-input v-model="bookmarkVo.description" ></el-input>
+              </el-form-item>
+              <el-form-item label="备注">
+                <el-input v-model="bookmarkVo.remark"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="view.dialogVisible=false;view.bmVisiable=false;">取 消</el-button>
+              <el-button type="primary" @click="view.dialogVisible = false">确 定</el-button>
+            </div>
+          </div>
+
+        </el-dialog>
+
+
       </el-col>
 
       <el-col :span="1" class="blank_L"></el-col>
@@ -61,9 +109,30 @@
         bookmarks: [],
 
         view: {
-          bmVisiable: false, // 书签的编辑按钮是否可见
-          folderVisiable: false, // 书签文件夹的操作按钮
+          dialogVisible: false, // 弹框的可见性
+          folderVisiable: false, // 弹窗添加文件夹的操作按钮
+          bmVisiable: false, // 弹框添加书签的可见性
+
+          folderNameDisabled: false,
+        },
+
+        // 新增书签的 vo
+        bookmarkVo: {
+          folderId: '',
+          folderName: '',
+          name: '',
+          link: '',
+          description: '',
+          remark: ''
+        },
+
+        rules: {
+          addBookmark: {
+            name: [{ required: true, message: '请输入标签名', trigger: 'blur' }],
+            link: [{ required: true, message: '请输入链接', trigger: 'blur' }],
+          }
         }
+
       }
     },
     created: function(){
@@ -90,14 +159,44 @@
       onBmHover: function (bm,isHover) {
         this.$set(bm, 'bmVisible', isHover)
         // bm.bmVisiable = isHover
-        console.log(bm)
       },
       onFolderHover: function (f,isHover) {
         this.$set(f, 'folderVisible', isHover)
         // f.folderVisiable = isHover
-        console.log(f)
       },
+      // 清除书签vo
+      clearBookmarkVo: function(){
+        this.bookmarkVo.folderId = null,
+        this.bookmarkVo.folderName = '',
+        this.bookmarkVo.name = '',
+        this.bookmarkVo.link = '',
+        this.bookmarkVo.description = '',
+        this.bookmarkVo.remark = ''
+      },
+      // 打开添加文件夹视图
+      openFolderDialog: function(){
+        this.view.bmVisiable = true
+        this.view.folderVisiable = false
+        this.view.dialogVisible = true
+
+        this.clearBookmarkVo()
+      },
+      // 打开书签视图 (传入书签参数)
+      openBookmarkDialog: function(bm){
+        this.view.folderVisiable = false
+        this.view.bmVisiable = true
+        this.view.dialogVisible = true
+
+        this.view.folderNameDisabled = bm ? true:false
+
+        this.clearBookmarkVo()
+      },
+
       // 功能
+      // 删除一个文件夹
+      deleteFolder: function(folderId){
+
+      },
 
     }
 
@@ -105,6 +204,9 @@
 </script>
 
 <style scoped>
+  i{
+    font-size: 1.5rem;
+  }
   .bookmark{
     background-color: #eae8ea !important;
     min-width: 620px;
@@ -119,6 +221,7 @@
 
   .bm_left, .bm_right{
     margin-top: 1px;
+    padding-top: 0.2rem;
     min-height: 46rem;
     background-color: #fefefe;
     box-shadow: 0 2px 4px rgba(0,0,0,.2);
@@ -134,13 +237,15 @@
 
 
   .box-card_folder {
-    padding: 0px 4px !important;
-    margin: 1rem;
+    padding: 0.2rem !important;
+    margin: 0.3rem 1rem;
     height: 1.4rem;
     font-size: 1rem;
     text-align: left;
     line-height: 1.4rem;
-    background-color: #f9f9f9ed;
+    border-radius: 6px;
+/*    background-color: #f9f9f9ed; */
+    background-color: #ebecef;
 
     display: -webkit-flex; /* Safari */
     display: flex;
@@ -151,6 +256,10 @@
     flex: 11;
     color: #4eb143;
     z-index: 0;
+
+    padding: 2px 8px;
+    /* background-color: #ebecef; */
+
     overflow: hidden;  /*溢出内容隐藏*/
     white-space: nowrap;  /* 强制文本在一行内显示*/
     text-overflow: ellipsis; /*当对象内文本溢出时显示省略标记*/
@@ -168,7 +277,7 @@
     height: 2.2rem;
     line-height: 2.2rem;
 
-    background-color: #fff;
+/*    background-color: #fff; */
     border-radius: 6px;
     box-shadow: 0 2px 18px rgba(0,0,0,.2);
 
