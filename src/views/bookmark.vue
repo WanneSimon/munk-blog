@@ -8,7 +8,8 @@
           <el-col :span="20" style="text-align: right;">
             <el-input placeholder="请输入内容" style="width: 160px;" v-model="searchInput" clearable>
             </el-input>
-            <i class="el-icon-search clickable"></i>&emsp;
+            <i class="el-icon-search clickable"
+                @click="search()"></i>&emsp;
             <!-- <i class="el-icon-circle-plus-outline clickable"></i>&emsp; -->
             <i class="el-icon-document-add"
                 @click="openBookmarkDialog()" ></i>
@@ -23,15 +24,17 @@
                 v-for="f,key in folders" :key="key"
                   @mouseover="onFolderHover(f,true)" @mouseout="onFolderHover(f,false)">
                 <div class="folder_name">{{f.name}}</div>
-                <div class="folder_op" v-show="testVisible(f, 'folderVisible')">
+                <div class="folder_op" v-show="testVisible(f, '__folderVisible')">
                   <i class="el-icon-circle-plus-outline clickable"
-                        @click="openFolderDialog()" style="color:#409eff;font-size: 1.1rem;"></i>
+                        @click="openBookmarkDialog({})" style="color:#409eff;font-size: 1.1rem;"></i>
+                  <i class="el-icon-edit clickable"
+                        @click="openFolderRenameDialog({})" style="color:#409eff;font-size: 1.1rem;"></i>
                   <el-popconfirm
                     confirmButtonText='不要了'
                     cancelButtonText='再考虑考虑'
                     icon="el-icon-info"
                     iconColor="red"
-                    title="删除这篇文章？"
+                    title="删除此文件夹？(书签会移动到默认目录下)"
                     @onConfirm="deleteFolder(item.id)"
                   >
                   <i class="el-icon-delete" slot="reference"
@@ -49,10 +52,11 @@
                  v-for="bm,key in bookmarks" :key="key"
                   @mouseover="onBmHover(bm,true)" @mouseout="onBmHover(bm,false)">
                  <div class="bm_name"><a :href="bm.link" :target="'_blank'">{{bm.name}}</a></div>
-                 <div class="bm_op" v-show="testVisible(bm,'bmVisible')">
+                 <div class="bm_op" v-show="testVisible(bm,'__bmVisible')">
                    <i class="el-icon-info clickable"
                       @click="openBookmarkDialog({})" style="color:#409eff"></i>
-                   <i class="el-icon-rank clickable" style="color:#f56c6c"></i>
+                   <i class="el-icon-rank clickable"
+                      @click="openMoveBookmarkDialog()" style="color:#f56c6c"></i>
                  </div>
                </div>
             </el-col>
@@ -63,14 +67,14 @@
           :visible.sync="view.dialogVisible"
           width="60%" center top="3rem">
 
-          <!-- 文件夹添加弹窗 -->
-          <div class="bookmark_dialog" v-if="view.bmVisiable">
-            <el-form :model="bookmarkVo">
-              <el-form-item label="文件夹" >
+          <!-- 书签添加弹窗 -->
+          <div class="bookmark_dialog" v-if="view.bmVisible">
+            <el-form :model="bookmarkVo" >
+              <el-form-item label="文件夹" :rules="rules.addBookmark.folderName" prop="folderName">
                 <el-input v-model="bookmarkVo.folderName" :disabled="view.folderNameDisabled"></el-input>
               </el-form-item>
               <el-form-item label="书签名" :rules="rules.addBookmark.name" prop="name">
-                <el-input v-model="bookmarkVo.name"></el-input>
+                <el-input v-model="bookmarkVo.name" ></el-input>
               </el-form-item>
               <el-form-item label="Link" :rules="rules.addBookmark.link" prop="link">
                 <el-input v-model="bookmarkVo.link"></el-input>
@@ -83,8 +87,46 @@
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="view.dialogVisible=false;view.bmVisiable=false;">取 消</el-button>
-              <el-button type="primary" @click="view.dialogVisible = false">确 定</el-button>
+              <el-button @click="view.dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="addBookmark()">确 定</el-button>
+            </div>
+          </div>
+
+          <!-- 书签更新弹窗 -->
+          <div class="bookmark_dialog" v-if="view.bmMoveVisible" >
+            <el-form :model="bookmarkVo" >
+              <el-form-item label="文件夹" :rules="rules.addBookmark.folderName" prop="folderName">
+                <el-input v-model="bookmarkVo.folderName" ></el-input>
+              </el-form-item>
+              <el-form-item label="书签名" >
+                <el-input v-model="bookmarkVo.name" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="Link" >
+                <el-input v-model="bookmarkVo.link" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="描述">
+                <el-input v-model="bookmarkVo.description" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="备注">
+                <el-input v-model="bookmarkVo.remark" disabled></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="view.dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="changeFolder()">确 定</el-button>
+            </div>
+          </div>
+
+          <!-- 文件夹改名弹窗 -->
+          <div class="bookmark_dialog" v-if="view.folderRenameVisible" >
+            <el-form :model="bookmarkVo" >
+              <el-form-item label="移动到其它文件夹或更改名字" :rules="rules.addBookmark.folderName" prop="folderName">
+                <el-input v-model="bookmarkVo.folderName" ></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="view.dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="changeFolder()">确 定</el-button>
             </div>
           </div>
 
@@ -99,6 +141,8 @@
 </template>
 
 <script>
+  import mbapi from '../cfg/mbapi.js'
+
   export default {
     name: "bookmark",
     // components: { SimEditor },
@@ -110,15 +154,17 @@
 
         view: {
           dialogVisible: false, // 弹框的可见性
-          folderVisiable: false, // 弹窗添加文件夹的操作按钮
-          bmVisiable: false, // 弹框添加书签的可见性
+          bmVisible: false, // 弹窗中书签表单的可见性
+          bmMoveVisible: false, // 移动书签的弹窗
+          folderRenameVisible: false, //重命名文件夹的视图
 
-          folderNameDisabled: false,
+          folderNameDisabled: false, // 书签表单中文件夹的名字是否可编辑
         },
 
         // 新增书签的 vo
         bookmarkVo: {
-          folderId: '',
+          id: null,
+          folderId: null,
           folderName: '',
           name: '',
           link: '',
@@ -128,6 +174,7 @@
 
         rules: {
           addBookmark: {
+            folderName: [{ required: true, message: '请输入文件夹', trigger: 'blur' }],
             name: [{ required: true, message: '请输入标签名', trigger: 'blur' }],
             link: [{ required: true, message: '请输入链接', trigger: 'blur' }],
           }
@@ -157,12 +204,16 @@
         return true
       },
       onBmHover: function (bm,isHover) {
-        this.$set(bm, 'bmVisible', isHover)
-        // bm.bmVisiable = isHover
+        this.$set(bm, '__bmVisible', isHover)
+        // bm.bmVisible = isHover
       },
       onFolderHover: function (f,isHover) {
-        this.$set(f, 'folderVisible', isHover)
-        // f.folderVisiable = isHover
+        this.$set(f, '__folderVisible', isHover)
+        // f.folderVisible = isHover
+      },
+      clearFormValidate: function(){
+        // this.$refs.bookmarkVo.clearValidate()
+        // this.$refs.bookmarkVo.clearValidate()
       },
       // 清除书签vo
       clearBookmarkVo: function(){
@@ -173,31 +224,105 @@
         this.bookmarkVo.description = '',
         this.bookmarkVo.remark = ''
       },
-      // 打开添加文件夹视图
-      openFolderDialog: function(){
-        this.view.bmVisiable = true
-        this.view.folderVisiable = false
-        this.view.dialogVisible = true
-
-        this.clearBookmarkVo()
-      },
       // 打开书签视图 (传入书签参数)
       openBookmarkDialog: function(bm){
-        this.view.folderVisiable = false
-        this.view.bmVisiable = true
+        this.clearBookmarkVo()
+        this.clearFormValidate()
+
+        this.view.folderVisible = false
+        this.view.bmMoveVisible = false
+        this.view.folderRenameVisible = false
+        this.view.bmVisible = true
         this.view.dialogVisible = true
 
         this.view.folderNameDisabled = bm ? true:false
 
+
+      },
+      // 移动书签视图
+      openMoveBookmarkDialog: function(){
         this.clearBookmarkVo()
+        this.clearFormValidate()
+
+        this.view.folderVisible = false
+        this.view.bmVisible = false
+        this.view.folderRenameVisible = false
+        this.view.bmMoveVisible = true
+        this.view.dialogVisible = true
+
+      },
+      // 文件夹重命名视图
+      openFolderRenameDialog: function(){
+        this.clearBookmarkVo()
+        this.clearFormValidate()
+
+        this.view.folderVisible = false
+        this.view.bmVisible = false
+        this.view.bmMoveVisible = false
+        this.view.folderRenameVisible = true
+        this.view.dialogVisible = true
+
       },
 
       // 功能
+      // 搜索功能（批量查询）
+      search: function(){
+
+      },
       // 删除一个文件夹
       deleteFolder: function(folderId){
 
       },
+      // 添加书签
+      addBookmark: function() {
+        // this.view.dialogVisible=false;
+        // this.view.bmVisible=false;
 
+        const vo = {
+          folderId: null,
+          folderName: this.bookmarkVo.folderName,
+          name: this.bookmarkVo.name,
+          link: this.bookmarkVo.link,
+          description: this.bookmarkVo.description,
+          remark: this.bookmarkVo.remark
+        }
+
+        // mbapi.addBookmark(vo, (res) => {})
+        mbapi.addBookmark(vo)
+      },
+      // 修改单个书签所属的文件夹
+      changeBookmarkFolder: function(){
+        if(this.bookmarkVo.folderId){
+          mbapi.error("没有选中文件夹，请检查")
+          return;
+        }
+
+        if(this.bookmarkVo.folderId){
+          mbapi.error("没有选中文件夹，请检查")
+          return;
+        }
+
+        const voArr = [{
+          folderId: this.bookmarkVo.folderId,
+          folder: this.bookmarkVo.folderName
+        }]
+        mbapi.updateFolder(voArr)
+      },
+
+      // 更新单个书签详细信息
+      updateBookmark: function(){
+
+      },
+
+      // 获取单个书签详细信息
+      getBookmark: function(){
+
+      },
+      
+      // 获取所有文件夹
+      getAllFolders: function(){
+      
+      },
     }
 
   }
@@ -253,7 +378,7 @@
   }
 
   .folder_name{
-    flex: 11;
+    flex: 12;
     color: #4eb143;
     z-index: 0;
 
@@ -265,10 +390,10 @@
     text-overflow: ellipsis; /*当对象内文本溢出时显示省略标记*/
   }
   .folder_op{
-    flex: 3;
+    flex: 4;
     text-align: right;
     z-index: 1;
-    min-width: 50px;
+    min-width: 2.2rem;
   }
 
   .box-card_content {

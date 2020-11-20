@@ -229,6 +229,24 @@ const mbapi = {
   updateFile: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.file_update, data, callback, errorCallBack)
   },
+
+  // 书签
+  addBookmark: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_add, data, callback, errorCallBack)
+  },
+  searchBookmarks: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_search, data, callback, errorCallBack)
+  },
+  getBookmark: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_get, data, callback, errorCallBack)
+  },
+  updateBookmark: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_update, data, callback, errorCallBack)
+  },
+  updateFolder: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_updateFolder, data, callback, errorCallBack)
+  },
+
 }
 
 export default mbapi
