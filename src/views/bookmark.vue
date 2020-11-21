@@ -21,7 +21,7 @@
           <el-col :span="6"
             class="bm_left">
               <div class="box-card_folder" shadow="hover"
-                v-for="f,key in folders" :key="key"
+                v-for="f,key in folderVos" :key="key"
                   @mouseover="onFolderHover(f,true)" @mouseout="onFolderHover(f,false)">
                 <div class="folder_name">{{f.name}}</div>
                 <div class="folder_op" v-show="testVisible(f, '__folderVisible')">
@@ -35,7 +35,7 @@
                     icon="el-icon-info"
                     iconColor="red"
                     title="删除此文件夹？(书签会移动到默认目录下)"
-                    @onConfirm="deleteFolder(item.id)"
+                    @onConfirm="deleteFolder(f.id)"
                   >
                   <i class="el-icon-delete" slot="reference"
                     clickable style="color:#f56c6c;font-size: 1.1rem;" ></i>
@@ -70,8 +70,8 @@
           <!-- 书签添加弹窗 -->
           <div class="bookmark_dialog" v-if="view.bmVisible">
             <el-form :model="bookmarkVo" >
-              <el-form-item label="文件夹" :rules="rules.addBookmark.folderName" prop="folderName">
-                <el-input v-model="bookmarkVo.folderName" :disabled="view.folderNameDisabled"></el-input>
+              <el-form-item label="文件夹" :rules="rules.addBookmark.folder" prop="folder">
+                <el-input v-model="bookmarkVo.folder" :disabled="view.folderDisabled"></el-input>
               </el-form-item>
               <el-form-item label="书签名" :rules="rules.addBookmark.name" prop="name">
                 <el-input v-model="bookmarkVo.name" ></el-input>
@@ -88,15 +88,15 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="view.dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="addBookmark()">确 定</el-button>
+              <el-button type="primary" @click="addBookmark()">添 加</el-button>
             </div>
           </div>
 
           <!-- 书签更新弹窗 -->
           <div class="bookmark_dialog" v-if="view.bmMoveVisible" >
             <el-form :model="bookmarkVo" >
-              <el-form-item label="文件夹" :rules="rules.addBookmark.folderName" prop="folderName">
-                <el-input v-model="bookmarkVo.folderName" ></el-input>
+              <el-form-item label="文件夹" :rules="rules.addBookmark.folder" prop="folder">
+                <el-input v-model="bookmarkVo.folder" ></el-input>
               </el-form-item>
               <el-form-item label="书签名" >
                 <el-input v-model="bookmarkVo.name" disabled></el-input>
@@ -113,20 +113,20 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="view.dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="changeFolder()">确 定</el-button>
+              <el-button type="primary" @click="changeFolder()">更 新</el-button>
             </div>
           </div>
 
           <!-- 文件夹改名弹窗 -->
           <div class="bookmark_dialog" v-if="view.folderRenameVisible" >
             <el-form :model="bookmarkVo" >
-              <el-form-item label="移动到其它文件夹或更改名字" :rules="rules.addBookmark.folderName" prop="folderName">
-                <el-input v-model="bookmarkVo.folderName" ></el-input>
+              <el-form-item label="移动到其它文件夹或更改名字" :rules="rules.addBookmark.folder" prop="folder">
+                <el-input v-model="bookmarkVo.folder" ></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="view.dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="changeFolder()">确 定</el-button>
+              <el-button type="primary" @click="changeFolder()">修 改</el-button>
             </div>
           </div>
 
@@ -149,8 +149,21 @@
     data() {
       return {
         searchInput: '',
-        folders: [],
+        folders: [], // 里面是字符串 ['默认'], 两个对象必须一起更新
+        folderVos: [], // 这个里面是对象 [{ name: '默认' }]
         bookmarks: [],
+
+
+        folderParams: {
+          page: 0,
+          size: 20,
+          totalPage: 0,
+        },
+        bmParams: {
+          page: 0,
+          size: 20,
+          totalPage: 0,
+        },
 
         view: {
           dialogVisible: false, // 弹框的可见性
@@ -158,14 +171,14 @@
           bmMoveVisible: false, // 移动书签的弹窗
           folderRenameVisible: false, //重命名文件夹的视图
 
-          folderNameDisabled: false, // 书签表单中文件夹的名字是否可编辑
+          folderDisabled: false, // 书签表单中文件夹的名字是否可编辑
         },
 
         // 新增书签的 vo
         bookmarkVo: {
           id: null,
           folderId: null,
-          folderName: '',
+          folder: '',
           name: '',
           link: '',
           description: '',
@@ -174,7 +187,7 @@
 
         rules: {
           addBookmark: {
-            folderName: [{ required: true, message: '请输入文件夹', trigger: 'blur' }],
+            folder: [{ required: true, message: '请输入文件夹', trigger: 'blur' }],
             name: [{ required: true, message: '请输入标签名', trigger: 'blur' }],
             link: [{ required: true, message: '请输入链接', trigger: 'blur' }],
           }
@@ -183,7 +196,7 @@
       }
     },
     created: function(){
-      this.folders = [ {name:"学习学习学习学习学习学习学习学习学习学习学习学习学习学习"}, {name:"注释"}, {name:"网络"}, {name:"轻语"}]
+      // this.folderVos = [ {name:"学习学习学习学习学习学习学习学习学习学习学习学习学习学习"}, {name:"注释"}, {name:"网络"}, {name:"轻语"}]
       this.bookmarks = [
         {name: 'Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识', link:"https://dnzs.ykit.cn/nr-4-3034-0.html"},
         {name: 'Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识', link:"https://dnzs.ykit.cn/nr-4-3034-0.html"},
@@ -194,10 +207,14 @@
         {name: 'Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识', link:"https://dnzs.ykit.cn/nr-4-3034-0.html"},
         {name: 'Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识Windows Apps 在默认状态下无法访问本地回环端口_有客电脑知识', link:"wwwhttps://dnzs.ykit.cn/nr-4-3034-0.html"}
       ]
+
+      this.getFolders(1)
     },
     methods: {
       // 视图
       testVisible: function(ob, attr){
+        // console.log(attr)
+        // console.log(ob)
         if(!ob[attr]) {
           return false
         }
@@ -218,7 +235,7 @@
       // 清除书签vo
       clearBookmarkVo: function(){
         this.bookmarkVo.folderId = null,
-        this.bookmarkVo.folderName = '',
+        this.bookmarkVo.folder = '',
         this.bookmarkVo.name = '',
         this.bookmarkVo.link = '',
         this.bookmarkVo.description = '',
@@ -235,7 +252,7 @@
         this.view.bmVisible = true
         this.view.dialogVisible = true
 
-        this.view.folderNameDisabled = bm ? true:false
+        this.view.folderDisabled = bm ? true:false
 
 
       },
@@ -263,6 +280,17 @@
         this.view.dialogVisible = true
 
       },
+      // 设置书签文件夹列表，传入一个字符串数组
+      setFolders: function(fs){
+        this.folders = fs
+        this.folderVos.splice(0, this.folderVos.length)
+
+        for(var i in fs){
+          this.folderVos[i] = { name: fs[i], "__folderVisible":false }
+        }
+        console.log(this.folders)
+        console.log(this.folderVos)
+      },
 
       // 功能
       // 搜索功能（批量查询）
@@ -279,49 +307,83 @@
         // this.view.bmVisible=false;
 
         const vo = {
+          id: null,
           folderId: null,
-          folderName: this.bookmarkVo.folderName,
+          folder: this.bookmarkVo.folder,
           name: this.bookmarkVo.name,
           link: this.bookmarkVo.link,
           description: this.bookmarkVo.description,
           remark: this.bookmarkVo.remark
         }
 
+        if(!vo.link.startsWith('http://') && !vo.link.startsWith('https://')){
+          vo.link = 'http://'+vo.link
+        }
+
         // mbapi.addBookmark(vo, (res) => {})
-        mbapi.addBookmark(vo)
+        mbapi.addBookmark(vo, (res)=>{
+          mbapi.info(res.info)
+          this.bookmarks.unshift(res.data)
+        })
       },
       // 修改单个书签所属的文件夹
       changeBookmarkFolder: function(){
-        if(this.bookmarkVo.folderId){
+        if(!this.bookmarkVo.folderId){
           mbapi.error("没有选中文件夹，请检查")
           return;
         }
 
-        if(this.bookmarkVo.folderId){
+        if(!this.bookmarkVo.folderId){
           mbapi.error("没有选中文件夹，请检查")
           return;
         }
 
         const voArr = [{
           folderId: this.bookmarkVo.folderId,
-          folder: this.bookmarkVo.folderName
+          folder: this.bookmarkVo.folder
         }]
         mbapi.updateFolder(voArr)
       },
 
       // 更新单个书签详细信息
       updateBookmark: function(){
+        if(!this.bookmarkVo.id){
+          mbapi.error("出错了，貌似没有书签哦")
+          return;
+        }
 
+        const vo = {
+          id: this.bookmarkVo.id,
+          folderId: this.bookmarkVo.folderId,
+          folder: this.bookmarkVo.folder,
+          name: this.bookmarkVo.name,
+          link: this.bookmarkVo.link,
+          description: this.bookmarkVo.description,
+          remark: this.bookmarkVo.remark,
+        }
+
+        mbapi.updateBookmark(vo)
       },
 
       // 获取单个书签详细信息
-      getBookmark: function(){
+      getBookmark: function(bmId){
 
       },
-      
+
       // 获取所有文件夹
-      getAllFolders: function(){
-      
+      getFolders: function(page){
+        const vo = {
+          page: page,
+          size: this.folderParams.size
+        }
+
+        mbapi.getAllFolders(vo, (res) => {
+          this.folderParams.page = res.data.page
+          this.folderParams.size = res.data.size
+          // this.folders = res.data.list
+          this.setFolders(res.data.list)
+          console.log(res)
+        });
       },
     }
 
@@ -379,7 +441,7 @@
 
   .folder_name{
     flex: 12;
-    color: #4eb143;
+    color: #DF7C2C;
     z-index: 0;
 
     padding: 2px 8px;
@@ -419,7 +481,8 @@
   }
   .bm_name a{
     text-decoration: none;
-    color: #bd4782;
+    /* color: #bd4782; */
+    color: #2589bb;
   }
   .bm_op {
     flex: 2;

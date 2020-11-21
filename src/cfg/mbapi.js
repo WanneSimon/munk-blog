@@ -246,6 +246,9 @@ const mbapi = {
   updateFolder: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.bookmark_updateFolder, data, callback, errorCallBack)
   },
+  getAllFolders: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_folders, data, callback, errorCallBack)
+  },
 
 }
 

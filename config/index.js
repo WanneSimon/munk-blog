@@ -12,8 +12,8 @@ module.exports = {
     assetsPublicPath: '/coco',
     proxyTable: {
       '/munkblog/api': {
-        // target: 'http://localhost:8041',
-        target: 'http://www.wanforme.cc',
+        target: 'http://localhost:8041',
+        // target: 'http://www.wanforme.cc',
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置，为true的话，请求的header将会设置为匹配目标服务器的规则（Access-Control-Allow-Origin）
         // pathRewrite: { '^/api': '' },//后台的接口地址没有 '/api' 这种通用前缀，所以要重写将其删除，如果本身有则去掉
       }
