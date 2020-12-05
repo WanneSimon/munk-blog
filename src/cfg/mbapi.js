@@ -78,11 +78,13 @@ const mbapi = {
             errorCallBack()
           } else {
             _context.error(data.info)
+            console.log(data)
           }
         }
       })
       .catch(function(error){
         _context.error(error)
+        console.log(error)
       })
   },
 
