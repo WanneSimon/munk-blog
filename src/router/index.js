@@ -78,6 +78,13 @@ export default new Router({
         default: _import('blog.vue')
       }
     },
+	{
+	  path: '/blog/:id',
+	  name: 'blog',
+	  components: {
+	    default: _import('blog.vue')
+	  }
+	},
     {
       path: '/books',
       name: 'books',

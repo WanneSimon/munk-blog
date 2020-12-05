@@ -75,7 +75,7 @@ const mbapi = {
           }
         } else {
           if(errorCallBack){
-            errorCallBack()
+            errorCallBack(data)
           } else {
             _context.error(data.info)
             console.log(data)

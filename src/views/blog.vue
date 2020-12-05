@@ -129,7 +129,15 @@
     created: function() {
       this.currentBlog = {}
 
-       this.searchBlogs(1)
+      this.searchBlogs(1)
+
+      const bid = this.$route.params.id
+      if(bid || bid==0){
+        this.showBlog({id: bid})
+      } else {
+        // id=0表示默认文章
+        this.showBlog({id: 0})
+      }
     },
 
     methods: {
@@ -156,8 +164,8 @@
         const _this = this
         this.loading.blog = true
         mbapi.getBlog( { id: id },  (res) => {
-          // console.log("get:")
-          // console.log(res)
+          console.log("get:")
+          console.log(res)
           _this.loading.blog = false
           _this.currentBlog.id = res.data.id
           _this.currentBlog.title = res.data.title
@@ -169,11 +177,16 @@
           _this.currentBlog.updateTime = res.data.updateTime
           _this.currentBlog.tags = res.data.tags
           _this.currentBlog.quotations = res.data.quotations;
-          // 定位到博文位置 (上面没打引号，被识别成方法了)
+          // 定位到博文位置 (上面没打分号，被识别成方法了)
           (_this.$el.querySelector('#blog_content')).scrollIntoView()
         }, (res) => {
           _this.loading.blog = false
-          mbapi.error(data.info)
+          this.blogView = false
+          if( id != 0 ){ // id=0表示默认文章
+            mbapi.error(res.info)
+          }
+          console.log("get error:")
+          console.log(res)
         })
       },
 
