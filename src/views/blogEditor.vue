@@ -336,6 +336,7 @@
         const _this = this
         mbapi.updateBlog( blogVo, function (res) {
           _this.blogVo = _this.poToVo(res.data)
+          mbapi.info(res.info)
         })
       },
 
@@ -368,6 +369,7 @@
         const _this = this
         mbapi.addBlog(blogVo, function(res){
           _this.blogVo = _this.voToPo(res.data)
+          mbapi.info(res.info)
         })
       },
 
