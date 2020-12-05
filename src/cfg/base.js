@@ -55,6 +55,15 @@ const base = {
   file_upload: '/file/upload', // 文件上传
   file_update: '/file/update', // 文件更新
   file_get: '/file/get/{id}', // 文件
+  
+  
+  bookmark_add: '/bookmark/add', // 添加书签
+  bookmark_search: '/bookmark/search', // 批量查询标签（查询某个文件下的书签）
+  bookmark_update: '/bookmark/update', // 更新书签
+  bookmark_get: '/bookmark/get', // 获取书签详细信息
+  bookmark_folders: '/bookmark/folders', // 书签的文件夹
+  bookmark_updateFolder: '/bookmark/updateFolder', // 更新书签文件夹名 或者 删除文件夹
+
 }
 
 export default base
