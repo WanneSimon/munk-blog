@@ -336,6 +336,7 @@
         const _this = this
         mbapi.updateBlog( blogVo, function (res) {
           _this.blogVo = _this.poToVo(res.data)
+          mbapi.info(res.info)
         })
       },
 
@@ -367,7 +368,8 @@
         blogVo.editor = this.$base.editorType.QUILL3_Plus
         const _this = this
         mbapi.addBlog(blogVo, function(res){
-          _this.blogVo = _this.voToPo(res.data)
+          _this.blogVo = _this.poToVo(res.data)
+          mbapi.info(res.info)
         })
       },
 

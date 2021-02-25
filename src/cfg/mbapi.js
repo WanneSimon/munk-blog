@@ -75,14 +75,16 @@ const mbapi = {
           }
         } else {
           if(errorCallBack){
-            errorCallBack()
+            errorCallBack(data)
           } else {
             _context.error(data.info)
+            console.log(data)
           }
         }
       })
       .catch(function(error){
         _context.error(error)
+        console.log(error)
       })
   },
 
@@ -245,6 +247,9 @@ const mbapi = {
   },
   updateFolder: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.bookmark_updateFolder, data, callback, errorCallBack)
+  },
+  getAllFolders: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.bookmark_folders, data, callback, errorCallBack)
   },
 
 }
