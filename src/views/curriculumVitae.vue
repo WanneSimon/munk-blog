@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid" >
 
-    <div class="container_wrapper" style="position: relative;height: 1px;">
+    <div class="container_wrapper" style="position: relative;">
         <div style="height: 1rem;"></div>
 
         <el-row class="content_wrapper">
-          <el-col :lg="3" :md="4" :sm="12" :offset="4"> 我 </el-col>
+          <el-col :lg="3" :md="4" :sm="12" :offset="4"> <span class="name">王  建</span> </el-col>
           <el-col :lg="8" :md="8" :sm="12">
               <label>性 别：<span>男</span> </label>
               <label>年 龄：<span>23</span> </label>
@@ -20,8 +20,8 @@
           </el-col>
         </el-row>
 
-        <div class="intro_section">
-          <h3> 个人技能 </h3>
+        <div class="intro_section" style="background-color: #e7e3ec;">
+          <h3> <i class="el-icon-caret-right"></i>个人技能 </h3>
           <ol>
             <li> 熟悉使用SpringBoot、Mybatis、Bootstrap、Vue、ElementUI框架，了解并使用过 AngularJS、NodeJS、UniApp、Jquery等前端框架以及Hibernate技术。</li>
             <li>	熟练整合 SpringMVC、Spring、Mybatis、SpringBoot技术。</li>
@@ -36,8 +36,8 @@
           </ol>
         </div>
 
-        <div class="intro_section">
-          <h3> 项目经验 </h3>
+        <div class="intro_section" style="background-color: #eaece3;">
+          <h3> <i class="el-icon-caret-right"></i>项目经验 </h3>
           <div>
             <h4>新非车承保</h4>
             <p>
@@ -67,8 +67,8 @@
           </div>
         </div>
 
-        <div class="intro_section">
-          <h3> 自我描述 </h3>
+        <div class="intro_section" style="background-color: #e3ece5;">
+          <h3> <i class="el-icon-caret-right"></i>自我描述 </h3>
           <div>
             <p>本人积极乐观，性格随和，对学习和工作认真，态度端正。
             对软件开发技术有很强的兴趣，平时从社区论坛等学习到的新知识点通常会记录下来，
@@ -117,6 +117,9 @@ export default {
   padding: 2rem 1rem;
   min-height: 10rem;
   min-width: 10rem;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
 }
 .content_wrapper label{
   display: block;
@@ -128,13 +131,20 @@ export default {
   color: #159856;
 }
 
+.name{
+  font-weight: 800;
+  font-size: 2.15rem;
+}
+
 .intro_section{
   padding: 0.5rem 1rem;
   margin: 1rem;
   text-align: left;
   margin-left: 20%;
   width: 60%;
-  background-color: #d4d1c8;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  /* background-color: #d4d1c8; */
 }
 
 .intro_section h3{
@@ -148,5 +158,16 @@ export default {
 
 .intro_section p{
   text-indent: 2rem;
+  font-size: 1rem;
+  line-height: 1.8rem;
 }
+
+.intro_section li{
+  margin-top: 4px;
+}
+
+.intro_section i{
+  color: #DF5320;
+}
+
 </style>
