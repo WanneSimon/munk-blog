@@ -149,7 +149,13 @@ export default new Router({
     //     default: UploadModule
     //   }
     // },
-
+    {
+      path: '/CV',
+      name: 'CV',
+      components: {
+        default: _import('curriculumVitae.vue')
+      }
+    },
     {
       path: "/404",
       name: "notFound",
