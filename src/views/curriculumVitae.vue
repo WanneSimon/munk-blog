@@ -5,14 +5,15 @@
         <div style="height: 1rem;"></div>
 
         <el-row class="content_wrapper">
-          <el-col :lg="3" :md="4" :sm="12" :offset="4"> <span class="name">王  建</span> </el-col>
-          <el-col :lg="8" :md="8" :sm="12">
+          <el-col :lg="4" :md="4" :sm="2" :xs="2" style="height: 1px;"> </el-col>
+          <el-col :lg="3" :md="3" :sm="6" :xs="6"> <span class="name">王  建</span> </el-col>
+          <el-col :lg="8" :md="8" :sm="8" :xs="8">
               <label>性 别：<span>男</span> </label>
               <label>年 龄：<span>23</span> </label>
               <label>电 话：<span>151 2378 3682</span> </label>
               <label>邮 箱：<span>wanneseville@foxmail.com</span> </label>
           </el-col>
-          <el-col :lg="8" :md="8" :sm="12">
+          <el-col :lg="8" :md="8" :sm="8" :xs="8">
               <label>学 历：<span>本科</span> </label>
               <label>学 校：<span>重庆理科大学</span> </label>
               <label>专 业：<span>计算机科学与技术</span> </label>
@@ -116,7 +117,7 @@ export default {
   color: darkslategray;
   padding: 2rem 1rem;
   min-height: 10rem;
-  min-width: 10rem;
+  min-width: 60rem;
 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   border-radius: 8px;

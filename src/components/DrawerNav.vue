@@ -50,7 +50,7 @@
             <el-divider content-position="center">*****</el-divider>
 <!--            <div class="nav-item" ><router-link :to="'/anniversary'" disabled> 纪 念 </router-link></div>
             <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"> V 圈 </router-link></div> -->
-            <div class="nav-item"><router-link :to="'/CV'"> C V </router-link></div>
+            <!-- <div class="nav-item"><router-link :to="'/CV'"> C V </router-link></div> -->
          </div>
        </el-drawer>
 
