@@ -60,9 +60,9 @@
               技术架构主要有SpringBoot、Jxls、Openoffice、itext。
             </p>
             <h4>个人网站</h4>
-            <p>该项目的作用是练习平时学习知识点的，学习时一边应用一遍记录，
-            例如SPringBoot从零开始搭建、Vue从零搭建项目、Axios、ElementUI等。
-            该项目也记录部分笔记。
+            <p>该项目的作用是练习平时学习知识点的，学习时一边应用一遍记录， 例如SpringBoot从零开始搭建、Vue从零搭建项目、Axios、ElementUI等。
+            该项目前后经历多次重构，逐渐成为个人练习新知识的地方 。
+            此外该项目也记录部分笔记。
             </p>
           </div>
         </div>
