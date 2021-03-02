@@ -23,10 +23,10 @@
         <div class="intro_section">
           <h3> 个人技能 </h3>
           <ol>
-            <li> 熟悉使用SpringBoot、Mybatis、Bootstrap、Vue、ElementUI框架，了解并使用过 AngularJS、NodeJS、UniApp、Jquery等前端框架以及Hibernate技术。</li>
+            <li>  熟悉使用SpringBoot、Mybatis、Bootstrap、Vue、ElementUI框架，了解并使用过 AngularJS、NodeJS、UniApp、Jquery等前端框架以及Hibernate技术。</li>
             <li>	熟练整合 SpringMVC、Spring、Mybatis、SpringBoot技术。</li>
             <li>	熟悉 Mysql关系型数据库、Redis非关系型数据库，了解并使用过Oracle数据库。</li>
-            <li>	熟悉 nginx、docker，了解并使用过 Jenkins构建工作流、搭建nexus私服，了解Tomcat。</li>
+            <li>	熟悉 nginx、docker，了解并使用过 Jenkins构建工作流，搭建过nexus私服，了解Tomcat。</li>
             <li>	熟悉C语言、HTML、JavaScript，了解并使用过C++、C#、Lua、PHP、Ruby等语言。</li>
             <li>	熟悉项目管理工具maven和版本控制工具git，了解svn。</li>
             <li>	熟悉Linux操作系统常用命令，了解shell脚本的编写，可基于Linux平台部署项目等操作。</li>
@@ -50,6 +50,7 @@
             <p>
               渠道平台是迎合互联网发展趋势，在线上灵活并极大简化流程的投保平台，属于承保周边系统。
             在此系统中，负责第三方对接投保、出单、退保、续费、退保试算、注销全流程。
+            自定义轮询工具，解决无状态批量消息是否消费完毕的问题。
             此外还有电子保单生成、OSS存储与下载。支持美团、360大并发出单，凭证号生成。
             涉及主要技术有 SpringBoot、kafka、redis、mysql、OSS云存储、SFTP文件传输。
             </p>
@@ -61,7 +62,7 @@
             </p>
             <h4>个人网站</h4>
             <p>该项目的作用是练习平时学习知识点的，学习时一边应用一遍记录， 例如SpringBoot从零开始搭建、Vue从零搭建项目、Axios、ElementUI等。
-            该项目前后经历多次重构，逐渐成为个人练习新知识的地方 。
+            项目从最初的原始HTML 到 Vue+SpringBoot，经历多次重构后，逐渐成为个人练习新知识的地方 。
             此外该项目也记录部分笔记。
             </p>
           </div>
