@@ -8,6 +8,7 @@ const base = {
   editorType: {
     DEFAULT: '', //默认编辑器类型
     QUILL3_Plus: 'quill3+', // quill3+编辑器
+    SHOW_DOWN: 'ShowDown', // showDown markdown解释器
   },
 
   login: {

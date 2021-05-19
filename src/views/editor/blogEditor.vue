@@ -102,11 +102,11 @@
    // import theme style
   import 'quill/dist/quill.core.css'
   import 'quill/dist/quill.snow.css'
-  import mbapi from '../cfg/mbapi.js'
+  import mbapi from '../../cfg/mbapi.js'
 
 
   export default {
-    name: 'SimEditor',
+    name: 'BlogEditor',
     components: { quillEditor },
     props: {
       // onEditorChange: Function, onEditorBlur: Function,
@@ -368,7 +368,9 @@
         blogVo.editor = this.$base.editorType.QUILL3_Plus
         const _this = this
         mbapi.addBlog(blogVo, function(res){
-          _this.blogVo = _this.poToVo(res.data)
+          if(res.data){
+            _this.blogVo = _this.poToVo(res.data) 
+          }
           mbapi.info(res.info)
         })
       },

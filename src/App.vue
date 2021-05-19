@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import DrawerNav from './components/DrawerNav.vue'
+// import DrawerNav from './components/DrawerNav.vue'
+import DrawerNav from './components/DrawerNavIcon.vue'
 // import LoginModule from './components/LoginModule.vue'
 import mbapi from './cfg/mbapi.js'
 
@@ -21,26 +22,23 @@ export default {
 		router_key() {
 			return this.$route.path + Math.random()
 		},
-    // showLogin() {
-    //   console.log("=== app ====")
-    //   console.log(this.$base.login)
-    //   return this.$base.login.show
-    // },
 	},
   created: function(){
     // 查询是否有 token
     if( !this.$base.login.isLogined ){
       mbapi.auth({}, (res) => {
-        // console.log("登录信息")
-        // console.log(res)
-        // console.log(typeof(res.data))
         if( typeof(res.data) == 'object'  ){
-          this.$base.login.isLogined = true
-          this.$base.login.data.info = res.data.info
-          this.$base.login.data.auth = res.data.auth
+          // this.$base.login.isLogined = true
+          // this.$base.login.data.info = res.data.info
+          // this.$base.login.data.auth = res.data.auth
+          // this.$store.commit('logined', res)
+          this.$store.commit('auth', res)
         }
       })
     }
+
+    console.log("state.login")
+    console.log(this.$store.state.login)
   }
 }
 </script>
@@ -54,13 +52,13 @@ export default {
   color: #2c3e50;
   background-color: #fbf5f5cc;
   /* min-width: 980px; */
-  min-height: 1px;
+  min-height: 500px;
   /* margin-top: 60px; */
 }
 
   .blank_L, .blank_R {
     border-radius: 4px;
-    min-height: 20px;
+    min-height: 1px;
     display: block !important;
   }
 

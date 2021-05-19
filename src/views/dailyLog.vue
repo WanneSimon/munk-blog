@@ -46,7 +46,7 @@
 </template>
 
 <script>
-  import SimEditor from '../components/SimEditor.vue'
+  import SimEditor from './editor/SimEditor.vue'
   import mbapi from '../cfg/mbapi.js'
 
   export default {

@@ -20,36 +20,54 @@
          <div class="nav-head">
            <el-image :src="head_img" ></el-image>
            <div class="head-bottom">
+             <!--
              <span class="head-bottom-login" v-if="$base.login.isLogined"> Hi~&emsp;{{$base.login.data.info.name}}<br></span>
              <span class="head-bottom-login" v-if="!($base.login.isLogined)" @click="showLogin()"> 登录 &emsp;</span>
-             <!-- <span>&emsp;</span> -->
              <span class="head-bottom-repwd" v-if="$base.login.isLogined" @click="showRepwd()"> 修改 &emsp;</span>
-             <!-- <span>&emsp;</span> -->
              <span class="head-bottom-logout" v-if="$base.login.isLogined" @click="logout()"> 退出 </span>
+             -->
+             <span class="head-bottom-login" v-if="$store.state.login.isLogined"> Hi~&emsp;{{$store.state.login.data.info.name}}<br></span>
+             <span class="head-bottom-login" v-if="!($store.state.login.isLogined)" @click="showLogin()"> 登录 &emsp;</span>
+             <span class="head-bottom-repwd" v-if="$store.state.login.isLogined" @click="showRepwd()"> 修改 &emsp;</span>
+             <span class="head-bottom-logout" v-if="$store.state.login.isLogined" @click="logout()"> 退出 </span>
            </div>
          </div>
          <div class="nav-items"  @click="drawer = false">
-            <!-- <router-link :to="'http://www.wanforme.cc'">主页</router-link> -->
-            <!-- <div class="nav-item"><router-link :to="'/index'">主页</router-link></div> -->
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/me'"> 主 页 </router-link></div>
+            <el-divider class="line-divider" content-position="center">
+              <span class="line-divider-text"> (oﾟvﾟ)ノ </span>
+            </el-divider>
 
-            <el-divider content-position="center">*****</el-divider>
+            <div class="nav-item">
+              <el-tooltip class="item" effect="dark" content="主页" placement="bottom" >
+                <router-link :to="'/me'"> <i class="el-icon-user" style="color: #00BFFF;"></i></router-link>
+              </el-tooltip>
+            </div>
 
-            <div class="nav-item"><router-link :to="'/comicWords'"> 语 录 </router-link></div>
-            <div class="nav-item"><router-link :to="'/dailyLog'"> 动 态 </router-link></div>
-            <div class="nav-item"><router-link :to="'/blog'"> 博 文 </router-link></div>
-<!--            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'" disabled> 书 签 </router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"  disabled> 发 现 </router-link></div> -->
+            <div class="nav-item">
+              <el-tooltip class="item" effect="dark" content="语录" placement="bottom" >
+                <router-link :to="'/comicWords'"> <i class="el-icon-postcard" style="color:#0438f3"></i> </router-link>
+              </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="动态" placement="bottom" >
+                <router-link :to="'/dailyLog'"> <i class="el-icon-chat-dot-square" style="color:#f35c04"></i> </router-link>
+              </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="文章" placement="bottom">
+                <router-link :to="'/blog'"> <i class="el-icon-tickets" style="color:#eff304"></i> </router-link>
+              </el-tooltip>
+            </div>
 
-            <el-divider content-position="center">*****</el-divider>
+            <div class="nav-item">
+              <el-tooltip class="item" effect="dark" content="阅读理解" placement="bottom">
+                <router-link :to="'/books'"> <i class="el-icon-reading" style="color:#1cb92f"></i> </router-link>
+              </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="娱乐" placement="bottom">
+                <router-link :to="'/games'"> <i class="el-icon-s-platform" style="color:#741ea0"></i> </router-link>
+              </el-tooltip>
+            </div>
 
-            <div class="nav-item"><router-link :to="'/books'"> 书 架 </router-link></div>
-            <div class="nav-item"><router-link :to="'/games'"> 游 戏 </router-link></div>
-<!--            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"> 相 册 </router-link></div> -->
+            <el-divider class="line-divider" content-position="center">
+              <span class="line-divider-text"> \^o^/ </span>
+            </el-divider>
 
-            <el-divider content-position="center">*****</el-divider>
-<!--            <div class="nav-item" ><router-link :to="'/anniversary'" disabled> 纪 念 </router-link></div>
-            <div class="nav-item" style="color: #00BFFF;"><router-link :to="'/tree'"> V 圈 </router-link></div> -->
             <!-- <div class="nav-item"><router-link :to="'/CV'"> C V </router-link></div> -->
          </div>
        </el-drawer>
@@ -158,19 +176,20 @@
   cursor: pointer;
 }
 
-.nav-item{
-  margin: 2px 0px;
-   color: coral;
-}
 .nav-item a{
   /* width: 120px; */
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   text-decoration-line: none;
   color: inherit;
 }
 
 .part-unfinished{
   color: #00BFFF;
+}
+
+.line-divider-text{
+  font-size: 1.1rem;
+  color: #bf868c;
 }
 
 </style>

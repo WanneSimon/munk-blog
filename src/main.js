@@ -44,6 +44,23 @@ import 'quill/dist/quill.bubble.css'
 // Quill.register('modules/imageResize', ImageResize)npm
 Vue.use(VueQuillEditor)
 
+import Vuex from 'vuex'
+import storeData from './cfg/store.js'
+Vue.use(Vuex)
+
+const store = new Vuex.Store(storeData)
+
+// import VueHighlight from 'vue-highlight.js'
+import 'highlight.js/styles/atom-one-dark.css'
+import hljs from 'highlight.js'
+// Vue.use(VueHighlight)
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
+
 
 
 /* eslint-disable no-new */
@@ -51,5 +68,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store: store
 })

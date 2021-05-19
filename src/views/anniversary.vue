@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import SimEditor from "../components/SimEditor.vue"
+  import SimEditor from "./editor/SimEditor.vue"
 
   export default {
     name: 'anniversary',

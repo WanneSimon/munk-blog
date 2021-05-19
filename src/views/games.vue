@@ -99,7 +99,7 @@
 </template>
 
 <script>
-  import TitleTagEditor from '../components/TitleTagEditor.vue'
+  import TitleTagEditor from './editor/TitleTagEditor.vue'
   import mbapi from '../cfg/mbapi.js'
 
   export default {

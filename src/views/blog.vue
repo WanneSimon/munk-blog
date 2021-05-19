@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row class="blog">
-      <el-col class="blank_L" :lg="1" :md="1" :sm="0"></el-col>
-      <el-col class="blog-content" id="blog_content" :lg="16" :md="16" :sm="24">
+      <el-col class="blank_L" :lg="4" :md="2" :sm="0"></el-col>
+      <el-col class="blog-content" id="blog_content" :lg="16" :md="20" :sm="24">
         <!-- 具体文章 -->
         <div v-if="blogView" class="blog-container"
           v-loading="loading.blog"
@@ -28,6 +28,10 @@
               class="ql-snow blog-output float-block">
             <div class="ql-editor" v-html="currentBlog.content"></div>
           </div>
+          <div v-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
+              class="blog-output float-block"  style="text-align: left;">
+            <div v-highlight v-html="this.converter.makeHtml(currentBlog.content)"></div>
+          </div>
           <div v-else class="blog-output blog-text float-block" v-html="currentBlog.content"></div>
 
           <div class="blog-refrence float-block" v-if="currentBlog.quotations && currentBlog.quotations.length>0">
@@ -40,19 +44,33 @@
 
         <!-- 没有选中文章时 -->
         <div v-if="!blogView">
-          <span> 快来看看我的文章吧 </span>
+          <span> 空空如野~~~ </span>
         </div>
 
       </el-col>
 
-      <el-col class="blank_L" :lg="6" :md="4" :sm="24">
-        <el-calendar class="hidden-sm-and-down" v-model="currentTime"></el-calendar>
+      <el-col class="blank_R" :lg="4" :md="2" :sm="0"></el-col>
+      <!--
+      <el-col class="blank_L" :lg="2" :md="2" :sm="2" style="text-align: right;">
+        <i class="el-icon-notebook-2" @click="drawer.visible=!drawer.visible"
+          style="font-size: 2rem; color: rgb(56, 192, 255); margin-top: 1rem;"></i>
+      </el-col>
+      -->
+    </el-row>
 
+    <i class="el-icon-notebook-2" @click="drawer.visible=!drawer.visible"
+      style="z-index: 20;position: fixed;top: 2rem; right: 0.4rem; font-size: 2.4rem; color: rgb(224 108 41);"></i>
+
+    <el-drawer title="我是标题"  :visible.sync="drawer.visible" :with-header="false"
+          size="520px">
         <div class="blog-item-container" v-loading="loading.blogs">
           <div class="blog-item" v-for="item,key in blogs" :key="key">
-            <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"></div>
+            <!-- <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"> -->
+              <router-link class="blog-item-title" :to="'/blog/'+item.id">
+                <div  v-html="item.title" ></div>
+              </router-link>
+            <!-- </div> -->
             <div style="text-align: right;"  v-if="$mbapi.hasPermission('blog_add', 'blog_update')">
-              <!-- <a href="javascript:void(0);" @click="editBlog(item.id)"></a> -->
               <router-link :to="{name:'eb', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i></router-link>
               <el-popconfirm
                 confirmButtonText='不要了'
@@ -70,26 +88,23 @@
           <div class="blog-item-page">
             <el-pagination
               @size-change="handleSizeChange()" @current-change="handleCurrentChange" :current-page.sync="pageData.page"
-              :page-size="pageData.size" layout="prev, next, jumper" :page-count="pageData.totalPage">
+              :page-size="pageData.size" layout="prev, pager, next, jumper" :page-count="pageData.totalPage">
               <!-- 注意适配 -->
               <!-- :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total"> -->
             </el-pagination>
           </div>
         </div>
 
-      </el-col>
-
-
-      <!-- <el-col class="blank_R" :span="3"></el-col> -->
-    </el-row>
+      </el-drawer>
 
     <div style="height: 120px;"></div>
   </div>
 </template>
 
 <script>
-  // import SimEditor from '../components/SimEditor.vue'
+  // import SimEditor from './editor/SimEditor.vue'
   import mbapi from '../cfg/mbapi.js'
+  var showdown  = require('showdown')
 
   export default {
     name: "blog",
@@ -123,7 +138,11 @@
         loading: {
           blogs: false,
           blog: false
-        }
+        },
+        drawer: {
+          visible: false,
+        },
+        converter: new showdown.Converter()
       }
     },
     created: function() {
@@ -136,7 +155,7 @@
         this.showBlog({id: bid})
       } else {
         // id=0表示默认文章
-        this.showBlog({id: 0})
+        setTimeout( () => this.showBlog({id: 0}), 2000)
       }
     },
 
@@ -154,9 +173,15 @@
         this.searchBlogs(this.pageData.page)
       },
       showBlog: function(blog){
-        // 切换博文
-        this.blogView = true
-        this.getBlogInfo(blog.id)
+        //把默认文章改成第一篇文章
+        // this.blogView = true
+        if(blog.id == 0 && this.blogs.length>0){
+          // blog = this.blogs[0]
+          this.getBlogInfo(this.blogs[0].id)
+        } else {
+          this.getBlogInfo(blog.id)
+        }
+
       },
 
       // 获取博文详细信息
@@ -178,7 +203,8 @@
           _this.currentBlog.tags = res.data.tags
           _this.currentBlog.quotations = res.data.quotations;
           // 定位到博文位置 (上面没打分号，被识别成方法了)
-          (_this.$el.querySelector('#blog_content')).scrollIntoView()
+          this.blogView = true;
+          (_this.$el.querySelector('#blog_content')).scrollIntoView();
         }, (res) => {
           _this.loading.blog = false
           this.blogView = false
@@ -217,6 +243,14 @@
           _this.blogs = data.datas
           // console.log(_this.pageData)
           // console.log(_this.blogs)
+
+          // 如果没有博文，那么展示第一个
+          // if(!this.blogView && data.datas.length > 0 ){
+          //   this.showBlog(data.datas[0])
+          //   this.blogView = true
+          // }
+
+          this.loading.blog = false
         }, (res)=>{
           this.loading.blogs = false
           mbapi.error(data.info)
@@ -247,6 +281,7 @@
     background-color: #fff;
     box-shadow: 0 8px 18px rgba(0, 0, 0, .2);
     padding: 8px;
+    min-height: 440px;
   }
 
   .blog-item {
@@ -260,7 +295,9 @@
   }
 
   .blog-item-title {
-    color: #42B983;
+    /* color: #42B983; */
+    color: #5691a2;
+    text-decoration: none;
   }
 
   .blog-item-title:hover {
@@ -269,10 +306,11 @@
 
   .blog-item-page{
     margin: 20px 0px 10px 0px;
+    background-color: #f1f2fb;
   }
 
   .blog-content {
-    margin: 0px 10px 0px 10px;
+    margin: 0px 0px 0px 0px;
     padding: 6px 8px;
   }
 
@@ -308,9 +346,9 @@
   .blog-output{
     margin-top: 10px;
     padding: 10px 8px 10px 8px;
+    text-align: left;
   }
   .blog-text {
-    text-align: left;
     text-indent: 2rem;
     color: darkslateblue;
   }
@@ -319,5 +357,9 @@
     margin-top: 10px;
     padding-bottom: 10px;
     text-align: left;
+  }
+
+  .el-drawer{
+    max-width: 100% !important;
   }
 </style>

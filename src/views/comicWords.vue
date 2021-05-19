@@ -50,8 +50,8 @@
 </template>
 
 <script>
-  import SimEditor from '../components/SimEditor.vue'
-  import TitleTagEditor from '../components/TitleTagEditor.vue'
+  import SimEditor from './editor/SimEditor.vue'
+  import TitleTagEditor from './editor/TitleTagEditor.vue'
   import mbapi from '../cfg/mbapi.js'
 
   export default {
@@ -226,7 +226,7 @@
     margin-top: 10px;
     min-height: 600px;
     padding: 10px 8px;
-    background-color:beige
+    /* background-color:beige */
   }
 
   .comics-container{
@@ -254,7 +254,7 @@
 
   .center_content {
 /*    background-color: #d7dee6; */
-    background-color: #dde09d;
+   /* background-color: #dde09d; */
     padding: 10px;
   }
 

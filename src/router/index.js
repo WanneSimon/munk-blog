@@ -110,14 +110,30 @@ export default new Router({
       path: '/eb/:id',
       name: 'eb',
       components: {
-        default: _import('blogEditor.vue')
+        default: _import('editor/blogEditor.vue')
       }
     },
     {
       path: '/eb',
       name: 'eb_new',
       components: {
-        default: _import('blogEditor.vue')
+        default: _import('editor/blogEditor.vue')
+      }
+    },
+    {
+      path: '/md/:id',
+      name: 'md_update',
+      components: {
+        // default: _import('editor/MdStackEditor.vue')
+        default: _import('editor/MdShowDownEditor.vue')
+      }
+    },
+    {
+      path: '/md',
+      name: 'md_new',
+      components: {
+        // default: _import('editor/MdStackEditor.vue')
+        default: _import('editor/MdShowDownEditor.vue')
       }
     },
     {

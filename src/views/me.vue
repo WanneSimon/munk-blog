@@ -30,7 +30,7 @@
         </div>
       </el-col>
 
-      <el-col class="blank_R" :lg="6" :md="4" :sm="0">A</el-col>
+      <el-col class="blank_R" :lg="6" :md="4" :sm="0"></el-col>
     </el-row>
 
   </div>
@@ -103,7 +103,7 @@
     width: 100%;
     height: 100%;
     position: fixed !important;
-    z-index: -1;
+    /* z-index: -1; */
   }
   .el-carousel__container{
     height: 100% !important;

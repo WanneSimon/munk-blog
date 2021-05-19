@@ -116,13 +116,15 @@
 
           this.loading = true
           mbapi.login(vo, (res)=>{
-            this.$base.login.info = res.data
-            this.$base.login.isLogined = true
+            // this.$base.login.info = res.data
+            // this.$base.login.isLogined = true
+            this.$store.commit('logined', res)
             this.viewVisible.login = false
             mbapi.auth({}, (res) => {
-              this.$base.login.isLogined = true
-              this.$base.login.data.info = res.data.info
-              this.$base.login.data.auth = res.data.auth
+              // this.$base.login.isLogined = true
+              // this.$base.login.data.auth = res.data.auth
+              // this.$base.login.data.info = res.data.info
+              this.$store.commit('auth', res)
               this.$router.go(0) // 刷新
             })
             this.loading = false
@@ -150,9 +152,11 @@
       // 关闭视图
       closeView: function(){
           console.log("=== login ====")
-          console.log(this.$base.login)
+          // console.log(this.$base.login)
+		  console.log(this.$store.state)
+		  console.log(this.$store.login)
           this.$base.login.show = false
-          console.log(this.$base.login)
+          // console.log(this.$base.login)
           console.log("=== login ====")
       },
 

@@ -1,19 +1,18 @@
 <template>
   <div class="container-fluid" >
 
-    <div class="container_wrapper" style="position: relative;">
+    <div class="container_wrapper" style="position: relative;height: 1px;">
         <div style="height: 1rem;"></div>
 
         <el-row class="content_wrapper">
-          <el-col :lg="4" :md="4" :sm="2" :xs="2" style="height: 1px;"> </el-col>
-          <el-col :lg="3" :md="3" :sm="6" :xs="6"> <span class="name">王  建</span> </el-col>
-          <el-col :lg="8" :md="8" :sm="8" :xs="8">
+          <el-col :lg="3" :md="4" :sm="12" :offset="4"> 我 </el-col>
+          <el-col :lg="8" :md="8" :sm="12">
               <label>性 别：<span>男</span> </label>
               <label>年 龄：<span>23</span> </label>
-              <label>电 话：<span>151 2378 3682</span> </label>
-              <label>邮 箱：<span>wanneseville@foxmail.com</span> </label>
+              <label>电 话：<span>****</span> </label>
+              <label>邮 箱：<span>*****</span> </label>
           </el-col>
-          <el-col :lg="8" :md="8" :sm="8" :xs="8">
+          <el-col :lg="8" :md="8" :sm="12">
               <label>学 历：<span>本科</span> </label>
               <label>学 校：<span>重庆理科大学</span> </label>
               <label>专 业：<span>计算机科学与技术</span> </label>
@@ -21,13 +20,13 @@
           </el-col>
         </el-row>
 
-        <div class="intro_section" style="background-color: #e7e3ec;">
-          <h3> <i class="el-icon-caret-right"></i>个人技能 </h3>
+        <div class="intro_section">
+          <h3> 个人技能 </h3>
           <ol>
-            <li> 熟悉使用SpringBoot、Mybatis、Bootstrap、Vue、ElementUI框架，了解并使用过 AngularJS、NodeJS、UniApp、Jquery等前端框架以及Hibernate技术。</li>
+            <li>  熟悉使用SpringBoot、Mybatis、Bootstrap、Vue、ElementUI框架，了解并使用过 AngularJS、NodeJS、UniApp、Jquery等前端框架以及Hibernate技术。</li>
             <li>	熟练整合 SpringMVC、Spring、Mybatis、SpringBoot技术。</li>
             <li>	熟悉 Mysql关系型数据库、Redis非关系型数据库，了解并使用过Oracle数据库。</li>
-            <li>	熟悉 nginx、docker，了解并使用过 Jenkins构建工作流、搭建nexus私服，了解Tomcat。</li>
+            <li>	熟悉 nginx、docker，了解并使用过 Jenkins构建工作流（项目自动发布），搭建过nexus私服，了解Tomcat。</li>
             <li>	熟悉C语言、HTML、JavaScript，了解并使用过C++、C#、Lua、PHP、Ruby等语言。</li>
             <li>	熟悉项目管理工具maven和版本控制工具git，了解svn。</li>
             <li>	熟悉Linux操作系统常用命令，了解shell脚本的编写，可基于Linux平台部署项目等操作。</li>
@@ -37,8 +36,8 @@
           </ol>
         </div>
 
-        <div class="intro_section" style="background-color: #eaece3;">
-          <h3> <i class="el-icon-caret-right"></i>项目经验 </h3>
+        <div class="intro_section">
+          <h3> 项目经验 </h3>
           <div>
             <h4>新非车承保</h4>
             <p>
@@ -51,6 +50,7 @@
             <p>
               渠道平台是迎合互联网发展趋势，在线上灵活并极大简化流程的投保平台，属于承保周边系统。
             在此系统中，负责第三方对接投保、出单、退保、续费、退保试算、注销全流程。
+            自定义轮询工具，解决无状态批量消息是否消费完毕的问题。
             此外还有电子保单生成、OSS存储与下载。支持美团、360大并发出单，凭证号生成。
             涉及主要技术有 SpringBoot、kafka、redis、mysql、OSS云存储、SFTP文件传输。
             </p>
@@ -61,15 +61,15 @@
               技术架构主要有SpringBoot、Jxls、Openoffice、itext。
             </p>
             <h4>个人网站</h4>
-            <p>该项目的作用是练习平时学习知识点的，学习时一边应用一遍记录，
-            例如SPringBoot从零开始搭建、Vue从零搭建项目、Axios、ElementUI等。
-            该项目也记录部分笔记。
+            <p>该项目的作用是练习平时学习知识点的，学习时一边应用一遍记录， 例如SpringBoot从零开始搭建、Vue从零搭建项目、Axios、ElementUI等。
+            项目从最初的原始HTML 到 Vue+SpringBoot，经历多次重构后，逐渐成为个人练习新知识的地方 。
+            此外该项目也记录部分笔记。
             </p>
           </div>
         </div>
 
-        <div class="intro_section" style="background-color: #e3ece5;">
-          <h3> <i class="el-icon-caret-right"></i>自我描述 </h3>
+        <div class="intro_section">
+          <h3> 自我描述 </h3>
           <div>
             <p>本人积极乐观，性格随和，对学习和工作认真，态度端正。
             对软件开发技术有很强的兴趣，平时从社区论坛等学习到的新知识点通常会记录下来，
@@ -117,10 +117,7 @@ export default {
   color: darkslategray;
   padding: 2rem 1rem;
   min-height: 10rem;
-  min-width: 60rem;
-
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
+  min-width: 10rem;
 }
 .content_wrapper label{
   display: block;
@@ -132,20 +129,13 @@ export default {
   color: #159856;
 }
 
-.name{
-  font-weight: 800;
-  font-size: 2.15rem;
-}
-
 .intro_section{
   padding: 0.5rem 1rem;
   margin: 1rem;
   text-align: left;
   margin-left: 20%;
   width: 60%;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  /* background-color: #d4d1c8; */
+  background-color: #d4d1c8;
 }
 
 .intro_section h3{
@@ -159,16 +149,5 @@ export default {
 
 .intro_section p{
   text-indent: 2rem;
-  font-size: 1rem;
-  line-height: 1.8rem;
 }
-
-.intro_section li{
-  margin-top: 4px;
-}
-
-.intro_section i{
-  color: #DF5320;
-}
-
 </style>
