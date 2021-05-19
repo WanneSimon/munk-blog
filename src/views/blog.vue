@@ -28,7 +28,7 @@
               class="ql-snow blog-output float-block">
             <div class="ql-editor" v-html="currentBlog.content"></div>
           </div>
-          <div v-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
+          <div v-else-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
               class="blog-output float-block"  style="text-align: left;">
             <div v-highlight v-html="this.converter.makeHtml(currentBlog.content)"></div>
           </div>

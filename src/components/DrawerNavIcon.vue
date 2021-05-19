@@ -51,7 +51,7 @@
                 <router-link :to="'/dailyLog'"> <i class="el-icon-chat-dot-square" style="color:#f35c04"></i> </router-link>
               </el-tooltip>
               <el-tooltip class="item" effect="dark" content="文章" placement="bottom">
-                <router-link :to="'/blog'"> <i class="el-icon-tickets" style="color:#eff304"></i> </router-link>
+                <router-link :to="'/blog'"> <i class="el-icon-tickets" style="color:#aaab6d"></i> </router-link>
               </el-tooltip>
             </div>
 
