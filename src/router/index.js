@@ -137,6 +137,14 @@ export default new Router({
       }
     },
     {
+      path: '/favi/:type',
+      name: 'favorite',
+      components: {
+        // default: _import('editor/MdStackEditor.vue')
+        default: _import('collection/collects.vue')
+      }
+    },
+    {
       path: '/music',
       name: 'music',
       components: {

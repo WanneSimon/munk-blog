@@ -13,6 +13,7 @@
     "axios": "^0.20.0",
     "dedent": "^0.7.0",
     "element-ui": "^2.13.1",
+    "file-saver": "^2.0.5",
     "highlight.js": "^10.7.2",
     "hls.js": "^0.14.16",
     "showdown": "^1.9.1",

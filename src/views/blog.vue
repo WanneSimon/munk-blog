@@ -11,7 +11,10 @@
           element-loading-background="rgba(0, 0, 0, 0.8)"
           >
           <div class="blog-head float-block">
-            <div class="blog-title">{{currentBlog.title}}</div>
+            <div class="blog-title">{{currentBlog.title}}
+              <a @click="downloadMdBlog(currentBlog)" href="javascript:void(0)"><i class="el-icon-download" v-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
+                style="color: #0d83bb; font-size: 1.2rem; padding: 0.2rem; cursor: hand;"></i></a>
+            </div>
             <el-row class="blog-meta">
               <el-col :span="8" class="blog-time">{{currentBlog.createTime}}</el-col>
               <el-col :span="16" style="text-align: left;">
@@ -58,8 +61,10 @@
       -->
     </el-row>
 
-    <i class="el-icon-notebook-2" @click="drawer.visible=!drawer.visible"
-      style="z-index: 20;position: fixed;top: 2rem; right: 0.4rem; font-size: 2.4rem; color: rgb(224 108 41);"></i>
+    <div  style="z-index: 20;position: fixed;top: 2rem; right: 0.4rem; font-size: 2.4rem; max-width: 2.5rem;">
+        <i class="el-icon-notebook-2" @click="drawer.visible=!drawer.visible" style="color: #63a9d2;"></i>
+    </div>
+
 
     <el-drawer title="我是标题"  :visible.sync="drawer.visible" :with-header="false"
           size="520px">
@@ -105,6 +110,7 @@
   // import SimEditor from './editor/SimEditor.vue'
   import mbapi from '../cfg/mbapi.js'
   var showdown  = require('showdown')
+  var FileSaver = require('file-saver');
 
   export default {
     name: "blog",
@@ -182,6 +188,12 @@
           this.getBlogInfo(blog.id)
         }
 
+      },
+
+      // 下载 md 博文
+      downloadMdBlog: function(blog){
+        var blob = new Blob([blog.content], {type: "text/plain;charset=utf-8"})
+         FileSaver.saveAs(blob, blog.title+".md");
       },
 
       // 获取博文详细信息

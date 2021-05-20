@@ -62,7 +62,6 @@
 
 
         </el-col>
-     </el-row>
 
       <el-dialog :visible.sync="moduleVisible"
             :title="''" >

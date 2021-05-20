@@ -11,6 +11,11 @@ const base = {
     SHOW_DOWN: 'ShowDown', // showDown markdown解释器
   },
 
+  favoritesType: {
+      COLLECTION: { name: 'collects', link: "/coco/static/collections/collects.json" }, // 收藏
+      TOOLS: { name: 'tools', link: "/coco/static/collections/tools.json" }, // 工具
+  },
+
   login: {
     isLogined: false, // 是否已登录， 默认false
     view: 'login', //展示登录视图的哪一个， login-登录，repwd-重置密码
@@ -52,12 +57,13 @@ const base = {
   blog_search: '/blog/search', // 搜索博文
   blog_get: '/blog/get', //获取博文
   blog_update: '/blog/update',
+  blog_tags: '/blog/tags', // 博文有关标签
 
   file_upload: '/file/upload', // 文件上传
   file_update: '/file/update', // 文件更新
   file_get: '/file/get/{id}', // 文件
-  
-  
+
+
   bookmark_add: '/bookmark/add', // 添加书签
   bookmark_search: '/bookmark/search', // 批量查询标签（查询某个文件下的书签）
   bookmark_update: '/bookmark/update', // 更新书签

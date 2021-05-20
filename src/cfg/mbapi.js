@@ -214,6 +214,9 @@ const mbapi = {
   updateBlog: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.blog_update, data, callback, errorCallBack)
   },
+  blogTags: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.blog_tags, data, callback, errorCallBack)
+  },
 
   // 登录
   login: function(data, callback, errorCallBack){

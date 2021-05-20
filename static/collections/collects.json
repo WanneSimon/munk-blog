@@ -1,0 +1,7 @@
+[
+  { "name": "小霸王游戏机", "link": "https://www.yikm.net", "desc": "在线掌机" },
+  { "name": "空调", "link": "https://ac.yunyoujun.cn", "desc": "啥都好，就是有点热", "valid": true },
+  { "name": "免费旅游团", "link": "https://www.airpano.org.cn", "desc": "在家也能旅游啦", "valid": true},
+  { "name": "免费电视", "link": "http://tvdang.ddns.net:8000", "desc": "随时随地，想看就看" },
+  { "name": "Bangdream", "link": "https://bangplayer.live", "desc": "woc!这个🐂🍺" }
+]

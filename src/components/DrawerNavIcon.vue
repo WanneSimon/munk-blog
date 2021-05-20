@@ -33,40 +33,46 @@
            </div>
          </div>
          <div class="nav-items"  @click="drawer = false">
-            <el-divider class="line-divider" content-position="center">
+            <el-divider class="line-divider" content-position="center" >
               <span class="line-divider-text"> (oﾟvﾟ)ノ </span>
             </el-divider>
 
             <div class="nav-item">
-              <el-tooltip class="item" effect="dark" content="主页" placement="bottom" >
+              <el-tooltip class="item" effect="dark" content="主页" placement="bottom" :hide-after='500'>
                 <router-link :to="'/me'"> <i class="el-icon-user" style="color: #00BFFF;"></i></router-link>
               </el-tooltip>
             </div>
 
             <div class="nav-item">
-              <el-tooltip class="item" effect="dark" content="语录" placement="bottom" >
+              <el-tooltip class="item" effect="dark" content="语录" placement="bottom" :hide-after='500'>
                 <router-link :to="'/comicWords'"> <i class="el-icon-postcard" style="color:#0438f3"></i> </router-link>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="动态" placement="bottom" >
+              <el-tooltip class="item" effect="dark" content="动态" placement="bottom" :hide-after='500' >
                 <router-link :to="'/dailyLog'"> <i class="el-icon-chat-dot-square" style="color:#f35c04"></i> </router-link>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="文章" placement="bottom">
+              <el-tooltip class="item" effect="dark" content="文章" placement="bottom" :hide-after='500'>
                 <router-link :to="'/blog'"> <i class="el-icon-tickets" style="color:#aaab6d"></i> </router-link>
               </el-tooltip>
             </div>
 
             <div class="nav-item">
-              <el-tooltip class="item" effect="dark" content="阅读理解" placement="bottom">
+              <el-tooltip class="item" effect="dark" content="阅读理解" placement="bottom" :hide-after='500'>
                 <router-link :to="'/books'"> <i class="el-icon-reading" style="color:#1cb92f"></i> </router-link>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="娱乐" placement="bottom">
-                <router-link :to="'/games'"> <i class="el-icon-s-platform" style="color:#741ea0"></i> </router-link>
+              <el-tooltip class="item" effect="dark" content="娱乐" placement="bottom" :hide-after='500'>
+                <router-link :to="'/games'"> <i class="el-icon-s-platform" style="color:#741ea0" ></i> </router-link>
               </el-tooltip>
             </div>
 
             <el-divider class="line-divider" content-position="center">
               <span class="line-divider-text"> \^o^/ </span>
             </el-divider>
+
+            <div class="nav-item">
+              <el-tooltip class="item" effect="dark" content="收藏" placement="bottom" :hide-after='500'>
+                <router-link :to="'/favi/'+this.$base.favoritesType.COLLECTION.name"> <i class="el-icon-collection" style="color:#b5442a"></i> </router-link>
+              </el-tooltip>
+            </div>
 
             <!-- <div class="nav-item"><router-link :to="'/CV'"> C V </router-link></div> -->
          </div>

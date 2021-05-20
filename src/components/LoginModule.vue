@@ -125,7 +125,7 @@
               // this.$base.login.data.auth = res.data.auth
               // this.$base.login.data.info = res.data.info
               this.$store.commit('auth', res)
-              this.$router.go(0) // 刷新
+              // this.$router.go(0) // 刷新
             })
             this.loading = false
           }, (res)=>{
