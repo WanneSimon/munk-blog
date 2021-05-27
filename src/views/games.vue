@@ -435,10 +435,6 @@
     height: 100px;
     margin-right: 8px;
   }
-
-  .game-right{
-
-  }
   .game-name{
     padding: 5px 3px;
   }
