@@ -33,12 +33,12 @@ export default {
           // this.$base.login.data.auth = res.data.auth
           // this.$store.commit('logined', res)
           this.$store.commit('auth', res)
+          
         }
       })
     }
-
-    console.log("state.login")
-    console.log(this.$store.state.login)
+    // console.log("delete")
+    // this.$store.state.login.hasPermission()
   }
 }
 </script>

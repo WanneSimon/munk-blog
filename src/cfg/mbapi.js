@@ -1,7 +1,7 @@
 import base from './base.js'
 import axios from 'axios'
 import { Message } from 'element-ui';
-
+import store from './store'
 
 const mbapi = {
   base: base,
@@ -117,12 +117,19 @@ const mbapi = {
 
   // 检查是否有某个权限
   hasPermission: function(){
+    // console.log(store)
     const args = arguments
-    if( (!args && args!=0) || !base.login.isLogined ){
+    if( (!args && args!=0) || !store.state.login.isLogined ){
       return false
     }
 
-    const authArr = base.login.data.auth
+    // const args = arguments
+    // if( (!args && args!=0) || !base.login.isLogined ){
+    //   return false
+    // }
+    
+    const authArr = store.state.login.data.auth
+    // const authArr = base.login.data.auth
     // console.log("mbapi-permission")
     // console.log(base.login)
     for( var i in args) {
