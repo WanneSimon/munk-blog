@@ -65,6 +65,8 @@
           </el-row>
 
         </el-col>
+
+        <el-col class="blank_R" :span="2" ></el-col>
      </el-row>
 
     <el-dialog :visible.sync="moduleVisible"
@@ -96,8 +98,7 @@
 
 
       <!-- <el-col class="blank_R" :span="2" style="max-width:360px;"></el-col> -->
-      <el-col class="blank_R" :span="2" ></el-col>
-    </el-row>
+      
 
     <!-- <div style="height: 200px;"></div> -->
   </div>
@@ -382,10 +383,6 @@
   .book-image{
     height: 100px;
     margin-right: 8px;
-  }
-
-  .book-right{
-
   }
   .book-name{
     padding: 5px 3px;
