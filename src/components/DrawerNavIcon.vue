@@ -72,6 +72,9 @@
               <el-tooltip class="item" effect="dark" content="收藏" placement="bottom" :hide-after='500'>
                 <router-link :to="'/favi/'+this.$base.favoritesType.COLLECTION.name"> <i class="el-icon-collection" style="color:#b5442a"></i> </router-link>
               </el-tooltip>
+              <el-tooltip class="item" effect="dark" content="工具" placement="bottom" :hide-after='500'>
+                <router-link :to="'/favi/'+this.$base.favoritesType.TOOLS.name"> <i class="el-icon-s-tools" style="color:#7329a0"></i> </router-link>
+              </el-tooltip>
             </div>
 
             <!-- <div class="nav-item"><router-link :to="'/CV'"> C V </router-link></div> -->

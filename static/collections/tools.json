@@ -1,3 +1,4 @@
 [
- { "name": "名字1", "link": "https://www.baidu.com", "desc": "", "valid": false}
+ { "name": "咆哮体加密解密", "link": "https://roar.iiilab.com/", "desc": "这TM什么稀奇古怪的加密算法！", "valid": true},
+ { "name": "社会主义核心价值观编码", "link": "http://ctf.ssleye.com/cvencode.html", "desc": "友善爱国法治诚信富强自由诚信自由友善平等友善平", "valid": true}
 ]
