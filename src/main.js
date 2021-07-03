@@ -55,9 +55,17 @@ import 'highlight.js/styles/atom-one-dark.css'
 import hljs from 'highlight.js'
 // Vue.use(VueHighlight)
 Vue.directive('highlight',function (el) {
-  let blocks = el.querySelectorAll('pre code');
+  // 1. 多行代码块
+  let blocks = el.querySelectorAll('pre code')
   blocks.forEach((block)=>{
+    // 这个方法会把代码块包裹成单独的一行
     hljs.highlightBlock(block)
+  })
+
+  // 2. 行内代码块
+  let innerBlocks = el.querySelectorAll('p code')
+  innerBlocks.forEach((block)=>{
+      block.className += " inner-line-code"
   })
 })
 

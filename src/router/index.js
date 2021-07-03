@@ -158,6 +158,20 @@ export default new Router({
         default: _import('bookmark.vue')
       }
     },
+    {
+      path: '/live',
+      name: 'live_',
+      components: {
+        default: _import('live/live.vue')
+      }
+    },
+    {
+      path: '/live/:url',
+      name: 'live',
+      components: {
+        default: _import('live/live.vue')
+      }
+    },
     // 测试时使用
     // {
     //   path: '/login',

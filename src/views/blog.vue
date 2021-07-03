@@ -12,7 +12,8 @@
           >
           <div class="blog-head float-block">
             <div class="blog-title">{{currentBlog.title}}
-              <a @click="downloadMdBlog(currentBlog)" href="javascript:void(0)"><i class="el-icon-download" v-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
+              <a @click="downloadMdBlog(currentBlog)" href="javascript:void(0)"><i class="el-icon-download"
+               v-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
                 style="color: #0d83bb; font-size: 1.2rem; padding: 0.2rem; cursor: hand;"></i></a>
             </div>
             <el-row class="blog-meta">
@@ -32,7 +33,7 @@
             <div class="ql-editor" v-html="currentBlog.content"></div>
           </div>
           <div v-else-if="currentBlog.editor===$base.editorType.SHOW_DOWN"
-              class="blog-output float-block"  style="text-align: left;">
+              class="blog-output float-block md-content"  style="text-align: left;">
             <div v-highlight v-html="this.converter.makeHtml(currentBlog.content)"></div>
           </div>
           <div v-else class="blog-output blog-text float-block" v-html="currentBlog.content"></div>
@@ -76,7 +77,14 @@
               </router-link>
             <!-- </div> -->
             <div style="text-align: right;"  v-if="$mbapi.hasPermission('blog_add', 'blog_update')">
-              <router-link :to="{name:'eb', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i></router-link>
+              <router-link  v-if="item.editor===$base.editorType.QUILL3_Plus"
+                :to="{name:'eb', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i>
+                </router-link>
+
+              <router-link  v-if="item.editor===$base.editorType.SHOW_DOWN"
+                :to="{name:'md_update', params: {id:item.id}}" target="_blank"><i class="el-icon-edit"></i>
+                </router-link>
+
               <el-popconfirm
                 confirmButtonText='不要了'
                 cancelButtonText='我手贱了'
@@ -365,6 +373,10 @@
     color: darkslateblue;
   }
 
+  .md-content{
+    font-size: 1rem;
+  }
+
   .blog-refrence {
     margin-top: 10px;
     padding-bottom: 10px;
@@ -374,4 +386,5 @@
   .el-drawer{
     max-width: 100% !important;
   }
+
 </style>

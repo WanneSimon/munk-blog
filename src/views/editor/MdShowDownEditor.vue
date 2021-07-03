@@ -120,7 +120,7 @@
     methods: {
       /** 视图渲染部分 **/
       wordsChange(){
-        console.log(this.blogVo.content)
+        // console.log(this.blogVo.content)
         if(this.blogVo.content && this.blogVo.content!=''){
           this.htmlContent = this.converter.makeHtml(this.blogVo.content)
         } else {

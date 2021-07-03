@@ -87,5 +87,10 @@ export default {
     width: 0 !important; /* 谷歌 safari*/
   }
 
-
+  /** 行内代码的样式 */
+  .inner-line-code{
+      background-color: #cecece;
+      padding: 0px 4px;
+      border-radius: 2px;
+  }
 </style>
