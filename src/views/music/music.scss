@@ -1,0 +1,109 @@
+.wrapper{
+    // padding: 2rem 6rem;
+    height: 98vh;
+}
+
+.top-player{
+    height: 10vh;
+    position: fixed;
+    top: 0rem;
+    width: 100%;
+    z-index: 1;
+}
+
+.s-divider{
+    display: block;
+    background-color: #DCDFE6;
+    height: 1px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.scale-fade-in{
+    opacity: 1;
+    transition: all .4s ease-in;
+    transform: scale(1, 1);
+}
+.scale-fade-out{
+    opacity: 0;
+    transition: all .6s ease-out;
+    transform: scale(1.1, 1.1);
+}
+
+
+.originGroup{
+    margin-top: 2rem;
+    padding: 0rem 1rem;
+}
+.group{
+    // 
+    font-size: 1rem;
+
+    .left-content{
+        // width: 80%;
+        display: inline-block;
+    }
+    .group-content{
+        text-align: left;
+        border: 8px;
+        padding: 1rem 0.4rem;
+        position: relative;
+    }
+    .right-arrow{
+        // width: 10%;
+        // display: inline-block;
+        height: 100%;
+        position: absolute;
+        width: 18px;
+        // text-align: right;
+        // top: 16%;
+        right: 0.4rem;
+    }
+}
+
+.group-card{
+    margin: 1rem 0rem;
+    // padding: 0.2rem;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.5);;
+    // border-radius: 4px;
+    // border: 1px solid #e6ebf5;
+    overflow: hidden;
+    color: #303133;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+.group-card:hover{
+    background-color: #e6ebf5;
+    color: rgb(105, 153, 255);
+}
+
+.slist{
+        height: 80vh;
+        margin-top: 1rem;
+        padding: 1rem 1rem;
+        background-color: antiquewhite;
+    
+        .song-card{
+            margin: 0.1rem 0rem;
+            padding: 0.2rem 0.6rem;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+            color: #303133;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+            
+            justify-content:center;
+            text-align: center;
+        }
+
+}
+
+.player{
+    // position: absolute;
+    // top: 0rem;
+    height: 4rem;
+    // width: 100%;
+    // background-color: rosybrown;
+}

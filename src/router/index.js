@@ -144,18 +144,25 @@ export default new Router({
         default: _import('collection/collects.vue')
       }
     },
-    {
-      path: '/music',
-      name: 'music',
-      components: {
-        default: _import('music.vue')
-      }
-    },
+    // {
+    //   path: '/music',
+    //   name: 'music',
+    //   components: {
+    //     default: _import('music.vue')
+    //   }
+    // },
     {
       path: '/bookmark',
       name: 'bookmark',
       components: {
         default: _import('bookmark.vue')
+      }
+    },
+    {
+      path: '/music',
+      name: 'music',
+      components: {
+        default: _import('music/music.vue')
       }
     },
     {
