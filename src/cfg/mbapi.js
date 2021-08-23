@@ -262,6 +262,9 @@ const mbapi = {
     this.base_post(base.api_context + base.bookmark_folders, data, callback, errorCallBack)
   },
 
+  visited: function(callback, errorCallBack){
+    axios.get(base.api_context + base.visited).then(callback, errorCallBack)
+  },
 }
 
 export default mbapi

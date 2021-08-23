@@ -13,6 +13,7 @@
 import DrawerNav from './components/DrawerNavIcon.vue'
 // import LoginModule from './components/LoginModule.vue'
 import mbapi from './cfg/mbapi.js'
+// import visited from './other/other.js'
 
 export default {
   name: 'App',
@@ -24,21 +25,32 @@ export default {
 		},
 	},
   created: function(){
-    // 查询是否有 token
-    if( !this.$base.login.isLogined ){
-      mbapi.auth({}, (res) => {
-        if( typeof(res.data) == 'object'  ){
-          // this.$base.login.isLogined = true
-          // this.$base.login.data.info = res.data.info
-          // this.$base.login.data.auth = res.data.auth
-          // this.$store.commit('logined', res)
-          this.$store.commit('auth', res)
-          
-        }
-      })
+    this.auth()
+
+    // 访问this.$cookies.config(-1, '/')
+    this.visited()
+  },
+  methods: {
+    auth(){
+      // 查询是否有 token
+      if( !this.$base.login.isLogined ){
+        mbapi.auth({}, (res) => {
+          if( typeof(res.data) == 'object'  ){
+            this.$store.commit('auth', res)
+          }
+        })
+      }
+    },
+    visited(){
+      let keyName = 'mb-vis'
+      let vis = this.$cookies.get(keyName)
+      console.log('vis', vis)
+      if(!vis){
+          this.$cookies.set(keyName, '1', 0, '/')
+          mbapi.visited()
+      }
     }
-    // console.log("delete")
-    // this.$store.state.login.hasPermission()
+
   }
 }
 </script>

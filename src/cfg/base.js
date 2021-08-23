@@ -71,6 +71,7 @@ const base = {
   bookmark_folders: '/bookmark/folders', // 书签的文件夹
   bookmark_updateFolder: '/bookmark/updateFolder', // 更新书签文件夹名 或者 删除文件夹
 
+  visited: '/sum/visit', // 
 }
 
 export default base

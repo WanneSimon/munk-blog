@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import './element-variables.scss'
 
 
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
@@ -23,14 +24,10 @@ Vue.prototype.$base = base
 import mbapi from './cfg/mbapi.js'
 Vue.prototype.$mbapi = mbapi
 
-// Vue.prototype.$mbapi.ctx = this
-// Vue.prototype.$mbapi.$base = Vue.prototype.$mbapi.$base
-// Vue.prototype.$mbapi.$axios = Vue.prototype.$mbapi.$axios
-// mbapi.$base = Vue.prototype.$mbapi.$base
-// mbapi.$axios = Vue.prototype.$mbapi.$axios
+// cookie
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 
-// console.log("main.js mbapi")
-// console.log(mbapi)
 
 // 引入 Vue-quill-editor
 import VueQuillEditor from 'vue-quill-editor'

@@ -28,7 +28,8 @@
             <div class="slist">
                 <div class="song-card" v-for="s,index in showList" :key="index" >
                     <el-row>
-                        <el-col :span="6">{{s.name ? s.name: '&emsp;'}}</el-col>
+                        <el-col :span="1" class="blank_L"></el-col>
+                        <el-col :span="9">{{s.name ? s.name: '&emsp;'}}</el-col>
                         <el-col :span="8"> &emsp;{{s.artis ? s.artis: '&emsp;'}}</el-col>
                         <el-col :span="6"> &emsp;<i class="el-icon-video-play"></i> </el-col>
                     </el-row>
