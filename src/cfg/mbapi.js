@@ -265,6 +265,10 @@ const mbapi = {
   visited: function(callback, errorCallBack){
     axios.get(base.api_context + base.visited).then(callback, errorCallBack)
   },
+
+  song_stream_url: function(id){
+    return base.api_context + base.song_stream + "/" + id
+  }
 }
 
 export default mbapi

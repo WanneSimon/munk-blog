@@ -1,8 +1,10 @@
 import Aplayer from 'vue-aplayer'
+import AddOrEditMusic from './addOrEditMusic.vue'
+import mbapi from '../../cfg/mbapi.js'
 
 export default {
     name: 'Music',
-    components: { Aplayer },
+    components: { Aplayer, AddOrEditMusic },
     data () {
         return {
             // 被点击的组
@@ -21,11 +23,13 @@ export default {
                     "artist": "Two Steps From Hell、Thomas Bergersen",
                     "url": "/coco/static/music/Two Steps From Hell、Thomas Bergersen - Flight Of The Silverbird.mp3"
                 }],
+                playing: null,
             },
 
         }
     },
     created() {
+        this.current.playing = this.current.list[0]
         this.testData()
     },
     computed: {},
@@ -47,6 +51,7 @@ export default {
             ]
         },
         
+        // 左侧组被选中
         setSelected(index){
             this.selectedIndex = index
 
@@ -59,6 +64,23 @@ export default {
 
             }
         },
-
+        
+        // 添加歌曲到播放列表
+        addToCurrentList(song){
+            this.current.list.push({
+                title: song.title,
+                artist: song.artis,
+                url: mbapi.song_stream_url(song.id)
+            })
+        },
+        addToCurrentListAndPlay(song){
+            let tmp = {
+                title: song.title,
+                artist: song.artis,
+                url: mbapi.song_stream_url(song.id)
+            }
+            this.current.list.push(tmp)
+            this.current.playing = tmp
+        }
     }
 }

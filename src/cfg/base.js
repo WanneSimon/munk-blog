@@ -72,6 +72,8 @@ const base = {
   bookmark_updateFolder: '/bookmark/updateFolder', // 更新书签文件夹名 或者 删除文件夹
 
   visited: '/sum/visit', // 
+
+  song_stream: '/stream', // 歌曲流
 }
 
 export default base

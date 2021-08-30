@@ -7,8 +7,10 @@
     height: 10vh;
     position: fixed;
     top: 0rem;
+    left: 0rem;
     width: 100%;
     z-index: 1;
+    background-color: rgba(230, 234, 225, 0.8);
 }
 
 .s-divider{
@@ -72,6 +74,7 @@
     color: #303133;
     -webkit-transition: 0.3s;
     transition: 0.3s;
+    border-radius: 0.4rem;
 }
 .group-card:hover{
     background-color: #e6ebf5;
@@ -82,13 +85,14 @@
         height: 80vh;
         margin-top: 1rem;
         padding: 1rem 1rem;
-        background-color: antiquewhite;
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     
         .song-card{
             margin: 0.1rem 0rem;
             padding: 0.2rem 0.6rem;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(200, 228, 223, 0.1);
             overflow: hidden;
             color: #303133;
             -webkit-transition: 0.3s;
