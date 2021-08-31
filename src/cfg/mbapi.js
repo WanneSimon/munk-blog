@@ -87,6 +87,32 @@ const mbapi = {
         console.log(error)
       })
   },
+  // form表单上传
+  base_post_form: function(url, data, callback, errorCallBack){
+    const _context = this
+    axios.post( url, data)
+      .then(function(response){
+        let data = response.data
+        if(data.code === _context.base.SUCCESS){
+          if(callback){
+            callback(data)
+          } else {
+            _context.info(data.info)
+          }
+        } else {
+          if(errorCallBack){
+            errorCallBack(data)
+          } else {
+            _context.error(data.info)
+            console.log(data)
+          }
+        }
+      })
+      .catch(function(error){
+        _context.error(error)
+        console.log(error)
+      })
+  },
 
   // 封装基础请求，错误回调是根据子自定义的请求码来识别的
   base_post_promise: function(url, data){
@@ -268,7 +294,27 @@ const mbapi = {
 
   song_stream_url: function(id){
     return base.api_context + base.song_stream + "/" + id
-  }
+  },
+  co_add: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.co_add, data, callback, errorCallBack)
+  },
+  co_update: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.co_update, data, callback, errorCallBack)
+  },
+  co_move: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.co_move, data, callback, errorCallBack)
+  },
+  co_group: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.co_group, data, callback, errorCallBack)
+  },
+  co_group_list: function(data, callback, errorCallBack){
+    this.base_post(base.api_context + base.co_group_list, data, callback, errorCallBack)
+  },
+  co_saveUpload: function(data, callback, errorCallBack){
+    this.base_post_form(base.api_context + base.co_saveUpload, data, callback, errorCallBack)
+  },
+
+
 }
 
 export default mbapi

@@ -73,7 +73,14 @@ const base = {
 
   visited: '/sum/visit', // 
 
-  song_stream: '/stream', // 歌曲流
+  song_stream: '/co/stream', // 歌曲流
+  co_add: '/co/add', // 添加新歌曲
+  co_update: '/co/update', // 更新歌曲信息
+  co_move: '/co/move', // 移动文件位置
+  co_group: '/co/group', // 所有组
+  co_group_list: '/co/group/list', // 组中的歌曲
+  co_saveUpload: '/co/saveUpload', // 上传并保存歌曲 (form表单)
+  
 }
 
 export default base
