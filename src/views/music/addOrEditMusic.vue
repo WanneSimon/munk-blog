@@ -108,7 +108,7 @@ export default {
     data () {
         return {
             visible: {
-                addOrEdit: true,
+                addOrEdit: false,
                 show: false
             },
             
@@ -239,7 +239,7 @@ export default {
                 data.append("lrcPath", this.formdata.lrcPath)
                 data.append("introduction", this.formdata.introduction)
                 data.append("tags", this.formdata.tags)
-                data.append("group", this.formdata.group)
+                data.append("groupName", this.formdata.group)
 
                 mbapi.co_saveUpload(data, (res) => {
                     console.log("表单", res)
@@ -247,7 +247,15 @@ export default {
             } else {
                 var data = Object.assign({}, this.formdata)
                 mbapi.co_add(data, (res) => {
-                    console.log("json post", res)
+                    this.$message({
+                        type: 'info',
+                        message: res.info
+                    });
+                }, (res) => {
+                    this.$message({
+                        type: 'error',
+                        message: res.info
+                    });
                 })
             }
 

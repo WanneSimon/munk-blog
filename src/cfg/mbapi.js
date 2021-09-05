@@ -304,8 +304,8 @@ const mbapi = {
   co_move: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.co_move, data, callback, errorCallBack)
   },
-  co_group: function(data, callback, errorCallBack){
-    this.base_post(base.api_context + base.co_group, data, callback, errorCallBack)
+  co_group: function(callback, errorCallBack){
+    axios.get(base.api_context + base.co_group).then(callback, errorCallBack)
   },
   co_group_list: function(data, callback, errorCallBack){
     this.base_post(base.api_context + base.co_group_list, data, callback, errorCallBack)
