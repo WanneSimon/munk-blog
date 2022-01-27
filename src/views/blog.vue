@@ -3,9 +3,9 @@
     <el-row class="blog">
       <el-col class="blank_L" :lg="4" :md="2" :sm="0"></el-col>
       <el-col class="blog-content" id="blog_content" :lg="16" :md="20" :sm="24" 
-          v-loading="!currentBlog.id || currentBlog.id==0">
+          :v-loading="!currentBlog.id || currentBlog.id==0">
         <!-- 具体文章 -->
-        <div v-if="currentBlog.id!=0" class="blog-container"
+        <div class="blog-container"
           v-loading="loading.blog"
           element-loading-text="拼命加载中"
           element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -45,7 +45,7 @@
         </div>
 
         <!-- 没有选中文章时 -->
-        <div v-else>
+        <div v-if="!currentBlog.id && currentBlog.id==0">
           <span> 空空如野~~~ </span>
         </div>
 
@@ -161,7 +161,7 @@
       }
     },
     created: function() {
-      this.currentBlog = {}
+      // this.currentBlog = {}
 
       this.searchBlogs(1)
 
@@ -209,8 +209,8 @@
         const _this = this
         this.loading.blog = true
         mbapi.getBlog( { id: id },  (res) => {
-          // console.log("get:")
-          // console.log(res)
+          console.log("get:")
+          console.log(res)
           _this.loading.blog = false
           _this.currentBlog.id = res.data.id
           _this.currentBlog.title = res.data.title
@@ -224,6 +224,8 @@
           _this.currentBlog.quotations = res.data.quotations;
           // 定位到博文位置 (上面没打分号，被识别成方法了)
           (_this.$el.querySelector('#blog_content')).scrollIntoView();
+
+          console.log("loading", !this.currentBlog.id)
         }, (res) => {
           _this.loading.blog = false
           if( id != 0 ){ // id=0表示默认文章
@@ -250,8 +252,8 @@
 
         this.loading.blogs = true
         mbapi.searchBlogs(queryVo, (res) => {
-          console.log('查询结果')
-          console.log(res)
+          // console.log('查询结果')
+          // console.log(res)
           this.loading.blogs = false
           const data = res.data
 
