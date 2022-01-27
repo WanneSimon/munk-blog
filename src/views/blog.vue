@@ -2,12 +2,12 @@
   <div>
     <el-row class="blog">
       <el-col class="blank_L" :lg="4" :md="2" :sm="0"></el-col>
-      <el-col class="blog-content" id="blog_content" :lg="16" :md="20" :sm="24">
+      <el-col class="blog-content" id="blog_content" :lg="16" :md="20" :sm="24" 
+          v-loading="!currentBlog.id || currentBlog.id==0">
         <!-- 具体文章 -->
-        <div v-if="blogView" class="blog-container"
+        <div v-if="currentBlog.id!=0" class="blog-container"
           v-loading="loading.blog"
           element-loading-text="拼命加载中"
-          element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           >
           <div class="blog-head float-block">
@@ -19,8 +19,6 @@
             <el-row class="blog-meta">
               <el-col :span="8" class="blog-time">{{currentBlog.createTime}}</el-col>
               <el-col :span="16" style="text-align: left;">
-                <!-- {{currentBlog.tags}} -->
-                <!-- <span class="blog-tag" v-for='tag,key in currentBlog.tags' :key='key'>{{tag}}</span> -->
                 <el-tag class="blog-tag" type="success" :key="key" v-for="tag,key in currentBlog.tags"
                   :disable-transitions="false"> {{tag.tagName}} </el-tag>
               </el-col>
@@ -47,7 +45,7 @@
         </div>
 
         <!-- 没有选中文章时 -->
-        <div v-if="!blogView">
+        <div v-else>
           <span> 空空如野~~~ </span>
         </div>
 
@@ -68,9 +66,11 @@
 
 
     <el-drawer title="我是标题"  :visible.sync="drawer.visible" :with-header="false"
-          size="520px">
+          size="30em">
         <div class="blog-item-container" v-loading="loading.blogs">
           <div class="blog-item" v-for="item,key in blogs" :key="key">
+            <!-- <el-divider></el-divider> -->
+            <div class="sim-divider"></div>
             <!-- <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"> -->
               <router-link class="blog-item-title" :to="'/blog/'+item.id">
                 <div  v-html="item.title" ></div>
@@ -97,6 +97,8 @@
               </el-popconfirm>
             </div>
           </div>
+        </div>
+
           <!-- 分页插件 -->
           <div class="blog-item-page">
             <el-pagination
@@ -106,9 +108,8 @@
               <!-- :page-size="pageData.size" layout="prev, pager, next, jumper" :total="pageData.total"> -->
             </el-pagination>
           </div>
-        </div>
 
-      </el-drawer>
+    </el-drawer>
 
     <div style="height: 120px;"></div>
   </div>
@@ -126,7 +127,7 @@
     data() {
       return {
         currentTime: new Date(), // 当前时间
-        blogView: false, // 是否是查看具体文章的视图
+        // blogView: true, // 是否是查看具体文章的视图
         currentBlog: { //当前展示的 blog
           id: 0,
           title: null,
@@ -140,10 +141,10 @@
           quotations: [],
           // quotations: [ { name: '百科',  link: 'http://www.baidu.com' } ]
         },
-        blogs: [],
+        blogs: null, // 数组
         pageData: {
           page: 0,
-          size: 10,
+          size: 11,
           totalPage: 0,
           keyText: null,
           valid: '1'
@@ -188,7 +189,6 @@
       },
       showBlog: function(blog){
         //把默认文章改成第一篇文章
-        // this.blogView = true
         if(blog.id == 0 && this.blogs.length>0){
           // blog = this.blogs[0]
           this.getBlogInfo(this.blogs[0].id)
@@ -209,8 +209,8 @@
         const _this = this
         this.loading.blog = true
         mbapi.getBlog( { id: id },  (res) => {
-          console.log("get:")
-          console.log(res)
+          // console.log("get:")
+          // console.log(res)
           _this.loading.blog = false
           _this.currentBlog.id = res.data.id
           _this.currentBlog.title = res.data.title
@@ -223,11 +223,9 @@
           _this.currentBlog.tags = res.data.tags
           _this.currentBlog.quotations = res.data.quotations;
           // 定位到博文位置 (上面没打分号，被识别成方法了)
-          this.blogView = true;
           (_this.$el.querySelector('#blog_content')).scrollIntoView();
         }, (res) => {
           _this.loading.blog = false
-          this.blogView = false
           if( id != 0 ){ // id=0表示默认文章
             mbapi.error(res.info)
           }
@@ -261,14 +259,7 @@
           _this.pageData.size = data.size
           _this.pageData.totalPage = data.totalPage
           _this.blogs = data.datas
-          // console.log(_this.pageData)
-          // console.log(_this.blogs)
 
-          // 如果没有博文，那么展示第一个
-          // if(!this.blogView && data.datas.length > 0 ){
-          //   this.showBlog(data.datas[0])
-          //   this.blogView = true
-          // }
 
           this.loading.blog = false
         }, (res)=>{
@@ -301,17 +292,26 @@
     background-color: #fff;
     box-shadow: 0 8px 18px rgba(0, 0, 0, .2);
     padding: 8px;
-    min-height: 440px;
+    /* min-height: 440px; */
+    /* height: 90vh; */
+    max-height: 90vh;
   }
 
   .blog-item {
     min-height: 22px;
     max-height: 80px;
     text-align: left;
-    margin: 8px auto;
+    /* margin: 8px auto; */
     padding: 2px 10px;
-    border-radius: 8px;
-    background-color: whitesmoke;
+    /* border-radius: 8px;
+    background-color: whitesmoke; */
+  }
+
+  .sim-divider {
+    height: 1px;
+    margin: 12px 0px;
+    background-color: #DCDFE6;
+    position: relative;
   }
 
   .blog-item-title {
@@ -322,6 +322,7 @@
 
   .blog-item-title:hover {
     cursor: pointer;
+    color: #FF7F50;
   }
 
   .blog-item-page{
@@ -337,6 +338,7 @@
 
 
   .blog-head {
+    min-height: 6vh;
     margin-top: 20px;
     padding-bottom: 8px;
   }
@@ -365,6 +367,7 @@
 
   .blog-output{
     margin-top: 10px;
+    min-height: 80vh;
     padding: 10px 8px 10px 8px;
     text-align: left;
   }

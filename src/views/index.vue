@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <NaviMunk></NaviMunk> -->
+
     <!-- 导航 -->
     <!-- <DrawerNav></DrawerNav> -->
     <!-- 轮播 -->
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-  // import NaviMunk from '../components/NaviMunk.vue'
   import CarouselIndex from '../components/CarouselIndex.vue'
   // import DrawerNav from '../components/DrawerNav.vue'
 

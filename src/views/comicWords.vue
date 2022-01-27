@@ -30,13 +30,13 @@
                   </el-popconfirm>
                 </label>
                 <span v-else>  </span>
-                [{{c.id}}]
+                <span class="cw-info">{{c.author}}</span> [{{c.id}}]
               </div>
               <div class="ql-editor" v-html="c.text"></div>
 
-              <div class="cw-info">
+              <!-- <div class="cw-info">
                 <span>{{c.author}}</span>
-              </div>
+              </div> -->
 
             </div>
           </el-col>
@@ -249,7 +249,7 @@
   }
   .cw-info{
     text-align: right;
-    margin-right: 10%;
+    color: #666;
   }
 
   .center_content {

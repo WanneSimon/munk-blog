@@ -14,7 +14,7 @@
   >
 
     <!-- <el-dialog :visible.sync="loginVisible" -->
-    <el-dialog :visible.sync="viewVisible.login"
+    <el-dialog :visible.sync="viewVisible.login" :close-on-click-modal="false"
         :title="'登录'"  @beforeClose="beforLoginViewClose">
       <el-form :model="loginView" ref="ruleForm" :rules="rules.loginRules">
           <el-form-item label="用户名" prop="username">

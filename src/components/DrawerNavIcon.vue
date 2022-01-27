@@ -14,18 +14,12 @@
        <LoginModule :viewVisible='visible'></LoginModule>
 
        <el-drawer
-         title="导航"
+         title="导航" style="width:60em"
          :visible.sync="drawer" :direction="direction"
          :with-header="false">
          <div class="nav-head">
            <el-image :src="head_img" ></el-image>
            <div class="head-bottom">
-             <!--
-             <span class="head-bottom-login" v-if="$base.login.isLogined"> Hi~&emsp;{{$base.login.data.info.name}}<br></span>
-             <span class="head-bottom-login" v-if="!($base.login.isLogined)" @click="showLogin()"> 登录 &emsp;</span>
-             <span class="head-bottom-repwd" v-if="$base.login.isLogined" @click="showRepwd()"> 修改 &emsp;</span>
-             <span class="head-bottom-logout" v-if="$base.login.isLogined" @click="logout()"> 退出 </span>
-             -->
              <span class="head-bottom-login" v-if="$store.state.login.isLogined"> Hi~&emsp;{{$store.state.login.data.info.name}}<br></span>
              <span class="head-bottom-login" v-if="!($store.state.login.isLogined)" @click="showLogin()"> 登录 &emsp;</span>
              <span class="head-bottom-repwd" v-if="$store.state.login.isLogined" @click="showRepwd()"> 修改 &emsp;</span>

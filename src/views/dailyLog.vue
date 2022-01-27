@@ -54,7 +54,7 @@
     components: { SimEditor },
     data() {
       return {
-        appLoading: false, // 进入页面，加载
+        appLoading: true, // 进入页面，加载
         dailyLogs: {
           datas: [],
         },
@@ -86,6 +86,7 @@
     },
     created: function(){
 
+      this.appLoading = true
       this.requestDLPage( 1, (res)=>{
         this.searchVo.page = res.data.pageNum
         this.searchVo.totalPage = res.data.pages
@@ -214,7 +215,7 @@
     min-height: 80px;
     max-width: 600px;
     text-align: left;
-    margin: 20px auto;
+    margin: 20px 10px;
     padding: 8px 10px;
     border-radius: 8px;
     background-color: #fff;
