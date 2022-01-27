@@ -45,9 +45,9 @@
         </div>
 
         <!-- 没有选中文章时 -->
-        <div v-if="!currentBlog.id && currentBlog.id==0">
+        <!-- <div v-if="(!blogs||blogs.length==0) && (!currentBlog.id || currentBlog.id==0)">
           <span> 空空如野~~~ </span>
-        </div>
+        </div> -->
 
       </el-col>
 
@@ -72,7 +72,7 @@
             <!-- <el-divider></el-divider> -->
             <div class="sim-divider"></div>
             <!-- <div class="blog-item-title" v-html="item.title" @click="showBlog(item)"> -->
-              <router-link class="blog-item-title" :to="'/blog/'+item.id">
+              <router-link class="blog-item-title" :to="'/blog/'+item.id+'?page='+pageData.page">
                 <div  v-html="item.title" ></div>
               </router-link>
             <!-- </div> -->
@@ -162,10 +162,15 @@
     },
     created: function() {
       // this.currentBlog = {}
-
-      this.searchBlogs(1)
+      let page = this.$route.query.page
+      if(!page || page==0) {
+        page = 1 
+      }
+      this.searchBlogs(page)
 
       const bid = this.$route.params.id
+      
+
       if(bid || bid==0){
         this.showBlog({id: bid})
       } else {
@@ -376,6 +381,13 @@
   .blog-text {
     text-indent: 2rem;
     color: darkslateblue;
+  }
+  .blog-text pre, .blog-text p{
+    min-height: 28px;
+    overflow: auto;
+  }
+  .blog-text pre {
+    background-color: #f1f2fb;
   }
 
   .md-content{
